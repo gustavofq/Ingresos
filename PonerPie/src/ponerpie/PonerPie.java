@@ -12,6 +12,7 @@ public class PonerPie {
     public static void main(String[] args) throws IOException {
         File file = new File("C:\\Users\\gustavo\\Desktop\\Propuesta de proyecto(1).pdf");
         PDDocument document = PDDocument.load(file);
+        if(document)
         int noOfPages= document.getNumberOfPages();
         String text = "";
         for(int i= 0;i < noOfPages; i++){
