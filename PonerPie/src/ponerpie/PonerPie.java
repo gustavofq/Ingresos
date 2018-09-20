@@ -34,7 +34,11 @@ public class PonerPie {
                     contentStream.beginText(); 
                     contentStream.newLineAtOffset(200, 50);
                     contentStream.setNonStrokingColor(Color.BLUE);
-                    PDType0Font font = PDType0Font.load(document, new File("C:\\Users\\gustavo\\Documents\\NetBeansProjects\\PonerPie\\src\\Swis721_BlkOul_BT_Black.ttf"));
+                    
+                    
+                    
+                    
+                    PDType0Font font = PDType0Font.load(document, new File(args[2]));
                     contentStream.setFont(font, 20 );
                     contentStream.setLeading(14.5f);
                     text="C.D.D.I - Página " + (i + 1) + " de " + noOfPages ;
@@ -42,8 +46,8 @@ public class PonerPie {
                     contentStream.endText();
                     contentStream.close();
                 }
-            System.out.println("archivo guardado: "+args[1] +"\\" + "_" +  ficheros[x].getName());
-            String nombreNuevo = ficheros[x].getName().substring(0, ficheros[x].getName().length());
+            System.out.println("archivo guardado: "+args[1] +"\\" +  ficheros[x].getName());
+            String nombreNuevo = ficheros[x].getName().substring(1, ficheros[x].getName().length());
             document.save(args[1] +"\\" + "" + nombreNuevo);
             document.close();
             }
