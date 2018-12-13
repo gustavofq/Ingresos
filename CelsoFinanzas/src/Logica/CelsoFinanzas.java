@@ -1,14 +1,16 @@
 package Logica;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 @Entity
 public class CelsoFinanzas implements Serializable {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @OneToMany
     private ArrayList<Area> areas = new ArrayList<>();
@@ -16,8 +18,6 @@ public class CelsoFinanzas implements Serializable {
     private ArrayList<Cobrador> cobradores = new ArrayList<>();
     @OneToMany
     private ArrayList<Cobranza> cobranzas = new ArrayList<>();
-    @OneToMany
-    private ArrayList<ComisionC> comisionesC = new ArrayList<>();
 
     public CelsoFinanzas() {
     }
@@ -57,17 +57,8 @@ public class CelsoFinanzas implements Serializable {
     public void setCobranzas(ArrayList<Cobranza> cobranzas) {
         this.cobranzas = cobranzas;
     }
-
-    public ArrayList<ComisionC> getComisionesC() {
-        return comisionesC;
-    }
-
-    public void setComisionesC(ArrayList<ComisionC> comisionesC) {
-        this.comisionesC = comisionesC;
-    }
     
     //ABM area
-    
     public void agregarArea(String nombre){
         if(nombre != null){
             Area unArea = new Area(nombre);
@@ -128,18 +119,17 @@ public class CelsoFinanzas implements Serializable {
     }
     //fin abm Area
     //inicio Abm cobrador
-    
-    public void agregarCobrador(String nombre, String alias, long dni){
+    public void agregarCobrador(String nombre, String alias, String apellido ,long dni, int comisionC){
         if(dni > 0){//controlar el rango de valor tambien 
-            Cobrador unCobrador = new Cobrador(nombre, alias, dni, null);
+            Cobrador unCobrador = new Cobrador(nombre, alias, apellido ,dni, comisionC );
             this.cobradores.add(unCobrador);
         }    
     }
     
-    public void modificarCobrador(long oldDni, String nombre, String alias, long dni){
+    public void modificarCobrador(long oldDni, String nombre, String alias,String apellido, long dni, int comisionC){
         if(oldDni > 0){
             Iterator it = this.cobradores.iterator();
-            Cobrador unCobrador = new Cobrador(nombre, alias, oldDni,null);
+            Cobrador unCobrador = new Cobrador(nombre, alias,apellido, oldDni,comisionC);
             while(it.hasNext()){
                 unCobrador = (Cobrador) it.next();
                 if(unCobrador.getDni() == oldDni){
@@ -147,6 +137,8 @@ public class CelsoFinanzas implements Serializable {
                         unCobrador.setAlias(alias);
                         unCobrador.setDni(dni);
                         unCobrador.setNombre(nombre);
+                        unCobrador.setApellido(apellido);
+                        
                     }
                 }
             }
@@ -176,17 +168,31 @@ public class CelsoFinanzas implements Serializable {
         }
         return unCobrador;
     }
+    
+    public long obtenerDniCobrador(String nombre, String Apellido){
+        long dni = 0;
+        Iterator it = this.cobradores.iterator();
+        Cobrador unCobrador = new Cobrador();
+        boolean existe = false;
+        while((it.hasNext()) && (existe==false)){
+            unCobrador = (Cobrador) it.next();
+            if((unCobrador.getApellido().contains(Apellido))&&(unCobrador.getNombre().contains(nombre))){
+                existe = true;
+            }
+        }
+        return unCobrador.getDni();
+        
+    }
     //fin abm cobrador
     //inicio abm cobranza
-    
-    public void agregarCobranza(Double listado, Double afiliado,  int mes, int year, String concepto, Cobrador unCobrador, Area unArea){
+    public void agregarCobranza(Double listado, Double afiliado,  int mes, int year, String concepto, long dni, String area){
         if(year != 0){//controlar todos los parametros
-            Cobranza unaCobranza = new  Cobranza(listado, afiliado, mes, year, concepto, unCobrador, unArea);
+            Cobranza unaCobranza = new  Cobranza(listado, afiliado, mes, year, concepto, this.obtenerCobrador(dni), this.obtenerArea(area));
             this.cobranzas.add(unaCobranza);
         }
     }
     
-    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,Cobrador unCobrador,Area unArea){
+    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area){
         Iterator it = this.cobranzas.iterator();
         Cobranza unaCobranza = new Cobranza();
         while(it.hasNext()){
@@ -197,8 +203,8 @@ public class CelsoFinanzas implements Serializable {
                 unaCobranza.setMes(mes);
                 unaCobranza.setYear(year);
                 unaCobranza.setConcepto(concepto);
-                unaCobranza.setUnCobrador(unCobrador);
-                unaCobranza.setUnArea(unArea);
+                unaCobranza.setUnCobrador(this.obtenerCobrador(dni));
+                unaCobranza.setUnArea(this.obtenerArea(area));
                 this.cobranzas.add(unaCobranza);
             }
         }
@@ -230,10 +236,19 @@ public class CelsoFinanzas implements Serializable {
         return unaCobranza.getId();
     }
     
+    public Cobranza obtenerCobranzaPorId(int id){
+        Iterator it = this.cobranzas.iterator();
+            Cobranza unaCobranza = new Cobranza();
+            boolean encontro = false;
+            while((it.hasNext()) && (encontro == false)){
+                unaCobranza = (Cobranza) it.next();
+                if(unaCobranza.getId() == id){
+                    encontro = true;
+                }
+            }
+        return unaCobranza;
+    }
     //fina abm combranza
-    //inicio abmComisionC
-    
-    
 }
 
 
