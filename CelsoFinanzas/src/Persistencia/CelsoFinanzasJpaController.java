@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -24,6 +25,10 @@ public class CelsoFinanzasJpaController implements Serializable {
 
     public CelsoFinanzasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+    
+    public CelsoFinanzasJpaController(){
+        emf = Persistence.createEntityManagerFactory("CelsoFinanzasPU");
     }
     private EntityManagerFactory emf = null;
 
