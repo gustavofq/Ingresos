@@ -2,48 +2,51 @@ package Vista;
 
 import Logica.CelsoFinanzas;
 import Logica.Cobranza;
-import java.util.ArrayList;
+import Persistencia.exceptions.NonexistentEntityException;
+import java.util.List;
 
 public class ControladorVisual {
-    private CelsoFinanzas unCelsoFinanzasna;
+    private CelsoFinanzas unCelsoFinanzas = new CelsoFinanzas();
+
+    public ControladorVisual(CelsoFinanzas unCelsoFinanzas) {
+        this.unCelsoFinanzas = unCelsoFinanzas;
+        
+    }
 
     public ControladorVisual() {
     }
 
-    public ControladorVisual(CelsoFinanzas unCelsoFinanzasna) {
-        this.unCelsoFinanzasna = unCelsoFinanzasna;
-    }
+    
 
     public CelsoFinanzas getUnCelsoFinanzasna() {
-        return unCelsoFinanzasna;
+        return unCelsoFinanzas;
     }
 
     public void setUnCelsoFinanzasna(CelsoFinanzas unCelsoFinanzasna) {
-        this.unCelsoFinanzasna = unCelsoFinanzasna;
+        this.unCelsoFinanzas = unCelsoFinanzasna;
     }
-    
     //abm 
     public void agregarArea(String nombre){
-        this.unCelsoFinanzasna.agregarArea(nombre);
+        this.unCelsoFinanzas.agregarArea(nombre);
     }
     
-    public void modificarArea(String oldName, String newName){
-        this.unCelsoFinanzasna.modificarArea(oldName, newName);
+    public void modificarArea(String oldName, String newName) throws Exception{
+        this.unCelsoFinanzas.modificarArea(oldName, newName);
     }
     
-    public void borrarArea(String nombre){
-        this.unCelsoFinanzasna.borrarArea(nombre);
+    public void borrarArea(String nombre) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarArea(nombre);
     }
     
     
-    public ArrayList obtenerAreas(){
-        return this.unCelsoFinanzasna.getAreas();
+    public List obtenerAreas(){
+        return this.unCelsoFinanzas.getAreas();
     }
     
     public int obtenerArea(String nombre){
         int id = 0;
         try {
-           id = this.unCelsoFinanzasna.obtenerIdArea(nombre); 
+           id = this.unCelsoFinanzas.obtenerIdArea(nombre); 
         } catch (Exception e) {
             System.out.print("no se pudo obtener id area");
         }
@@ -51,39 +54,40 @@ public class ControladorVisual {
     }
     
     public void agregarCobrador(String nombre, String alias, String apellido, long dni, int comision){
-        this.unCelsoFinanzasna.agregarCobrador(nombre, alias, apellido, dni, comision);
+        this.unCelsoFinanzas.agregarCobrador(nombre, alias, apellido, dni, comision);
     }
     
-    public void modificarCobrador(long oldDni, String nombre, String alias, String apellido, long dni, int comision){
-        this.unCelsoFinanzasna.modificarCobrador(oldDni, nombre, alias, apellido, dni, comision);
+    public void modificarCobrador(long oldDni, String nombre, String alias, String apellido, long dni, int comision) throws Exception{
+        this.unCelsoFinanzas.modificarCobrador(oldDni, nombre, alias, apellido, dni, comision);
     }
     
-    public void borrarCobrador(long dni){
-        this.unCelsoFinanzasna.borrarCobrador(dni);
+    public void borrarCobrador(long dni) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarCobrador(dni);
     }
     
     public long obtenerDniCobrador(String nombre, String apellido){
-        return this.unCelsoFinanzasna.obtenerDniCobrador(nombre, apellido);
+        return this.unCelsoFinanzas.obtenerDniCobrador(nombre, apellido);
     }
     
     public void agregarCobranza(Double listado, Double afiliado,int mes, int year,String concepto,long  dni,String  area){
-        this.unCelsoFinanzasna.agregarCobranza(listado, afiliado, mes, year, concepto, dni, area);
+        this.unCelsoFinanzas.agregarCobranza(listado, afiliado, mes, year, concepto, dni, area);
     }
     
-    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area){
-        this.unCelsoFinanzasna.modificarCobranza(id, listado, adiliado, mes, year, concepto, dni, area);
+    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
+        this.unCelsoFinanzas.modificarCobranza(id, listado, adiliado, mes, year, concepto, dni, area);
     }
     
-    public void borrarCobranza(int id){
-        this.unCelsoFinanzasna.borrarCobranza(id);
+    public void borrarCobranza(int id) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarCobranza(id);
     }
     
     public Cobranza ObtenerCobranzaPorId(int id){
-        return this.unCelsoFinanzasna.obtenerCobranzaPorId(id);
+        return this.unCelsoFinanzas.obtenerCobranzaPorId(id);
     }
     
-    public ArrayList obtenerCobranzas(){
-        return this.unCelsoFinanzasna.getCobranzas();
+    public List obtenerCobranzas(){
+        return this.unCelsoFinanzas.getCobranzas();
     }
-    
+
+
 }

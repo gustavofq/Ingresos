@@ -10,13 +10,11 @@ import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Persistencia.exceptions.NonexistentEntityException;
+import java.io.Serializable;
 import java.util.List;
 
-/**
- *
- * @author gustavo
- */
-public class ControladorPersistencia {
+
+public class ControladorPersistencia implements Serializable{
     private static AreaJpaController unAreaJpaController;
     private static CelsoFinanzasJpaController unCelsoFinanzasJpaController;
     private static CobradorJpaController unCobradorJpaController;
@@ -29,83 +27,113 @@ public class ControladorPersistencia {
         unaCobranzaJpaController = new CobranzaJpaController();
     }
     //abm areas
-    public void agregarArea(Area unArea){
-        unAreaJpaController.create(unArea);
+    public static void agregarArea(Area unArea){
+        try {
+            unAreaJpaController.create(unArea);
+        } catch (Exception e) {
+            System.out.print("Error en agregar area: "+ unArea);
+        }
+        
     }
     
-    public void modificarArea(Area unArea) throws Exception{
-        unAreaJpaController.edit(unArea);
+    public static void modificarArea(Area unArea) {
+        try {
+            unAreaJpaController.edit(unArea);
+        } catch (Exception ex) {
+            System.out.println("Error en modificarArea: " + unArea);
+        }
     }
     
-    public void borrarArea(Area unArea) throws NonexistentEntityException{
-        unAreaJpaController.destroy(unArea.getId());
+    public static void borrarArea(Area unArea) {
+        try {
+            unAreaJpaController.destroy(unArea.getId());
+        } catch (NonexistentEntityException ex) {
+            System.out.println("Error en BorrarArea: " + unArea);
+        }
     }
     
-    public List<Area> obtenerAreas(){
-        return unAreaJpaController.findAreaEntities();
+    public static List<Area> obtenerAreas(){
+        List<Area> areas = null;
+        
+        areas = unAreaJpaController.findAreaEntities();
+   
+        System.out.println("Error en obtenerAreas: " + unAreaJpaController.findAreaEntities().size());
+        
+        return areas;
     }
     
-    public Area obtenerUnArea(int id){
+    public static Area obtenerUnArea(int id){
         return unAreaJpaController.findArea(id);
     }
     //abm Celsofinanzas
-    public void agregarCelsoFinanzas(CelsoFinanzas unCelsoFinanzas){
+    public static void agregarCelsoFinanzas(CelsoFinanzas unCelsoFinanzas){
         unCelsoFinanzasJpaController.create(unCelsoFinanzas);
     }
     
-    public void modificarCelsoFinanzas(CelsoFinanzas unCelsoFinanzas) throws Exception{
+    public static void modificarCelsoFinanzas(CelsoFinanzas unCelsoFinanzas) throws Exception{
         unCelsoFinanzasJpaController.edit(unCelsoFinanzas);
     }
     
-    public void borrarCelsoFinanzas(int id) throws NonexistentEntityException{
+    public static void borrarCelsoFinanzas(int id) throws NonexistentEntityException{
         unCelsoFinanzasJpaController.destroy(id);
     }
     
-    public CelsoFinanzas obtenerUnCelsoFinanzas(int id){
+    public static CelsoFinanzas obtenerUnCelsoFinanzas(int id){
         return unCelsoFinanzasJpaController.findCelsoFinanzas(id);
     }
     
-    public List<CelsoFinanzas> obtenerCelsosFinanzas(){
+    public static  List<CelsoFinanzas> obtenerCelsosFinanzas(){
         return unCelsoFinanzasJpaController.findCelsoFinanzasEntities();
     }
     //abm cobrador
-    public void agregarUnCobrador(Cobrador unCobrador){
-        unCobradorJpaController.create(unCobrador);
+    public static  void agregarUnCobrador(Cobrador unCobrador){
+        try {
+            unCobradorJpaController.create(unCobrador);
+        } catch (Exception e) {
+            System.out.println("Error en agregarUnCobrador: " + unCobrador);
+        }
+        
     }
     
-    public void modificarCobrador(Cobrador unCobrador) throws Exception{
+    public static void modificarCobrador(Cobrador unCobrador) throws Exception{
         unCobradorJpaController.edit(unCobrador);
     }
     
-    public void borrarCobrador(long dni) throws NonexistentEntityException{
+    public static void borrarCobrador(long dni) throws NonexistentEntityException{
         unCobradorJpaController.destroy(dni);
     }
     
-    public Cobrador obtenerUnCobrador(long dni){
+    public static Cobrador obtenerUnCobrador(long dni){
         return unCobradorJpaController.findCobrador(dni);
     }
     
-    public List<Cobrador> obtenerCobradores(){
-        return unCobradorJpaController.findCobradorEntities();
+    public  static List<Cobrador> obtenerCobradores(){
+        List<Cobrador> cobradores = null;
+        try {
+            cobradores = unCobradorJpaController.findCobradorEntities();
+        } catch (Exception e) {
+            System.out.println("Error en obtenerCobradores: " + unCobradorJpaController.findCobradorEntities().size());
+        }
+        return cobradores;
     }
     //abm cobranza
-    public void agregarCobranza(Cobranza unaCobranza){
+    public static void agregarCobranza(Cobranza unaCobranza){
         unaCobranzaJpaController.create(unaCobranza);
     }
     
-    public void modificarCobranza(Cobranza unaCobranza) throws Exception{
+    public static void modificarCobranza(Cobranza unaCobranza) throws Exception{
         unaCobranzaJpaController.edit(unaCobranza);
     }
     
-    public void borrarCobranza(int id) throws NonexistentEntityException{
+    public static void borrarCobranza(int id) throws NonexistentEntityException{
         unaCobranzaJpaController.destroy(id);
     }
     
-    public Cobranza obtenerUnaCobranza(int id){
+    public static  Cobranza obtenerUnaCobranza(int id){
         return unaCobranzaJpaController.findCobranza(id);
     }
     
-    public List<Cobranza> obtenerCobranzas(){
+    public static List<Cobranza> obtenerCobranzas(){
         return unaCobranzaJpaController.findCobranzaEntities();
     }
 }

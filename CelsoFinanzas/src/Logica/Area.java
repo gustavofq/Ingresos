@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 public class Area implements Serializable {
     @Id 
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     @Basic
     private String nombre;
@@ -45,8 +45,6 @@ public class Area implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre;
-                
+        return this.nombre; 
     }
-    
 }

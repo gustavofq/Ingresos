@@ -22,15 +22,15 @@ import javax.persistence.criteria.Root;
  * @author gustavo
  */
 public class CelsoFinanzasJpaController implements Serializable {
-
+    private EntityManagerFactory emf = null;
+    
     public CelsoFinanzasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    public CelsoFinanzasJpaController(){
-        emf = Persistence.createEntityManagerFactory("CelsoFinanzasPU");
+   
+    CelsoFinanzasJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("celso");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

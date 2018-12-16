@@ -72,6 +72,8 @@ public class Cobrador implements Serializable {
         this.unaComision = unaComision;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return nombre + " " + apellido +" (" + alias +")";
+    }
 }

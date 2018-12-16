@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Cobranza implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     @Basic
     private Double listado;
@@ -156,5 +156,6 @@ public class Cobranza implements Serializable {
     
     public void calcularComision(){
         this.comision = this.unCobrador.getUnaComision() * this.afiliado;
-    }        
+    }
+   
 }

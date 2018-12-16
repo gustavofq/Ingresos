@@ -28,9 +28,10 @@ public class CobranzaJpaController implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
-    public CobranzaJpaController(){
-        emf = Persistence.createEntityManagerFactory("CelsoFinanzasPU");
+    CobranzaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("celso");
     }
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }

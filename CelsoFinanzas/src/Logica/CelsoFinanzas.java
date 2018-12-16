@@ -1,7 +1,10 @@
 package Logica;
+import Persistencia.ControladorPersistencia;
+import Persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,16 +13,23 @@ import javax.persistence.OneToMany;
 @Entity
 public class CelsoFinanzas implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     @OneToMany
-    private ArrayList<Area> areas = new ArrayList<>();
+    private List<Area> areas = new ArrayList<>();
     @OneToMany
-    private ArrayList<Cobrador> cobradores = new ArrayList<>();
+    private List<Cobrador> cobradores = new ArrayList<>();
     @OneToMany
-    private ArrayList<Cobranza> cobranzas = new ArrayList<>();
-
+    private List<Cobranza> cobranzas = new ArrayList<>();
+    
+   ControladorPersistencia persistencia = new ControladorPersistencia();
+    
     public CelsoFinanzas() {
+        /*
+        areas = persistencia.obtenerAreas();
+        cobradores = this.persistencia.obtenerCobradores();
+        cobranzas = this.persistencia.obtenerCobranzas();
+        */
     }
 
     public CelsoFinanzas(int id) {
@@ -34,7 +44,7 @@ public class CelsoFinanzas implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Area> getAreas() {
+    public List<Area> getAreas() {
         return areas;
     }
 
@@ -42,7 +52,7 @@ public class CelsoFinanzas implements Serializable {
         this.areas = areas;
     }
 
-    public ArrayList<Cobrador> getCobradores() {
+    public List<Cobrador> getCobradores() {
         return cobradores;
     }
 
@@ -50,7 +60,7 @@ public class CelsoFinanzas implements Serializable {
         this.cobradores = cobradores;
     }
 
-    public ArrayList<Cobranza> getCobranzas() {
+    public List<Cobranza> getCobranzas() {
         return cobranzas;
     }
 
@@ -63,10 +73,11 @@ public class CelsoFinanzas implements Serializable {
         if(nombre != null){
             Area unArea = new Area(nombre);
             this.areas.add(unArea);
+            this.persistencia.agregarArea(unArea);
         }
     }
     
-    public void modificarArea(String oldName, String newName){
+    public void modificarArea(String oldName, String newName) throws Exception{
         if(oldName != null){
             Iterator it = this.areas.iterator();
             Area unArea = new Area();
@@ -75,25 +86,27 @@ public class CelsoFinanzas implements Serializable {
                 if(unArea.getNombre().contains(oldName)){
                     if(newName != null){
                         unArea.setNombre(newName);
+                        this.persistencia.modificarArea(unArea);
                     }
                 }
             }
         }
     }
     
-    public void borrarArea(String nombre){
+    public void borrarArea(String nombre) throws NonexistentEntityException{
         Iterator it = this.areas.iterator();
         Area unArea = new Area();
         while(it.hasNext()){
             unArea = (Area) it.next();
             if(unArea.getNombre().contains(nombre)){
                 this.areas.remove(unArea);
+                this.persistencia.borrarArea(unArea);
             }
         }
     }
     
     public Area obtenerArea(String nombre){
-        Iterator it = this.areas.iterator();
+        Iterator it = this.persistencia.obtenerAreas().iterator();
         Area unArea = new Area();
         boolean existe = false;
         while((it.hasNext()) && (existe==false)){
@@ -106,7 +119,7 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public int obtenerIdArea(String nombre){
-        Iterator it = this.areas.iterator();
+        Iterator it = this.persistencia.obtenerAreas().iterator();
         Area unArea = new Area();
         boolean existe = false;
         while((it.hasNext()) && (existe==false)){
@@ -123,10 +136,11 @@ public class CelsoFinanzas implements Serializable {
         if(dni > 0){//controlar el rango de valor tambien 
             Cobrador unCobrador = new Cobrador(nombre, alias, apellido ,dni, comisionC );
             this.cobradores.add(unCobrador);
+            this.persistencia.agregarUnCobrador(unCobrador);
         }    
     }
     
-    public void modificarCobrador(long oldDni, String nombre, String alias,String apellido, long dni, int comisionC){
+    public void modificarCobrador(long oldDni, String nombre, String alias,String apellido, long dni, int comisionC) throws Exception{
         if(oldDni > 0){
             Iterator it = this.cobradores.iterator();
             Cobrador unCobrador = new Cobrador(nombre, alias,apellido, oldDni,comisionC);
@@ -138,26 +152,27 @@ public class CelsoFinanzas implements Serializable {
                         unCobrador.setDni(dni);
                         unCobrador.setNombre(nombre);
                         unCobrador.setApellido(apellido);
-                        
+                        this.persistencia.modificarCobrador(unCobrador);
                     }
                 }
             }
         }
     }
     
-    public void borrarCobrador(long dni){
+    public void borrarCobrador(long dni) throws NonexistentEntityException{
         Cobrador unCobrador = new Cobrador();
         Iterator it = this.cobradores.iterator();
         while(it.hasNext()){
             unCobrador = (Cobrador) it.next();
-            if(unCobrador.getDni()== dni){
+            if(unCobrador.getDni() == dni){
                 this.cobradores.remove(unCobrador);
+                this.persistencia.borrarCobrador(dni);
             }
         }
     }
     
     public Cobrador obtenerCobrador(long dni){
-        Iterator it = this.cobradores.iterator();
+        Iterator it = this.persistencia.obtenerCobradores().iterator();
         Cobrador unCobrador = new Cobrador();
         boolean existe = false;
         while((it.hasNext()) && (existe==false)){
@@ -171,7 +186,7 @@ public class CelsoFinanzas implements Serializable {
     
     public long obtenerDniCobrador(String nombre, String Apellido){
         long dni = 0;
-        Iterator it = this.cobradores.iterator();
+        Iterator it = this.persistencia.obtenerCobradores().iterator();
         Cobrador unCobrador = new Cobrador();
         boolean existe = false;
         while((it.hasNext()) && (existe==false)){
@@ -189,10 +204,11 @@ public class CelsoFinanzas implements Serializable {
         if(year != 0){//controlar todos los parametros
             Cobranza unaCobranza = new  Cobranza(listado, afiliado, mes, year, concepto, this.obtenerCobrador(dni), this.obtenerArea(area));
             this.cobranzas.add(unaCobranza);
+            this.persistencia.agregarCobranza(unaCobranza);
         }
     }
     
-    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area){
+    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
         Iterator it = this.cobranzas.iterator();
         Cobranza unaCobranza = new Cobranza();
         while(it.hasNext()){
@@ -206,11 +222,12 @@ public class CelsoFinanzas implements Serializable {
                 unaCobranza.setUnCobrador(this.obtenerCobrador(dni));
                 unaCobranza.setUnArea(this.obtenerArea(area));
                 this.cobranzas.add(unaCobranza);
+                this.persistencia.modificarCobranza(unaCobranza);
             }
         }
     }
     
-    public void borrarCobranza(int id){
+    public void borrarCobranza(int id) throws NonexistentEntityException{
         if(id > 0){
             Iterator it = this.cobranzas.iterator();
             Cobranza unaCobranza = new Cobranza();
@@ -218,13 +235,14 @@ public class CelsoFinanzas implements Serializable {
                 unaCobranza = (Cobranza) it.next();
                 if(unaCobranza.getId() == id){
                     this.cobranzas.remove(unaCobranza);
+                    this.persistencia.borrarCobranza(id);
                 }
             }  
         }
     }
     
     public int obtenerIdCobranza(Area unArea, Cobrador unCobrador,int mes, int year){
-        Iterator it = this.cobranzas.iterator();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
             Cobranza unaCobranza = new Cobranza();
             boolean encontro = false;
             while((it.hasNext()) && (encontro == false)){
@@ -237,7 +255,7 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public Cobranza obtenerCobranzaPorId(int id){
-        Iterator it = this.cobranzas.iterator();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
             Cobranza unaCobranza = new Cobranza();
             boolean encontro = false;
             while((it.hasNext()) && (encontro == false)){
@@ -249,6 +267,7 @@ public class CelsoFinanzas implements Serializable {
         return unaCobranza;
     }
     //fina abm combranza
+
 }
 
 

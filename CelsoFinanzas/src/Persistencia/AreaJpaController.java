@@ -26,11 +26,11 @@ public class AreaJpaController implements Serializable {
     public AreaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    public AreaJpaController() {
-        emf = Persistence.createEntityManagerFactory("CelsoFinanzasPU");
-    }
     private EntityManagerFactory emf = null;
+
+    AreaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("celso");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
