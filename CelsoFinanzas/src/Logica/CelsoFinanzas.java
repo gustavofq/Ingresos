@@ -25,11 +25,6 @@ public class CelsoFinanzas implements Serializable {
    ControladorPersistencia persistencia = new ControladorPersistencia();
     
     public CelsoFinanzas() {
-        /*
-        areas = persistencia.obtenerAreas();
-        cobradores = this.persistencia.obtenerCobradores();
-        cobranzas = this.persistencia.obtenerCobranzas();
-        */
     }
 
     public CelsoFinanzas(int id) {
@@ -71,10 +66,20 @@ public class CelsoFinanzas implements Serializable {
     //ABM area
     public void agregarArea(String nombre){
         if(nombre != null){
-            Area unArea = new Area(nombre);
-            this.areas.add(unArea);
-            this.persistencia.agregarArea(unArea);
+            if(!this.existeArea(nombre)){
+                Area unArea = new Area(nombre);
+                this.areas.add(unArea);
+                this.persistencia.agregarArea(unArea);
+            }
         }
+    }
+    
+    public boolean existeArea(String nombre){
+        boolean existe = false; 
+        if(this.obtenerArea(nombre) != null){
+            existe = true;
+        }
+        return existe;
     }
     
     public void modificarArea(String oldName, String newName) throws Exception{
@@ -85,8 +90,10 @@ public class CelsoFinanzas implements Serializable {
                 unArea = (Area) it.next();
                 if(unArea.getNombre().contains(oldName)){
                     if(newName != null){
-                        unArea.setNombre(newName);
-                        this.persistencia.modificarArea(unArea);
+                        if(this.existeArea(newName)){
+                            unArea.setNombre(newName);
+                            this.persistencia.modificarArea(unArea);
+                        }
                     }
                 }
             }
@@ -130,6 +137,8 @@ public class CelsoFinanzas implements Serializable {
         }
         return unArea.getId();
     }
+    
+   
     //fin abm Area
     //inicio Abm cobrador
     public void agregarCobrador(String nombre, String alias, String apellido ,long dni, int comisionC){
@@ -184,6 +193,20 @@ public class CelsoFinanzas implements Serializable {
         return unCobrador;
     }
     
+    public Cobrador obtenerCobradorPorAlias(String alias){
+        Iterator it = this.persistencia.obtenerCobradores().iterator();
+        Cobrador unCobrador = new Cobrador();
+        boolean existe = false;
+        while((it.hasNext()) && (existe==false)){
+            unCobrador = (Cobrador) it.next();
+            if((unCobrador.getAlias().contains(alias))){
+                existe = true;
+            }
+        }
+        return unCobrador;
+
+    }
+    
     public long obtenerDniCobrador(String nombre, String Apellido){
         long dni = 0;
         Iterator it = this.persistencia.obtenerCobradores().iterator();
@@ -198,6 +221,19 @@ public class CelsoFinanzas implements Serializable {
         return unCobrador.getDni();
         
     }
+    
+    public List<Cobrador> obtenerCobradores(){
+        return this.persistencia.obtenerCobradores();
+    }
+    
+    public boolean existeCobrador(Long dni){
+        boolean existe = false;
+        if(this.obtenerCobrador(dni) != null){
+            existe = true;
+        }
+        return existe;
+    }
+    
     //fin abm cobrador
     //inicio abm cobranza
     public void agregarCobranza(Double listado, Double afiliado,  int mes, int year, String concepto, long dni, String area){

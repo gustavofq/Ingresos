@@ -1,6 +1,7 @@
 package Vista;
 
 import Logica.CelsoFinanzas;
+import Logica.Cobrador;
 import Logica.Cobranza;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
@@ -68,6 +69,15 @@ public class ControladorVisual {
     public long obtenerDniCobrador(String nombre, String apellido){
         return this.unCelsoFinanzas.obtenerDniCobrador(nombre, apellido);
     }
+    
+    public List<Cobrador> obtenerCobradores(){
+        return this.unCelsoFinanzas.obtenerCobradores();
+    }
+    
+    public Cobrador obtenerCobradorPorAlias(String alias){
+        return this.unCelsoFinanzas.obtenerCobradorPorAlias(alias);
+    }
+    
     
     public void agregarCobranza(Double listado, Double afiliado,int mes, int year,String concepto,long  dni,String  area){
         this.unCelsoFinanzas.agregarCobranza(listado, afiliado, mes, year, concepto, dni, area);
