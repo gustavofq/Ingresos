@@ -1,9 +1,12 @@
 package Vista;
 
+import javax.swing.JFrame;
+
 public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     @SuppressWarnings("unchecked")
@@ -75,6 +78,11 @@ public class Principal extends javax.swing.JFrame {
         jMCobranzas.add(jMListado);
 
         jMReporte.setText("Reportes");
+        jMReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMReporteActionPerformed(evt);
+            }
+        });
         jMCobranzas.add(jMReporte);
 
         jMenuBar.add(jMCobranzas);
@@ -136,6 +144,12 @@ public class Principal extends javax.swing.JFrame {
         this.dpContenedor.add(unGestionarIngreso);
         unGestionarIngreso.setVisible(true);
     }//GEN-LAST:event_jMIngresosActionPerformed
+
+    private void jMReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMReporteActionPerformed
+        GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
+        this.dpContenedor.add(unGestionarEstadisticas);
+        unGestionarEstadisticas.setVisible(true);
+    }//GEN-LAST:event_jMReporteActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
