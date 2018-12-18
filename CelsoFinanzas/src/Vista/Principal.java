@@ -13,7 +13,7 @@ public class Principal extends javax.swing.JFrame {
         dpContenedor = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMVendedores = new javax.swing.JMenu();
-        jMGestionarVendedores = new javax.swing.JMenuItem();
+        jMGestionarCobrador = new javax.swing.JMenuItem();
         jMComisionV = new javax.swing.JMenuItem();
         jMCobranzas = new javax.swing.JMenu();
         jMIngresos = new javax.swing.JMenuItem();
@@ -35,21 +35,16 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 275, Short.MAX_VALUE)
         );
 
-        jMVendedores.setText("Vendedores");
+        jMVendedores.setText("Cobrador");
         jMVendedores.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jMVendedores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMVendedoresActionPerformed(evt);
-            }
-        });
 
-        jMGestionarVendedores.setText("Gestionar Vendedores");
-        jMGestionarVendedores.addActionListener(new java.awt.event.ActionListener() {
+        jMGestionarCobrador.setText("Gestionar Cobradores");
+        jMGestionarCobrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMGestionarVendedoresActionPerformed(evt);
+                jMGestionarCobradorActionPerformed(evt);
             }
         });
-        jMVendedores.add(jMGestionarVendedores);
+        jMVendedores.add(jMGestionarCobrador);
 
         jMComisionV.setText("Comisiones");
         jMComisionV.addActionListener(new java.awt.event.ActionListener() {
@@ -64,9 +59,19 @@ public class Principal extends javax.swing.JFrame {
         jMCobranzas.setText("Cobranzas");
 
         jMIngresos.setText("Ingresos");
+        jMIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIngresosActionPerformed(evt);
+            }
+        });
         jMCobranzas.add(jMIngresos);
 
         jMListado.setText("Listado");
+        jMListado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMListadoActionPerformed(evt);
+            }
+        });
         jMCobranzas.add(jMListado);
 
         jMReporte.setText("Reportes");
@@ -102,16 +107,11 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMVendedoresActionPerformed
-        ComisionV unaComisionV = new ComisionV();
-        unaComisionV.setVisible(true);
-    }//GEN-LAST:event_jMVendedoresActionPerformed
-
-    private void jMGestionarVendedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMGestionarVendedoresActionPerformed
+    private void jMGestionarCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMGestionarCobradorActionPerformed
         GestionVendedor unaGestionVendedor = new GestionVendedor();
         this.dpContenedor.add(unaGestionVendedor);
         unaGestionVendedor.show();
-    }//GEN-LAST:event_jMGestionarVendedoresActionPerformed
+    }//GEN-LAST:event_jMGestionarCobradorActionPerformed
 
     private void jmGestionAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionAreaActionPerformed
         GestionarArea unGestionarArea = new GestionarArea();
@@ -124,6 +124,18 @@ public class Principal extends javax.swing.JFrame {
         this.dpContenedor.add(unaGestionComision);
         unaGestionComision.setVisible(true);
     }//GEN-LAST:event_jMComisionVActionPerformed
+
+    private void jMListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListadoActionPerformed
+        GestionarListado unGestionarListado = new GestionarListado();
+        this.dpContenedor.add(unGestionarListado);
+        unGestionarListado.setVisible(true);
+    }//GEN-LAST:event_jMListadoActionPerformed
+
+    private void jMIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIngresosActionPerformed
+        GestionarIngreso unGestionarIngreso = new GestionarIngreso();
+        this.dpContenedor.add(unGestionarIngreso);
+        unGestionarIngreso.setVisible(true);
+    }//GEN-LAST:event_jMIngresosActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -162,7 +174,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMAreas;
     private javax.swing.JMenu jMCobranzas;
     private javax.swing.JMenuItem jMComisionV;
-    private javax.swing.JMenuItem jMGestionarVendedores;
+    private javax.swing.JMenuItem jMGestionarCobrador;
     private javax.swing.JMenuItem jMIngresos;
     private javax.swing.JMenuItem jMListado;
     private javax.swing.JMenuItem jMReporte;

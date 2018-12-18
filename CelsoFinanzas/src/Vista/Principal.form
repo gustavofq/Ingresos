@@ -6,21 +6,18 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMVendedores">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Vendedores"/>
+            <Property name="text" type="java.lang.String" value="Cobrador"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMVendedoresActionPerformed"/>
-          </Events>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMGestionarVendedores">
+            <MenuItem class="javax.swing.JMenuItem" name="jMGestionarCobrador">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gestionar Vendedores"/>
+                <Property name="text" type="java.lang.String" value="Gestionar Cobradores"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMGestionarVendedoresActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMGestionarCobradorActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMComisionV">
@@ -42,11 +39,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ingresos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIngresosActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMListado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Listado"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMListadoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMReporte">
               <Properties>
