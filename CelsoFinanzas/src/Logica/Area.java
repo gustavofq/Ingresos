@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 public class Area implements Serializable {
     @Id 
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
     @Basic
     private String nombre;

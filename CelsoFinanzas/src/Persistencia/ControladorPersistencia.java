@@ -31,7 +31,7 @@ public class ControladorPersistencia implements Serializable{
         try {
             unAreaJpaController.create(unArea);
         } catch (Exception e) {
-            System.out.print("Error en agregar area: "+ unArea);
+            System.out.print("Error en agregar area: "+ unArea.getId() + " " + unArea.getNombre());
         }
         
     }
@@ -40,7 +40,7 @@ public class ControladorPersistencia implements Serializable{
         try {
             unAreaJpaController.edit(unArea);
         } catch (Exception ex) {
-            System.out.println("Error en modificarArea: " + unArea);
+            System.out.println("Error  Persistencia en modificarArea: " + unArea);
         }
     }
     
@@ -48,18 +48,12 @@ public class ControladorPersistencia implements Serializable{
         try {
             unAreaJpaController.destroy(unArea.getId());
         } catch (NonexistentEntityException ex) {
-            System.out.println("Error en BorrarArea: " + unArea);
+            System.out.println("Error Persistencia en BorrarArea: " + unArea);
         }
     }
     
     public static List<Area> obtenerAreas(){
-        List<Area> areas = null;
-        
-        areas = unAreaJpaController.findAreaEntities();
-   
-        System.out.println("Error en obtenerAreas: " + unAreaJpaController.findAreaEntities().size());
-        
-        return areas;
+        return unAreaJpaController.findAreaEntities();
     }
     
     public static Area obtenerUnArea(int id){
@@ -99,7 +93,7 @@ public class ControladorPersistencia implements Serializable{
         unCobradorJpaController.edit(unCobrador);
     }
     
-    public static void borrarCobrador(long dni) throws NonexistentEntityException{
+    public void borrarCobrador(long dni) throws NonexistentEntityException{
         unCobradorJpaController.destroy(dni);
     }
     

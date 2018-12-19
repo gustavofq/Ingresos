@@ -66,11 +66,11 @@ public class CelsoFinanzas implements Serializable {
     //ABM area
     public void agregarArea(String nombre){
         if(nombre != null){
-            if(!this.existeArea(nombre)){
+            //if(this.existeArea(nombre)){
                 Area unArea = new Area(nombre);
                 this.areas.add(unArea);
                 this.persistencia.agregarArea(unArea);
-            }
+            //}
         }
     }
     
@@ -138,7 +138,11 @@ public class CelsoFinanzas implements Serializable {
         return unArea.getId();
     }
     
-   
+    public List<Area> obtenerAreas(){
+        return this.persistencia.obtenerAreas();
+    }
+    
+    
     //fin abm Area
     //inicio Abm cobrador
     public void agregarCobrador(String nombre, String alias, String apellido ,long dni, int comisionC){
@@ -169,15 +173,17 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public void borrarCobrador(long dni) throws NonexistentEntityException{
-        Cobrador unCobrador = new Cobrador();
-        Iterator it = this.cobradores.iterator();
-        while(it.hasNext()){
-            unCobrador = (Cobrador) it.next();
-            if(unCobrador.getDni() == dni){
-                this.cobradores.remove(unCobrador);
-                this.persistencia.borrarCobrador(dni);
-            }
+         this.persistencia.borrarCobrador(dni);
+    }
+    
+    public List obtenerAlias(){
+        Iterator it = this.persistencia.obtenerCobradores().iterator();
+        List<String> alias = new ArrayList<>();
+        boolean existe = false;
+        while((it.hasNext()) && (existe==false)){
+            alias.add(((Cobrador) it.next()).getAlias());
         }
+        return alias;
     }
     
     public Cobrador obtenerCobrador(long dni){

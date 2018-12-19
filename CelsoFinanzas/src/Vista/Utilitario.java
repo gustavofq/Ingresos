@@ -5,6 +5,10 @@
  */
 package Vista;
 
+import Logica.Cobrador;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -40,6 +44,49 @@ public class Utilitario {
             }
         }
     }
+    
+    public void cargarCombo(List items, JComboBox unCombo){
+        unCombo.removeAllItems();
+        Iterator it = items.iterator();
+        Object unObjeto = new Object();
+        while(it.hasNext()){
+            unObjeto = (Object) it.next();
+            unCombo.addItem(unObjeto.toString());
+        }
+    }
+    
+     public void cargarComboObjeto(List items, JComboBox unCombo){
+        unCombo.removeAllItems();
+        Iterator it = items.iterator();
+        Object unObjeto = new Object();
+        while(it.hasNext()){
+            unObjeto = (Object) it.next();
+            unCombo.addItem(unObjeto);
+        }
+    }
+    
+     
+     public boolean campoCompleto(JPanel panel){
+        boolean completo = true;
+        int i = 0;
+        while((i  < panel.getComponents().length)&&(completo)){
+            if(panel.getComponents()[i] instanceof JTextField){
+                String texto = ((JTextField) panel.getComponents()[i]).getText();
+                if(texto.length() == 0){
+                    completo = false;
+            
+            }
+            }
+            else if(panel.getComponents()[i] instanceof JPasswordField){
+                if(((JPasswordField)panel.getComponents()[i]).getPassword().equals(" "));
+                    completo = false;
+            }
+            i++;
+        }
+        return completo;
+    }
+     
+     
     
 }
 

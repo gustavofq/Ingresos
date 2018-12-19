@@ -1,5 +1,6 @@
 package Vista;
 
+import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
@@ -16,8 +17,6 @@ public class ControladorVisual {
 
     public ControladorVisual() {
     }
-
-    
 
     public CelsoFinanzas getUnCelsoFinanzasna() {
         return unCelsoFinanzas;
@@ -40,8 +39,8 @@ public class ControladorVisual {
     }
     
     
-    public List obtenerAreas(){
-        return this.unCelsoFinanzas.getAreas();
+    public List<Area> obtenerAreas(){
+        return this.unCelsoFinanzas.obtenerAreas();
     }
     
     public int obtenerArea(String nombre){
@@ -64,6 +63,10 @@ public class ControladorVisual {
     
     public void borrarCobrador(long dni) throws NonexistentEntityException{
         this.unCelsoFinanzas.borrarCobrador(dni);
+    }
+    
+    public List<Area> obtenerAlias(){
+        return this.unCelsoFinanzas.obtenerAlias();
     }
     
     public long obtenerDniCobrador(String nombre, String apellido){
@@ -95,7 +98,7 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzaPorId(id);
     }
     
-    public List obtenerCobranzas(){
+    public List<Cobranza> obtenerCobranzas(){
         return this.unCelsoFinanzas.getCobranzas();
     }
 

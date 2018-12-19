@@ -10,12 +10,14 @@ package Vista;
  * @author gustavo
  */
 public class GestionComision extends javax.swing.JInternalFrame {
-
+    Utilitario unUtilitario = new Utilitario();
+    ControladorVisual unControladorVisual = new ControladorVisual();
     /**
      * Creates new form GestionComision
      */
     public GestionComision() {
         initComponents();
+        this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), jComboBox1);
     }
 
     /**
@@ -35,6 +37,7 @@ public class GestionComision extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        lblPrcentaje = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -52,6 +55,8 @@ public class GestionComision extends javax.swing.JInternalFrame {
 
         jButton3.setText("Borrar");
 
+        lblPrcentaje.setText("%");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -67,6 +72,8 @@ public class GestionComision extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPrcentaje)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -87,7 +94,8 @@ public class GestionComision extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrcentaje))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -123,5 +131,6 @@ public class GestionComision extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblPrcentaje;
     // End of variables declaration//GEN-END:variables
 }
