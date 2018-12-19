@@ -155,14 +155,14 @@ public class CelsoFinanzas implements Serializable {
     
     public void modificarCobrador(long oldDni, String nombre, String alias,String apellido, long dni, int comisionC) throws Exception{
         if(oldDni > 0){
-            Iterator it = this.cobradores.iterator();
+            Iterator it = this.persistencia.obtenerCobradores().iterator();
             Cobrador unCobrador = new Cobrador(nombre, alias,apellido, oldDni,comisionC);
             while(it.hasNext()){
                 unCobrador = (Cobrador) it.next();
                 if(unCobrador.getDni() == oldDni){
                     if(dni > 0){
                         unCobrador.setAlias(alias);
-                        unCobrador.setDni(dni);
+                        //unCobrador.setDni(dni);
                         unCobrador.setNombre(nombre);
                         unCobrador.setApellido(apellido);
                         this.persistencia.modificarCobrador(unCobrador);

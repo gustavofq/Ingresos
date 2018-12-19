@@ -12,7 +12,6 @@ public class ControladorVisual {
 
     public ControladorVisual(CelsoFinanzas unCelsoFinanzas) {
         this.unCelsoFinanzas = unCelsoFinanzas;
-        
     }
 
     public ControladorVisual() {

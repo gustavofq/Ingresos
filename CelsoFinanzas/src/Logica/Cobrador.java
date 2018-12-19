@@ -16,7 +16,7 @@ public class Cobrador implements Serializable {
     @Basic 
     private String apellido;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private long dni;
     @Basic
     private int unaComision;

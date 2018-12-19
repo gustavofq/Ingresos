@@ -86,6 +86,11 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnBorrar.setText("Borrar");
@@ -213,6 +218,26 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "faltan datos");
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
+        if(this.unUtilitario.campoCompleto(this.jpCobrador)){
+            String nombre = this.tfNombre.getText();
+            String alias = this.tfAlias.getText();
+            String apellido = this.tfApellido.getText();
+            long dni= Long.parseLong(this.tfDni.getText());
+            try {
+                this.unControladorVisual.modificarCobrador(unCobrador.getDni(), nombre, alias, apellido, dni, 0);
+                this.cmbCobradores.removeAll();
+                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+            } catch (Exception ex) {
+                Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "faltan datos");
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
