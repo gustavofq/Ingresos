@@ -1,5 +1,10 @@
 package Vista;
 
+import Logica.Area;
+import Persistencia.exceptions.NonexistentEntityException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class GestionarArea extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
@@ -7,7 +12,6 @@ public class GestionarArea extends javax.swing.JInternalFrame {
     public GestionarArea() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -30,6 +34,16 @@ public class GestionarArea extends javax.swing.JInternalFrame {
         lblArea.setText("Area");
 
         cmbAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbAreas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbAreasMouseClicked(evt);
+            }
+        });
+        cmbAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAreasActionPerformed(evt);
+            }
+        });
 
         lblNombre.setText("Nombre");
 
@@ -48,6 +62,16 @@ public class GestionarArea extends javax.swing.JInternalFrame {
         });
 
         btnBorrar.setText("Borrar");
+        btnBorrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBorrarMouseClicked(evt);
+            }
+        });
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout plGestionAreaLayout = new javax.swing.GroupLayout(plGestionArea);
         plGestionArea.setLayout(plGestionAreaLayout);
@@ -115,6 +139,29 @@ public class GestionarArea extends javax.swing.JInternalFrame {
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
         this.unUtilitario.LimpiarCaja(plGestionArea);
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarMouseClicked
+        Area unArea = (Area) this.cmbAreas.getSelectedItem();
+      try {
+            this.unControladorVisual.borrarArea(unArea.getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnBorrarMouseClicked
+
+    private void cmbAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreasActionPerformed
+        //Area unArea = (Area) this.cmbAreas.getSelectedItem();
+        //this.tfNombre.setText(unArea.getNombre());
+    }//GEN-LAST:event_cmbAreasActionPerformed
+
+    private void cmbAreasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbAreasMouseClicked
+        
+    }//GEN-LAST:event_cmbAreasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

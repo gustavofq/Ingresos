@@ -35,6 +35,9 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         btnAgregar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        tfPorcentaje = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -70,6 +73,11 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel4.setText("DNI");
 
         tfDni.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
+        tfDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfDniActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Alias");
@@ -100,6 +108,10 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setText("Comisión");
+
+        jLabel7.setText("%");
+
         javax.swing.GroupLayout jpCobradorLayout = new javax.swing.GroupLayout(jpCobrador);
         jpCobrador.setLayout(jpCobradorLayout);
         jpCobradorLayout.setHorizontalGroup(
@@ -108,31 +120,38 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpCobradorLayout.createSequentialGroup()
-                        .addComponent(btnAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBorrar)
-                        .addContainerGap())
-                    .addGroup(jpCobradorLayout.createSequentialGroup()
                         .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpCobradorLayout.createSequentialGroup()
-                                .addComponent(cmbCobradores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbCobradores, 0, 188, Short.MAX_VALUE)
                                 .addContainerGap())
                             .addGroup(jpCobradorLayout.createSequentialGroup()
-                                .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tfAlias, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                    .addComponent(tfDni)
-                                    .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                                    .addComponent(tfApellido))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                                        .addComponent(tfApellido)
+                                        .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(tfAlias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                            .addComponent(tfDni, javax.swing.GroupLayout.Alignment.LEADING)))
+                                    .addGroup(jpCobradorLayout.createSequentialGroup()
+                                        .addComponent(tfPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jpCobradorLayout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBorrar)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jpCobradorLayout.setVerticalGroup(
             jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,12 +176,17 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                 .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tfAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(tfPorcentaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(39, 39, 39)
                 .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnEditar)
                     .addComponent(btnBorrar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,6 +216,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         this.tfNombre.setText(unCobrador.getNombre());
         this.tfAlias.setText(unCobrador.getAlias());
         this.tfDni.setText(Long.toString(unCobrador.getDni()));
+        this.tfPorcentaje.setText(Integer.toString(unCobrador.getUnaComision()));
     }//GEN-LAST:event_cmbCobradoresMouseClicked
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -210,8 +235,9 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             String nombre = this.tfNombre.getText();
             String alias = this.tfAlias.getText();
             String apellido = this.tfApellido.getText();
+            int comision = Integer.parseInt(this.tfPorcentaje.getText());
             long dni= Long.parseLong(this.tfDni.getText());
-            this.unControladorVisual.agregarCobrador(nombre, alias, apellido, dni, 0);
+            this.unControladorVisual.agregarCobrador(nombre, alias, apellido, dni, comision);
             this.cmbCobradores.removeAll();
             this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
         }else{
@@ -230,6 +256,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                 this.unControladorVisual.modificarCobrador(unCobrador.getDni(), nombre, alias, apellido, dni, 0);
                 this.cmbCobradores.removeAll();
                 this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+                this.unUtilitario.LimpiarCaja(jpCobrador);
             } catch (Exception ex) {
                 Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -238,6 +265,10 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "faltan datos");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfDniActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -250,10 +281,13 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jpCobrador;
     private javax.swing.JTextField tfAlias;
     private javax.swing.JTextField tfApellido;
     private javax.swing.JTextField tfDni;
     private javax.swing.JTextField tfNombre;
+    private javax.swing.JTextField tfPorcentaje;
     // End of variables declaration//GEN-END:variables
 }

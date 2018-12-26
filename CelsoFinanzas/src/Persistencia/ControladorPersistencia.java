@@ -44,11 +44,11 @@ public class ControladorPersistencia implements Serializable{
         }
     }
     
-    public  void borrarArea(Area unArea) {
+    public  void borrarArea(int id) {
         try {
-            unAreaJpaController.destroy(unArea.getId());
+            unAreaJpaController.destroy(id);
         } catch (NonexistentEntityException ex) {
-            System.out.println("Error Persistencia en BorrarArea: " + unArea);
+            System.out.println("Error Persistencia en BorrarArea: ");
         }
     }
     

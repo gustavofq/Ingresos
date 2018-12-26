@@ -1,6 +1,8 @@
 package Logica;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +33,7 @@ public class Cobranza implements Serializable {
     private Cobrador unCobrador;
     @OneToOne
     private Area unArea;
+    private List<Ingreso> ingresos = new ArrayList<>();
 
     public Cobranza() {
     }
@@ -69,6 +72,8 @@ public class Cobranza implements Serializable {
         this.unCobrador = unCobrador;
         this.unArea = unArea;
     }
+    
+    
 
     public int getId() {
         return id;
@@ -95,6 +100,7 @@ public class Cobranza implements Serializable {
     }
 
     public Double getNeto() {
+        
         return neto;
     }
 
@@ -155,7 +161,7 @@ public class Cobranza implements Serializable {
     }
     
     public void calcularComision(){
-        this.comision = this.unCobrador.getUnaComision() * this.afiliado;
+        this.comision = (this.unCobrador.getUnaComision() * this.afiliado)/100;
     }
    
 }

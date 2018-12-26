@@ -33,8 +33,8 @@ public class ControladorVisual {
         this.unCelsoFinanzas.modificarArea(oldName, newName);
     }
     
-    public void borrarArea(String nombre) throws NonexistentEntityException{
-        this.unCelsoFinanzas.borrarArea(nombre);
+    public void borrarArea(int id) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarArea(id);
     }
     
     
@@ -80,9 +80,11 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobradorPorAlias(alias);
     }
     
-    
-    public void agregarCobranza(Double listado, Double afiliado,int mes, int year,String concepto,long  dni,String  area){
-        this.unCelsoFinanzas.agregarCobranza(listado, afiliado, mes, year, concepto, dni, area);
+    public void agregarComision(long dni, int comision) throws Exception{
+        this.unCelsoFinanzas.agregarComision(dni, comision);
+    }
+    public void agregarListado(Double listado,int mes, int year,long  dni){
+        this.unCelsoFinanzas.agregarListado(listado, mes, year, dni);
     }
     
     public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
@@ -98,7 +100,7 @@ public class ControladorVisual {
     }
     
     public List<Cobranza> obtenerCobranzas(){
-        return this.unCelsoFinanzas.getCobranzas();
+        return this.unCelsoFinanzas.obtenerCobranzas();
     }
 
 

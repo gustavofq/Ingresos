@@ -17,7 +17,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMVendedores = new javax.swing.JMenu();
         jMGestionarCobrador = new javax.swing.JMenuItem();
-        jMComisionV = new javax.swing.JMenuItem();
         jMCobranzas = new javax.swing.JMenu();
         jMIngresos = new javax.swing.JMenuItem();
         jMListado = new javax.swing.JMenuItem();
@@ -48,14 +47,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMVendedores.add(jMGestionarCobrador);
-
-        jMComisionV.setText("Comisiones");
-        jMComisionV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMComisionVActionPerformed(evt);
-            }
-        });
-        jMVendedores.add(jMComisionV);
 
         jMenuBar.add(jMVendedores);
 
@@ -127,12 +118,6 @@ public class Principal extends javax.swing.JFrame {
         unGestionarArea.setVisible(true);
     }//GEN-LAST:event_jmGestionAreaActionPerformed
 
-    private void jMComisionVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMComisionVActionPerformed
-        GestionComision unaGestionComision = new GestionComision();
-        this.dpContenedor.add(unaGestionComision);
-        unaGestionComision.setVisible(true);
-    }//GEN-LAST:event_jMComisionVActionPerformed
-
     private void jMListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListadoActionPerformed
         GestionarListado unGestionarListado = new GestionarListado();
         this.dpContenedor.add(unGestionarListado);
@@ -187,7 +172,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane dpContenedor;
     private javax.swing.JMenu jMAreas;
     private javax.swing.JMenu jMCobranzas;
-    private javax.swing.JMenuItem jMComisionV;
     private javax.swing.JMenuItem jMGestionarCobrador;
     private javax.swing.JMenuItem jMIngresos;
     private javax.swing.JMenuItem jMListado;

@@ -6,12 +6,16 @@
 package Vista;
 
 import Logica.Cobrador;
+import com.toedter.calendar.JMonthChooser;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -86,7 +90,28 @@ public class Utilitario {
         return completo;
     }
      
+    public void cargarAnhoActual(JTextField unCampo){
+        Calendar cal= Calendar.getInstance();
+        int year= cal.get(Calendar.YEAR);
+        unCampo.setText(Integer.toString(year));
+    }
      
+    public void cargarMesActual(JMonthChooser unMonthChooser){
+        Calendar cal = Calendar.getInstance();
+        int mes = cal.get(Calendar.MONTH);
+        unMonthChooser.setMonth(mes);
+    }
+    
+    public void LimpiarTabla(JTable tabla){
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) tabla.getModel();
+        int fila = tabla.getRowCount();
+        for (int i = 0; i < fila ; i++){
+            model.removeRow(0);
+        }
+    }
+    
+    
     
 }
 

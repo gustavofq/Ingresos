@@ -100,16 +100,8 @@ public class CelsoFinanzas implements Serializable {
         }
     }
     
-    public void borrarArea(String nombre) throws NonexistentEntityException{
-        Iterator it = this.areas.iterator();
-        Area unArea = new Area();
-        while(it.hasNext()){
-            unArea = (Area) it.next();
-            if(unArea.getNombre().contains(nombre)){
-                this.areas.remove(unArea);
-                this.persistencia.borrarArea(unArea);
-            }
-        }
+    public void borrarArea(int id) throws NonexistentEntityException{
+        this.persistencia.borrarArea(id);
     }
     
     public Area obtenerArea(String nombre){
@@ -174,6 +166,12 @@ public class CelsoFinanzas implements Serializable {
     
     public void borrarCobrador(long dni) throws NonexistentEntityException{
          this.persistencia.borrarCobrador(dni);
+    }
+    
+    public void agregarComision(long dni, int comision) throws Exception{
+        Cobrador unCobrador = this.obtenerCobrador(dni);
+        unCobrador.setUnaComision(comision);
+        this.persistencia.modificarCobrador(unCobrador);
     }
     
     public List obtenerAlias(){
@@ -242,12 +240,10 @@ public class CelsoFinanzas implements Serializable {
     
     //fin abm cobrador
     //inicio abm cobranza
-    public void agregarCobranza(Double listado, Double afiliado,  int mes, int year, String concepto, long dni, String area){
-        if(year != 0){//controlar todos los parametros
-            Cobranza unaCobranza = new  Cobranza(listado, afiliado, mes, year, concepto, this.obtenerCobrador(dni), this.obtenerArea(area));
+    public void agregarListado(Double listado,  int mes, int year, long dni){
+            Cobranza unaCobranza = new  Cobranza(listado, null, mes, year, null, this.obtenerCobrador(dni), null);
             this.cobranzas.add(unaCobranza);
             this.persistencia.agregarCobranza(unaCobranza);
-        }
     }
     
     public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
@@ -308,6 +304,11 @@ public class CelsoFinanzas implements Serializable {
             }
         return unaCobranza;
     }
+    
+    public List<Cobranza> obtenerCobranzas(){
+        return this.persistencia.obtenerCobranzas();
+    }
+    
     //fina abm combranza
 
 }
