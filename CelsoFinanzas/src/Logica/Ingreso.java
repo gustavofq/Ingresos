@@ -1,21 +1,24 @@
 
 package Logica;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Basic;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-public class Ingreso {
+import javax.persistence.Temporal;
+@Entity
+public class Ingreso implements Serializable {
     @Id 
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     @Basic
     private Double Afiliado;
     @Basic
     private String concepto;
-    @Basic 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fecha;
 
     public Ingreso() {
@@ -66,5 +69,11 @@ public class Ingreso {
         this.fecha = fecha;
     }
 
+    @Override
+    public String toString() {
+        return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';
+    }
+
+    
    
 }

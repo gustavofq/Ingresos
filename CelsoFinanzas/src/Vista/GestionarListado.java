@@ -25,9 +25,9 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         Object[] fila = new Object[4];
         for (Cobranza unaCobranza : cobranzas ){
             fila[0] = unaCobranza.getListado();
-            fila[1] = unaCobranza.getAfiliado();
-            fila[2] = unaCobranza.getComision();
-            fila[2] = unaCobranza.getNeto();
+            fila[1] = unaCobranza.calcularAfiliadoTotal();
+            fila[2] = unaCobranza.calcularComision();
+            fila[3] = unaCobranza.calcularNeto();
             model.addRow(fila);
         }
         this.tblListado.setModel(model);
@@ -198,12 +198,12 @@ public class GestionarListado extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         cargarTabla();
-        int year = 0 ;
-        int mes = 0;
+        int year = Integer.parseInt(this.tfanho.getText());
+        int mes =this.cmbMoth.getMonth();
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         long dni = unCobrador.getDni();
         Double listado = Double.parseDouble(this.tfListado.getText());
-        this.unControladorVisual.agregarListado(listado, mes, year, dni);
+        this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador);
         this.cargarTabla();
     }//GEN-LAST:event_btnAgregarActionPerformed
 

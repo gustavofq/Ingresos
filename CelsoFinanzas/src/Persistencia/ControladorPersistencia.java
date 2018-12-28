@@ -9,6 +9,7 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
+import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -19,12 +20,15 @@ public class ControladorPersistencia implements Serializable{
     private static CelsoFinanzasJpaController unCelsoFinanzasJpaController;
     private static CobradorJpaController unCobradorJpaController;
     private static CobranzaJpaController unaCobranzaJpaController;
+    private static IngresoJpaController unIngresoJpaController;
     
     static {
         unAreaJpaController = new AreaJpaController();
         unCelsoFinanzasJpaController = new CelsoFinanzasJpaController();
         unCobradorJpaController = new CobradorJpaController();
         unaCobranzaJpaController = new CobranzaJpaController();
+        unIngresoJpaController = new IngresoJpaController();
+        
     }
     //abm areas
     public  void agregarArea(Area unArea){
@@ -130,6 +134,10 @@ public class ControladorPersistencia implements Serializable{
     
     public List<Cobranza> obtenerCobranzas(){
         return unaCobranzaJpaController.findCobranzaEntities();
+    }
+    
+    public void agregarIngreso(Ingreso unIngreso){
+        unIngresoJpaController.create(unIngreso);
     }
 }
 

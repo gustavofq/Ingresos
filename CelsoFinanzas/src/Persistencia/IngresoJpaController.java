@@ -5,7 +5,7 @@
  */
 package Persistencia;
 
-import Logica.CelsoFinanzas;
+import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -21,27 +21,29 @@ import javax.persistence.criteria.Root;
  *
  * @author gustavo
  */
-public class CelsoFinanzasJpaController implements Serializable {
+public class IngresoJpaController implements Serializable {
 
-    public CelsoFinanzasJpaController(EntityManagerFactory emf) {
+    public IngresoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    CelsoFinanzasJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("celso");
-    }
-    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(CelsoFinanzas celsoFinanzas) {
+    public IngresoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("celso");
+    }
+
+    
+    
+    public void create(Ingreso ingreso) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(celsoFinanzas);
+            em.persist(ingreso);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,19 +52,19 @@ public class CelsoFinanzasJpaController implements Serializable {
         }
     }
 
-    public void edit(CelsoFinanzas celsoFinanzas) throws NonexistentEntityException, Exception {
+    public void edit(Ingreso ingreso) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            celsoFinanzas = em.merge(celsoFinanzas);
+            ingreso = em.merge(ingreso);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = celsoFinanzas.getId();
-                if (findCelsoFinanzas(id) == null) {
-                    throw new NonexistentEntityException("The celsoFinanzas with id " + id + " no longer exists.");
+                int id = ingreso.getId();
+                if (findIngreso(id) == null) {
+                    throw new NonexistentEntityException("The ingreso with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -78,14 +80,14 @@ public class CelsoFinanzasJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            CelsoFinanzas celsoFinanzas;
+            Ingreso ingreso;
             try {
-                celsoFinanzas = em.getReference(CelsoFinanzas.class, id);
-                celsoFinanzas.getId();
+                ingreso = em.getReference(Ingreso.class, id);
+                ingreso.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The celsoFinanzas with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The ingreso with id " + id + " no longer exists.", enfe);
             }
-            em.remove(celsoFinanzas);
+            em.remove(ingreso);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -94,19 +96,19 @@ public class CelsoFinanzasJpaController implements Serializable {
         }
     }
 
-    public List<CelsoFinanzas> findCelsoFinanzasEntities() {
-        return findCelsoFinanzasEntities(true, -1, -1);
+    public List<Ingreso> findIngresoEntities() {
+        return findIngresoEntities(true, -1, -1);
     }
 
-    public List<CelsoFinanzas> findCelsoFinanzasEntities(int maxResults, int firstResult) {
-        return findCelsoFinanzasEntities(false, maxResults, firstResult);
+    public List<Ingreso> findIngresoEntities(int maxResults, int firstResult) {
+        return findIngresoEntities(false, maxResults, firstResult);
     }
 
-    private List<CelsoFinanzas> findCelsoFinanzasEntities(boolean all, int maxResults, int firstResult) {
+    private List<Ingreso> findIngresoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(CelsoFinanzas.class));
+            cq.select(cq.from(Ingreso.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -118,20 +120,20 @@ public class CelsoFinanzasJpaController implements Serializable {
         }
     }
 
-    public CelsoFinanzas findCelsoFinanzas(int id) {
+    public Ingreso findIngreso(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(CelsoFinanzas.class, id);
+            return em.find(Ingreso.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getCelsoFinanzasCount() {
+    public int getIngresoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<CelsoFinanzas> rt = cq.from(CelsoFinanzas.class);
+            Root<Ingreso> rt = cq.from(Ingreso.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -22,7 +22,7 @@ public class CelsoFinanzas implements Serializable {
     @OneToMany
     private List<Cobranza> cobranzas = new ArrayList<>();
     
-   ControladorPersistencia persistencia = new ControladorPersistencia();
+    ControladorPersistencia persistencia = new ControladorPersistencia();
     
     public CelsoFinanzas() {
     }
@@ -240,13 +240,13 @@ public class CelsoFinanzas implements Serializable {
     
     //fin abm cobrador
     //inicio abm cobranza
-    public void agregarListado(Double listado,  int mes, int year, long dni){
-            Cobranza unaCobranza = new  Cobranza(listado, null, mes, year, null, this.obtenerCobrador(dni), null);
-            this.cobranzas.add(unaCobranza);
-            this.persistencia.agregarCobranza(unaCobranza);
+    
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador){
+        Cobranza unaCobranza = new Cobranza(listado, mes, year, unCobrador);
+        this.persistencia.agregarCobranza(unaCobranza);
     }
     
-    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
+    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year,long  dni,String area) throws Exception{
         Iterator it = this.cobranzas.iterator();
         Cobranza unaCobranza = new Cobranza();
         while(it.hasNext()){
@@ -256,7 +256,6 @@ public class CelsoFinanzas implements Serializable {
                 unaCobranza.setAfiliado(adiliado);
                 unaCobranza.setMes(mes);
                 unaCobranza.setYear(year);
-                unaCobranza.setConcepto(concepto);
                 unaCobranza.setUnCobrador(this.obtenerCobrador(dni));
                 unaCobranza.setUnArea(this.obtenerArea(area));
                 this.cobranzas.add(unaCobranza);
@@ -309,6 +308,15 @@ public class CelsoFinanzas implements Serializable {
         return this.persistencia.obtenerCobranzas();
     }
     
+    public void agregarListado(int idCobranza, Ingreso unIngreso) throws Exception{
+        Cobranza unaCobranza = this.persistencia.obtenerUnaCobranza(idCobranza);
+        this.persistencia.modificarCobranza(unaCobranza);
+        this.persistencia.agregarIngreso(unIngreso);
+    }
+    
+    public List obtenerIngresos(int id){
+        return this.obtenerCobranzaPorId(id).getIngresos();
+    }
     //fina abm combranza
 
 }

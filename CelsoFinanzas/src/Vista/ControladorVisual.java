@@ -4,6 +4,7 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
+import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ControladorVisual {
     public void setUnCelsoFinanzasna(CelsoFinanzas unCelsoFinanzasna) {
         this.unCelsoFinanzas = unCelsoFinanzasna;
     }
-    //abm 
+    //abm Areas
     public void agregarArea(String nombre){
         this.unCelsoFinanzas.agregarArea(nombre);
     }
@@ -51,7 +52,8 @@ public class ControladorVisual {
         }
         return id;
     }
-    
+    //fin abm areas
+    //abm cobrador 
     public void agregarCobrador(String nombre, String alias, String apellido, long dni, int comision){
         this.unCelsoFinanzas.agregarCobrador(nombre, alias, apellido, dni, comision);
     }
@@ -79,16 +81,14 @@ public class ControladorVisual {
     public Cobrador obtenerCobradorPorAlias(String alias){
         return this.unCelsoFinanzas.obtenerCobradorPorAlias(alias);
     }
-    
-    public void agregarComision(long dni, int comision) throws Exception{
-        this.unCelsoFinanzas.agregarComision(dni, comision);
-    }
-    public void agregarListado(Double listado,int mes, int year,long  dni){
-        this.unCelsoFinanzas.agregarListado(listado, mes, year, dni);
+    //fin abm cobrador
+    //
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador){
+        this.unCelsoFinanzas.agregarCobranza(listado, mes, year, unCobrador);
     }
     
-    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year, String concepto,long  dni,String area) throws Exception{
-        this.unCelsoFinanzas.modificarCobranza(id, listado, adiliado, mes, year, concepto, dni, area);
+    public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year,long  dni,String area) throws Exception{
+        this.unCelsoFinanzas.modificarCobranza(id, listado, adiliado, mes, year, dni, area);
     }
     
     public void borrarCobranza(int id) throws NonexistentEntityException{
@@ -103,5 +103,14 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzas();
     }
 
+    public void agregarListado(int idCobranza, Ingreso unIngreso) throws Exception{
+        this.unCelsoFinanzas.agregarListado(idCobranza, unIngreso);
+    }
+    
+    public List obtenerIngreso(int idCobranza){
+        return this.unCelsoFinanzas.obtenerIngresos(idCobranza);
+    }
 
+    
+    
 }
