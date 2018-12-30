@@ -7,6 +7,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -34,12 +35,15 @@ public class Principal extends javax.swing.JFrame {
         );
         dpContenedorLayout.setVerticalGroup(
             dpContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 269, Short.MAX_VALUE)
         );
 
-        jMVendedores.setText("Cobrador");
-        jMVendedores.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jMenuBar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
+        jMVendedores.setText("Cobrador");
+        jMVendedores.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jMGestionarCobrador.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMGestionarCobrador.setText("Gestionar Cobradores");
         jMGestionarCobrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,7 +55,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar.add(jMVendedores);
 
         jMCobranzas.setText("Cobranzas");
+        jMCobranzas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
+        jMIngresos.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMIngresos.setText("Ingresos");
         jMIngresos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMCobranzas.add(jMIngresos);
 
+        jMListado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMListado.setText("Listado");
         jMListado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,6 +75,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMCobranzas.add(jMListado);
 
+        jMReporte.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMReporte.setText("Reportes");
         jMReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,9 +86,11 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar.add(jMCobranzas);
 
-        jMAreas.setText("Areas");
+        jMAreas.setText("Cartera");
+        jMAreas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        jmGestionArea.setText("Gestionar Areas");
+        jmGestionArea.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jmGestionArea.setText("Gestionar Cartera");
         jmGestionArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmGestionAreaActionPerformed(evt);

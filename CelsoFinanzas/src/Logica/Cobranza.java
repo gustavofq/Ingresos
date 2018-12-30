@@ -1,16 +1,11 @@
 package Logica;
 
-import Persistencia.ControladorPersistencia;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -34,8 +29,6 @@ public class Cobranza implements Serializable {
     private Cobrador unCobrador;
     @OneToOne
     private Area unArea;
-    @OneToMany
-    private List<Ingreso> ingresos = new ArrayList<Ingreso>();
     
 
     public Cobranza() {
@@ -153,13 +146,6 @@ public class Cobranza implements Serializable {
         this.unArea = unArea;
     }
 
-    public List<Ingreso> getIngresos() {
-        return ingresos;
-    }
-
-    public void setIngresos(List<Ingreso> ingresos) {
-        this.ingresos = ingresos;
-    }
     
     public Double calcularNeto(){
         Double totalAfiliado = calcularAfiliadoTotal();
@@ -178,9 +164,9 @@ public class Cobranza implements Serializable {
    
     public Double calcularAfiliadoTotal(){
         Double total = new Double(0);
-        for(Ingreso unIngreso: this.ingresos){
+        /*for(Ingreso unIngreso: this.ingresos){
             total += unIngreso.getAfiliado();
-        }
+        }*/
         return total;
     }
 

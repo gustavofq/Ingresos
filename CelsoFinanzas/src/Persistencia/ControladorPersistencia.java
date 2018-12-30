@@ -139,5 +139,22 @@ public class ControladorPersistencia implements Serializable{
     public void agregarIngreso(Ingreso unIngreso){
         unIngresoJpaController.create(unIngreso);
     }
+    
+    public void borrarIngreso(int id) throws NonexistentEntityException{
+        unIngresoJpaController.destroy(id);
+    }
+    
+    public void modificarIngreso(Ingreso unIngreso) throws Exception{
+        unIngresoJpaController.edit(unIngreso);
+    }
+    
+    public List<Ingreso> obtenerIngresos(){
+        return unIngresoJpaController.findIngresoEntities();
+    }
+    
+    public Ingreso obtenerIngreso(int id){
+        return unIngresoJpaController.findIngreso(id);
+    }
+    
 }
 

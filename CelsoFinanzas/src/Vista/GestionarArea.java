@@ -30,9 +30,12 @@ public class GestionarArea extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Gestionar Areas");
+        setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
+        lblArea.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblArea.setText("Area");
 
+        cmbAreas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbAreas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -45,8 +48,12 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             }
         });
 
+        lblNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblNombre.setText("Nombre");
 
+        tfNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        btnAgregar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,6 +61,7 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEditar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,6 +69,7 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBorrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnBorrar.setText("Borrar");
         btnBorrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -80,14 +89,14 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             .addGroup(plGestionAreaLayout.createSequentialGroup()
                 .addGroup(plGestionAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(plGestionAreaLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addGroup(plGestionAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblNombre)
                             .addComponent(lblArea))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(plGestionAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbAreas, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tfNombre)
+                            .addComponent(cmbAreas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(plGestionAreaLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(btnAgregar)

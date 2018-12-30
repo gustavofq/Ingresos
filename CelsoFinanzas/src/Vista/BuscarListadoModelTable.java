@@ -5,6 +5,7 @@ import Logica.Cobranza;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
 public class BuscarListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
     private String[] columnas= {"Año","Mes","Area","Cobrador"};

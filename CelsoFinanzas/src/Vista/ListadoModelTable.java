@@ -16,41 +16,32 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
-    private String[] columnas= {"Listado","Cobrado","Comisión","Neto"};
-    
+    private String[] columnas= {"Año","Mes","Área","Cobrador","Listado","Cobrado","Comisión","Neto"};
     public ListadoModelTable(List<Cobranza> cobranzas){
         this.cobranzas = new ArrayList<>(cobranzas);
     }
-    
     @Override
     public int getRowCount() {
         return this.cobranzas.size();
     }
-
     @Override
     public int getColumnCount() {
         return 4;
     }
-
     @Override
     public String getColumnName(int column) {
         return this.columnas[column];
     }
-
-    
-    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object value = "??";
         Cobranza unaCobranza = this.cobranzas.get(rowIndex);
         switch (columnIndex) {
-            case 0:
-                value = unaCobranza.getYear();
+            case 0: value = unaCobranza.getYear();
                 break;
-            case 1:
-                value = unaCobranza.getMes();
+            case 1: value = unaCobranza.getMes();
                 break;
-            case 2:
+            case 2: 
                 if(unaCobranza.getUnArea() == null){
                     value = "-";
                 }else{
@@ -58,8 +49,9 @@ public class ListadoModelTable extends AbstractTableModel{
                 }
                 
                 break;
-            case 3:
-                value = unaCobranza.getUnCobrador();
+            case 3: value = unaCobranza.getUnCobrador().getAlias();
+                break;
+            case 4: value = unaCobranza.getListado();
                 break;
         }
         return value;

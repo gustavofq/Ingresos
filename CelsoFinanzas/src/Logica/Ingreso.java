@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 @Entity
 public class Ingreso implements Serializable {
@@ -20,6 +21,8 @@ public class Ingreso implements Serializable {
     private String concepto;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fecha;
+    @OneToOne
+    private Cobranza unaCobranza;
 
     public Ingreso() {
     }
@@ -36,6 +39,14 @@ public class Ingreso implements Serializable {
         this.concepto = concepto;
         this.fecha = fecha;
     }
+
+    public Ingreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) {
+        this.Afiliado = Afiliado;
+        this.concepto = concepto;
+        this.fecha = fecha;
+        this.unaCobranza = unaCobranza;
+    }
+    
 
     public int getId() {
         return id;
@@ -69,11 +80,16 @@ public class Ingreso implements Serializable {
         this.fecha = fecha;
     }
 
+    public Cobranza getUnaCobranza() {
+        return unaCobranza;
+    }
+
+    public void setUnaCobranza(Cobranza unaCobranza) {
+        this.unaCobranza = unaCobranza;
+    }
+    
     @Override
     public String toString() {
         return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';
-    }
-
-    
-   
+    } 
 }

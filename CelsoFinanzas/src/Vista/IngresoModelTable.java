@@ -5,23 +5,17 @@
  */
 package Vista;
 
-import Logica.Cobranza;
 import Logica.Ingreso;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author gustavo
- */
 public class IngresoModelTable extends AbstractTableModel{
-
     private List<Ingreso> ingresos;
     private String[] columnas = {"Concepto","Afiliado", "Comisión" ,"Neto"};
     
     public IngresoModelTable(List<Ingreso> ingresos){
-        this.ingresos = new ArrayList<>();
+        this.ingresos = new ArrayList<>(ingresos);
     }
     
     @Override
@@ -51,11 +45,15 @@ public class IngresoModelTable extends AbstractTableModel{
             case 1:
                 value = unIngreso.getAfiliado();
                 break;
+            case 2: 
+                value = 0;
+            case 3: 
+                value = 0;
         }
         return value;
     }
     public Ingreso getUserAt(int row) {
-        return this.ingresos.get(row);
+        return ingresos.get(row);
     }
     
     

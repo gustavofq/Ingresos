@@ -6,6 +6,7 @@ import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
+import java.util.Calendar;
 import java.util.List;
 
 public class ControladorVisual {
@@ -83,8 +84,9 @@ public class ControladorVisual {
     }
     //fin abm cobrador
     //
-    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador){
-        this.unCelsoFinanzas.agregarCobranza(listado, mes, year, unCobrador);
+    
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){
+        this.unCelsoFinanzas.agregarCobranza(listado, mes, year, unCobrador,unArea);
     }
     
     public void modificarCobranza(int id, Double listado, Double adiliado,int mes, int year,long  dni,String area) throws Exception{
@@ -102,15 +104,17 @@ public class ControladorVisual {
     public List<Cobranza> obtenerCobranzas(){
         return this.unCelsoFinanzas.obtenerCobranzas();
     }
-
-    public void agregarListado(int idCobranza, Ingreso unIngreso) throws Exception{
-        this.unCelsoFinanzas.agregarListado(idCobranza, unIngreso);
+    
+    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
+        this.unCelsoFinanzas.agregarIngreso(Afiliado, concepto, fecha, unaCobranza);
     }
     
-    public List obtenerIngreso(int idCobranza){
-        return this.unCelsoFinanzas.obtenerIngresos(idCobranza);
+    public Ingreso obtenerIngreso(int id){
+        return this.unCelsoFinanzas.obtenerIngreso(id);
     }
-
     
+    public List<Ingreso> obtenerIngresos( int id){
+        return this.unCelsoFinanzas.obtenerIngresos(id);
+    }
     
 }

@@ -3,6 +3,7 @@ import Persistencia.ControladorPersistencia;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
@@ -21,6 +22,8 @@ public class CelsoFinanzas implements Serializable {
     private List<Cobrador> cobradores = new ArrayList<>();
     @OneToMany
     private List<Cobranza> cobranzas = new ArrayList<>();
+    @OneToMany 
+    private List<Ingreso> ingresos = new ArrayList<>();
     
     ControladorPersistencia persistencia = new ControladorPersistencia();
     
@@ -30,7 +33,7 @@ public class CelsoFinanzas implements Serializable {
     public CelsoFinanzas(int id) {
         this.id = id;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -61,6 +64,14 @@ public class CelsoFinanzas implements Serializable {
 
     public void setCobranzas(ArrayList<Cobranza> cobranzas) {
         this.cobranzas = cobranzas;
+    }
+
+    public List<Ingreso> getIngresos() {
+        return ingresos;
+    }
+
+    public void setIngresos(List<Ingreso> ingresos) {
+        this.ingresos = ingresos;
     }
     
     //ABM area
@@ -241,8 +252,8 @@ public class CelsoFinanzas implements Serializable {
     //fin abm cobrador
     //inicio abm cobranza
     
-    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador){
-        Cobranza unaCobranza = new Cobranza(listado, mes, year, unCobrador);
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){
+        Cobranza unaCobranza = new Cobranza(listado, listado, mes, year, unCobrador, unArea);
         this.persistencia.agregarCobranza(unaCobranza);
     }
     
@@ -314,11 +325,40 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.agregarIngreso(unIngreso);
     }
     
-    public List obtenerIngresos(int id){
-        return this.obtenerCobranzaPorId(id).getIngresos();
-    }
     //fina abm combranza
-
+    //abmIngresos
+    
+    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
+        Ingreso unIngreso = new Ingreso(Afiliado, concepto, fecha, unaCobranza);
+        this.persistencia.agregarIngreso(unIngreso);
+    }
+    
+    public void modificarIngreso(int id,Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
+        
+    }
+    
+    public void borrarIngreso(int id) throws NonexistentEntityException{
+        this.persistencia.borrarIngreso(id);
+    }
+    
+    public Ingreso obtenerIngreso(int id){
+        return this.persistencia.obtenerIngreso(id);
+    }
+    
+    public List<Ingreso> obtenerIngresos(int id){
+        Iterator it = this.persistencia.obtenerIngresos().iterator();
+        List<Ingreso> ingresos = new ArrayList<>();
+        Ingreso unIngreso = new Ingreso();
+        while (it.hasNext()){
+            unIngreso = (Ingreso) it.next();
+            if(unIngreso.getUnaCobranza().getId() == id){
+                ingresos.add(unIngreso);
+            }
+        }
+        return ingresos;
+    }
+    
+    
 }
 
 
