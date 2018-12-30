@@ -9,9 +9,6 @@ import javax.swing.JOptionPane;
 public class GestionVendedor extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
-    /**
-     * Creates new form GestionVendedor
-     */
     public GestionVendedor() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
@@ -212,7 +209,6 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
         
-       
     }//GEN-LAST:event_cmbCobradoresActionPerformed
 
     private void cmbCobradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbCobradoresMouseClicked
@@ -272,7 +268,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void tfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDniActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_tfDniActionPerformed
 
 

@@ -16,6 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
+    ControladorVisual unControladorVisual = new ControladorVisual();
     private String[] columnas= {"Año","Mes","Área","Cobrador","Listado","Cobrado","Comisión","Neto"};
     public ListadoModelTable(List<Cobranza> cobranzas){
         this.cobranzas = new ArrayList<>(cobranzas);
@@ -26,7 +27,7 @@ public class ListadoModelTable extends AbstractTableModel{
     }
     @Override
     public int getColumnCount() {
-        return 4;
+        return columnas.length;
     }
     @Override
     public String getColumnName(int column) {
@@ -47,11 +48,33 @@ public class ListadoModelTable extends AbstractTableModel{
                 }else{
                     value = unaCobranza.getUnArea().getNombre();
                 }
-                
                 break;
             case 3: value = unaCobranza.getUnCobrador().getAlias();
                 break;
             case 4: value = unaCobranza.getListado();
+                break;
+            case 5: 
+                if(this.unControladorVisual.calcularAfiliado(unaCobranza.getId()) == null){
+                    value = 0;
+                }else{
+                    value = this.unControladorVisual.calcularAfiliado(unaCobranza.getId());
+                }
+                break;
+            case 6: 
+                if(this.unControladorVisual.calcularComision(unaCobranza.getId()) == null){
+                    value = 0;
+                }else{
+                     value = this.unControladorVisual.calcularComision(unaCobranza.getId());
+                }
+                value = 0;
+                break;
+            case 7: 
+                /*if(this.unControladorVisual.calcularNeto(unaCobranza.getId()) == null){
+                    value = 0;
+                }else{
+                    value = this.unControladorVisual.calcularNeto(unaCobranza.getId());
+                }*/
+                value = 0;
                 break;
         }
         return value;

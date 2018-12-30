@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.swing.JOptionPane;
 @Entity
 public class CelsoFinanzas implements Serializable {
     @Id
@@ -358,7 +359,55 @@ public class CelsoFinanzas implements Serializable {
         return ingresos;
     }
     
+    public Double calcularAfiliado(int idCobranza){
+        Double afiliado = new Double(0);
+        if(this.existeCobranza(idCobranza)){
+            Iterator it = this.persistencia.obtenerIngresos().iterator();
+            Ingreso unIngreso = new Ingreso();
+            while (it.hasNext()){
+                unIngreso = (Ingreso) it.next();
+                if(unIngreso.getUnaCobranza().getId() == idCobranza){
+                    afiliado += unIngreso.getAfiliado();
+                }
+            }
+        }
+        return afiliado;
+    }
     
+    public Double calcularNeto(int idCobranza){
+        Double neto= new Double(0);
+        Double afiliado = this.calcularAfiliado(idCobranza);
+        Double comision = this.obtenerCobranzaPorId(idCobranza).getComision();
+        if(this.existeCobranza(idCobranza)){
+            calcularComision(idCobranza);
+            neto =   afiliado - comision;
+        }
+        return neto;
+    }
+    
+    public Double calcularComision(int idCobranza){
+        Double comision = new Double(0);
+        if(this.existeCobranza(idCobranza)){
+            comision = (this.obtenerCobranzaPorId(idCobranza).getUnCobrador().getUnaComision() * this.calcularAfiliado(idCobranza))/100;
+        }
+        return comision;
+    }
+    
+    public boolean cobranzaPagada(int idCobranza){
+        boolean pagado = false;
+        if(this.calcularAfiliado(idCobranza) >= this.obtenerCobranzaPorId(idCobranza).getListado()){
+            pagado = true;
+        }
+        return pagado;
+    }
+    
+    public boolean existeCobranza(int idCobranza){
+        boolean existe = false;
+        if(this.persistencia.obtenerUnaCobranza(idCobranza) != null){
+            existe =true;
+        }
+        return existe ;
+    }
 }
 
 

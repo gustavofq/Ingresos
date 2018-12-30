@@ -117,4 +117,19 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerIngresos(id);
     }
     
+    public Double calcularAfiliado(int idCobranza){
+        return this.unCelsoFinanzas.calcularAfiliado(idCobranza);
+    }
+    
+    public Double calcularNeto(int idCobranza){
+        return this.unCelsoFinanzas.calcularNeto(idCobranza);
+    }
+    
+    public Double calcularComision(int idCobranza){
+        return this.unCelsoFinanzas.calcularComision(idCobranza);
+    }
+    
+    public boolean cobranzaPagada(int idCobranza){
+        return this.unCelsoFinanzas.cobranzaPagada(idCobranza);
+    }
 }

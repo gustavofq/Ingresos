@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
 
-import Logica.Cobrador;
 import com.toedter.calendar.JMonthChooser;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -17,10 +12,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author gustavo
- */
 public class Utilitario {
 
     public Utilitario() {
