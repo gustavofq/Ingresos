@@ -105,6 +105,14 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzas();
     }
     
+    public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
+        return this.unCelsoFinanzas.obenerCobranzasDeCobrador(unCobrador, year);
+    }
+    
+    public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year, Area unArea){
+        return this.unCelsoFinanzas.obenerCobranzasDeCobrador(unCobrador, year, unArea);
+    }
+    
     public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
         this.unCelsoFinanzas.agregarIngreso(Afiliado, concepto, fecha, unaCobranza);
     }

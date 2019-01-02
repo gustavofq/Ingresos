@@ -320,6 +320,33 @@ public class CelsoFinanzas implements Serializable {
         return this.persistencia.obtenerCobranzas();
     }
     
+    public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if((unaCobranza.getUnCobrador().getDni() == unCobrador.getDni())&&(unaCobranza.getYear() == year)){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
+    public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year, Area unArea){
+        List<Cobranza> cobranzas = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if((unaCobranza.getUnCobrador().getDni() == unCobrador.getDni())&&(unaCobranza.getYear() == year)&&(unaCobranza.getUnArea().getId() == unArea.getId())){
+                    cobranzas.add(unaCobranza);
+                }
+            }
+        return cobranzas;
+    }
+    
+    
     public void agregarListado(int idCobranza, Ingreso unIngreso) throws Exception{
         Cobranza unaCobranza = this.persistencia.obtenerUnaCobranza(idCobranza);
         this.persistencia.modificarCobranza(unaCobranza);

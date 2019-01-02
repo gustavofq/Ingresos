@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Logica.Cobranza;
@@ -10,14 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author gustavo
- */
 public class ListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
     ControladorVisual unControladorVisual = new ControladorVisual();
-    private String[] columnas= {"Año","Mes","Área","Cobrador","Listado","Cobrado","Comisión","Neto"};
+    private String[] columnas= {"Año","Mes","Cartera","Cobrador","Listado","Cobrado","Comisión","Neto"};
     public ListadoModelTable(List<Cobranza> cobranzas){
         this.cobranzas = new ArrayList<>(cobranzas);
     }
