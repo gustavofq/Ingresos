@@ -1,6 +1,7 @@
 package Vista;
 
 import Logica.Cobranza;
+import Logica.Ingreso;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,12 +17,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
         this.unUtilitario.cargarAnhoActual(tfyear);
         this.unUtilitario.cargarMesActual(cmbMes);
-        //this.cargarTabla();
         BuscarListadoModelTable tiModel = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         this.tblListado.setModel(tiModel);
-        //IngresoModelTable modelIngreso = new IngresoModelTable(this.unControladorVisual.ObtenerCobranzaPorId(101).getIngresos());
-        //this.tblAfiliados.setModel(modelIngreso);
-        
     }
 
     private void cargarTabla(){
@@ -33,7 +30,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     public void cargarTablaIngresos(){
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
-        IngresoModelTable model = new IngresoModelTable(this.unControladorVisual.obtenerIngresos(unaCobranza.getId()));
+        IngresoModelTable model = new IngresoModelTable(unaCobranza.getIngresos());
         this.tblAfiliados.setModel(model);
     }
     
@@ -329,7 +326,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     private void tblListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListadoMouseClicked
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
-        IngresoModelTable modelIngreso = new IngresoModelTable(this.unControladorVisual.obtenerIngresos(unaCobranza.getId()));
+        IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza.getIngresos());
         this.tblAfiliados.setModel(modelIngreso);
     }//GEN-LAST:event_tblListadoMouseClicked
 
@@ -337,12 +334,12 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+        Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), null);
         try {
-           this.unControladorVisual.agregarIngreso(afiliado, this.tfConcepto.getText(), null, unaCobranza);
+            this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
         } catch (Exception ex) {
             Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }        
         cargarTablaIngresos();
     }//GEN-LAST:event_btnAgregarActionPerformed
 

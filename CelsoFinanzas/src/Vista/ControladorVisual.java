@@ -5,7 +5,9 @@ import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
+import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class ControladorVisual {
         this.unCelsoFinanzas.modificarCobranza(id, listado, adiliado, mes, year, dni, area);
     }
     
-    public void borrarCobranza(int id) throws NonexistentEntityException{
+    public void borrarCobranza(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
         this.unCelsoFinanzas.borrarCobranza(id);
     }
     
@@ -113,7 +115,7 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obenerCobranzasDeCobrador(unCobrador, year, unArea);
     }
     
-    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
+    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) throws Exception{
         this.unCelsoFinanzas.agregarIngreso(Afiliado, concepto, fecha, unaCobranza);
     }
     
@@ -139,5 +141,9 @@ public class ControladorVisual {
     
     public boolean cobranzaPagada(int idCobranza){
         return this.unCelsoFinanzas.cobranzaPagada(idCobranza);
+    }
+    
+    public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        this.unCelsoFinanzas.agregarIngreso(unaCobranza, unIngreso);
     }
 }

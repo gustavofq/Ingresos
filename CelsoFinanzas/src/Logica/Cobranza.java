@@ -1,15 +1,18 @@
 package Logica;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Cobranza implements Serializable {
+public  class Cobranza implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
@@ -29,48 +32,34 @@ public class Cobranza implements Serializable {
     private Cobrador unCobrador;
     @OneToOne
     private Area unArea;
+    @OneToMany
+    private List<Ingreso> Ingresos  = new ArrayList<>();
     
 
     public Cobranza() {
     }
 
-    public Cobranza(int id, Double listado, Double afiliado, Double neto, int mes, int year, Double comision, Cobrador unCobrador, Area unArea) {
-        this.id = id;
+    public Cobranza(Double listado, int mes, int year, Cobrador unCobrador, Area unArea) {
         this.listado = listado;
-        this.afiliado = afiliado;
-        this.neto = neto;
-        this.mes = mes;
-        this.year = year;
-        this.comision = comision;
-        this.unCobrador = unCobrador;
-        this.unArea = unArea;
-    }
-
-    public Cobranza(Double listado, Double afiliado, Double neto, int mes, int year, Double comision, Cobrador unCobrador, Area unArea) {
-        this.listado = listado;
-        this.afiliado = afiliado;
-        this.neto = neto;
-        this.mes = mes;
-        this.year = year;
-        this.comision = comision;
-        this.unCobrador = unCobrador;
-        this.unArea = unArea;
-    }
-
-    public Cobranza(Double listado, Double afiliado, int mes, int year, Cobrador unCobrador, Area unArea) {
-        this.listado = listado;
-        this.afiliado = afiliado;
         this.mes = mes;
         this.year = year;
         this.unCobrador = unCobrador;
         this.unArea = unArea;
+        this.afiliado = calcularAfiliadoTotal();
+        this.comision = calcularComision();
+        this.neto = calcularNeto();
     }
-
-    public Cobranza(Double listado, int mes, int year, Cobrador unCobrador) {
+    
+    public Cobranza(Double listado, int mes, int year, Cobrador unCobrador, Area unArea, List<Ingreso> ingresos){
         this.listado = listado;
         this.mes = mes;
         this.year = year;
         this.unCobrador = unCobrador;
+        this.unArea = unArea;
+        this.Ingresos = ingresos;
+        this.afiliado = calcularAfiliadoTotal();
+        this.comision = calcularComision();
+        this.neto = calcularNeto();
     }
 
     public int getId() {
@@ -146,30 +135,47 @@ public class Cobranza implements Serializable {
         this.unArea = unArea;
     }
 
-    
+    public List<Ingreso> getIngresos() {
+        return Ingresos;
+    }
+
+    public void setIngresos(List<Ingreso> Ingresos) {
+        this.Ingresos = Ingresos;
+    }
+ 
     public Double calcularNeto(){
-        Double totalAfiliado = calcularAfiliadoTotal();
-        Double totalComision = this.comision;
-        this.comision = totalAfiliado - totalComision;
-            return this.comision;
+        if(this.comision == null){
+           this.comision = 0.0; 
+        }else{            
+            Double totalComision = this.comision;
+            this.comision = this.afiliado - totalComision;
+        }
+        
+        return this.comision;
     }
     
-    public Double  calcularComision(){
-        Double total = new Double(0);
-        Double comisionCobrador = new Double(this.unCobrador.getUnaComision());
-        Double totalAfiliado = this.calcularAfiliadoTotal();
-        this.comision = (  comisionCobrador* totalAfiliado) / 100;
+    public Double calcularComision(){
+        if(this.afiliado == null){
+            this.afiliado = 0.0;
+        }else{
+            Double comisionCobrador = new Double(this.unCobrador.getUnaComision());
+            this.comision = (  comisionCobrador * this.afiliado ) / 100;        
+        }
         return this.comision;
     }
    
     public Double calcularAfiliadoTotal(){
         Double total = new Double(0);
-        /*for(Ingreso unIngreso: this.ingresos){
+        for(Ingreso unIngreso: this.Ingresos){
             total += unIngreso.getAfiliado();
-        }*/
+        }
         return total;
     }
 
+    public void agregarIngreso(Ingreso unIngreso){
+        this.Ingresos.add(unIngreso);
+    }
+    
     
     @Override
     public String toString() {

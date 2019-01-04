@@ -6,6 +6,7 @@
 package Persistencia;
 
 import Logica.CelsoFinanzas;
+import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -50,7 +51,7 @@ public class CelsoFinanzasJpaController implements Serializable {
         }
     }
 
-    public void edit(CelsoFinanzas celsoFinanzas) throws NonexistentEntityException, Exception {
+    public void edit(CelsoFinanzas celsoFinanzas) throws NonexistentEntityException, IllegalOrphanException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -73,7 +74,7 @@ public class CelsoFinanzasJpaController implements Serializable {
         }
     }
 
-    public void destroy(int id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException, IllegalOrphanException {
         EntityManager em = null;
         try {
             em = getEntityManager();

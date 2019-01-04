@@ -1,6 +1,15 @@
 package Vista;
 import Logica.Area;
 import Logica.Cobrador;
+import Logica.Cobranza;
+import Persistencia.exceptions.IllegalOrphanException;
+import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.ViolacionClaveForaneaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.eclipse.persistence.exceptions.DatabaseException;
+import org.postgresql.util.PSQLException;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
@@ -95,6 +104,11 @@ public class GestionarListado extends javax.swing.JInternalFrame {
 
         btnBorrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("$");
@@ -214,7 +228,6 @@ public class GestionarListado extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        cargarTabla();
         int year = Integer.parseInt(this.tfanho.getText());
         int mes =this.cmbMoth.getMonth();
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
@@ -224,6 +237,22 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
         this.cargarTabla();
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        ListadoModelTable unListadoModelTable = new ListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+        Cobranza unaCobranza = unListadoModelTable.getUserAt(this.tblListado.getSelectedRow());
+        try {
+            if(JOptionPane.showConfirmDialog(rootPane, "Realmente quiere eliminar el listado?", "Borrar Listado ", JOptionPane.YES_NO_OPTION) == 0){
+                this.unControladorVisual.borrarCobranza(unaCobranza.getId());
+                JOptionPane.showMessageDialog(rootPane, "Se ha borrado exitosamente.");
+                this.cargarTabla();
+            } 
+        } catch (NonexistentEntityException ex) {
+            JOptionPane.showMessageDialog(rootPane, "No se Existe tal Listado");
+        } catch(ViolacionClaveForaneaException ex){
+            JOptionPane.showMessageDialog(rootPane, "No se ha borrado debido a que existen Ingresos relacionados.");
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

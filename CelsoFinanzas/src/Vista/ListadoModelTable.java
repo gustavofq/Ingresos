@@ -45,27 +45,25 @@ public class ListadoModelTable extends AbstractTableModel{
             case 4: value = unaCobranza.getListado();
                 break;
             case 5: 
-                if(this.unControladorVisual.calcularAfiliado(unaCobranza.getId()) == null){
+                if(unaCobranza.calcularAfiliadoTotal() == null){
                     value = 0;
                 }else{
-                    value = this.unControladorVisual.calcularAfiliado(unaCobranza.getId());
+                    value = unaCobranza.calcularAfiliadoTotal();
                 }
                 break;
             case 6: 
-                if(this.unControladorVisual.calcularComision(unaCobranza.getId()) == null){
+                if(unaCobranza.calcularComision() == null){
                     value = 0;
                 }else{
-                     value = this.unControladorVisual.calcularComision(unaCobranza.getId());
-                }
-                value = 0;
+                    value = unaCobranza.calcularComision();
+                }                
                 break;
             case 7: 
-                /*if(this.unControladorVisual.calcularNeto(unaCobranza.getId()) == null){
+                if(unaCobranza.calcularNeto() == null){
                     value = 0;
-                }else{
-                    value = this.unControladorVisual.calcularNeto(unaCobranza.getId());
-                }*/
-                value = 0;
+                }else {
+                    value = unaCobranza.calcularNeto();
+                }                
                 break;
         }
         return value;

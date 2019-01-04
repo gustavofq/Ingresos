@@ -10,7 +10,9 @@ import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
+import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,11 +33,11 @@ public class ControladorPersistencia implements Serializable{
         
     }
     //abm areas
-    public  void agregarArea(Area unArea){
+    public  void agregarArea(Area unArea) throws PreexistingEntityException{
         try {
-            unAreaJpaController.create(unArea);
+            unAreaJpaController.create(unArea); 
         } catch (Exception e) {
-            System.out.print("Error en agregar area: "+ unArea.getId() + " " + unArea.getNombre());
+            throw new PreexistingEntityException("Ya existe " + unArea);
         }
         
     }
@@ -63,6 +65,7 @@ public class ControladorPersistencia implements Serializable{
     public  Area obtenerUnArea(int id){
         return unAreaJpaController.findArea(id);
     }
+    
     //abm Celsofinanzas
     public  void agregarCelsoFinanzas(CelsoFinanzas unCelsoFinanzas){
         unCelsoFinanzasJpaController.create(unCelsoFinanzas);
@@ -72,7 +75,7 @@ public class ControladorPersistencia implements Serializable{
         unCelsoFinanzasJpaController.edit(unCelsoFinanzas);
     }
     
-    public  void borrarCelsoFinanzas(int id) throws NonexistentEntityException{
+    public  void borrarCelsoFinanzas(int id) throws NonexistentEntityException, IllegalOrphanException{
         unCelsoFinanzasJpaController.destroy(id);
     }
     

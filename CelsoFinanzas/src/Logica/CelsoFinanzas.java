@@ -1,6 +1,7 @@
 package Logica;
 import Persistencia.ControladorPersistencia;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.swing.JOptionPane;
 @Entity
 public class CelsoFinanzas implements Serializable {
     @Id
@@ -78,11 +78,14 @@ public class CelsoFinanzas implements Serializable {
     //ABM area
     public void agregarArea(String nombre){
         if(nombre != null){
-            //if(this.existeArea(nombre)){
+            try {
                 Area unArea = new Area(nombre);
                 this.areas.add(unArea);
                 this.persistencia.agregarArea(unArea);
-            //}
+            } catch (Exception e) {
+            }
+                
+            
         }
     }
     
@@ -254,7 +257,7 @@ public class CelsoFinanzas implements Serializable {
     //inicio abm cobranza
     
     public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){
-        Cobranza unaCobranza = new Cobranza(listado, listado, mes, year, unCobrador, unArea);
+        Cobranza unaCobranza = new Cobranza(listado, mes, year, unCobrador, unArea);
         this.persistencia.agregarCobranza(unaCobranza);
     }
     
@@ -276,19 +279,15 @@ public class CelsoFinanzas implements Serializable {
         }
     }
     
-    public void borrarCobranza(int id) throws NonexistentEntityException{
-        if(id > 0){
-            Iterator it = this.cobranzas.iterator();
-            Cobranza unaCobranza = new Cobranza();
-            while(it.hasNext()){
-                unaCobranza = (Cobranza) it.next();
-                if(unaCobranza.getId() == id){
-                    this.cobranzas.remove(unaCobranza);
-                    this.persistencia.borrarCobranza(id);
-                }
-            }  
+    public void borrarCobranza(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
+        if(this.persistencia.obtenerUnaCobranza(id).getIngresos().isEmpty()){
+            this.persistencia.borrarCobranza(id);
+        }else{
+            throw new ViolacionClaveForaneaException(); 
         }
     }
+    
+    
     
     public int obtenerIdCobranza(Area unArea, Cobrador unCobrador,int mes, int year){
         Iterator it = this.persistencia.obtenerCobranzas().iterator();
@@ -356,9 +355,11 @@ public class CelsoFinanzas implements Serializable {
     //fina abm combranza
     //abmIngresos
     
-    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
+    public void agregarIngreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) throws Exception{
         Ingreso unIngreso = new Ingreso(Afiliado, concepto, fecha, unaCobranza);
-        this.persistencia.agregarIngreso(unIngreso);
+        unaCobranza.agregarIngreso(unIngreso);
+        this.persistencia.modificarCobranza(unaCobranza);
+        //this.persistencia.agregarIngreso(unIngreso);
     }
     
     public void modificarIngreso(int id,Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza){
@@ -379,9 +380,9 @@ public class CelsoFinanzas implements Serializable {
         Ingreso unIngreso = new Ingreso();
         while (it.hasNext()){
             unIngreso = (Ingreso) it.next();
-            if(unIngreso.getUnaCobranza().getId() == id){
+           //if(unIngreso.getUnaCobranza().getId() == id){
                 ingresos.add(unIngreso);
-            }
+            //}
         }
         return ingresos;
     }
@@ -393,9 +394,9 @@ public class CelsoFinanzas implements Serializable {
             Ingreso unIngreso = new Ingreso();
             while (it.hasNext()){
                 unIngreso = (Ingreso) it.next();
-                if(unIngreso.getUnaCobranza().getId() == idCobranza){
+               // if(unIngreso.getUnaCobranza().getId() == idCobranza){
                     afiliado += unIngreso.getAfiliado();
-                }
+               // }
             }
         }
         return afiliado;
@@ -434,6 +435,11 @@ public class CelsoFinanzas implements Serializable {
             existe =true;
         }
         return existe ;
+    }
+    
+    public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        unaCobranza.agregarIngreso(unIngreso);
+        this.persistencia.modificarCobranza(unaCobranza);
     }
 }
 
