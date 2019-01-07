@@ -69,7 +69,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         jpBuscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
         jpBuscar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        tblListado.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tblListado.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         tblListado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -282,9 +282,9 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             pIngresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pIngresoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pIngresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pIngresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jpBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pIngresoLayout.setVerticalGroup(

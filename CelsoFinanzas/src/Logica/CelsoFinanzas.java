@@ -1,6 +1,7 @@
 package Logica;
 import Persistencia.ControladorPersistencia;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,54 +77,77 @@ public class CelsoFinanzas implements Serializable {
     }
     
     //ABM area
-    public void agregarArea(String nombre){
+    public void agregarArea(String nombre) throws PreexistingEntityException{
         if(nombre != null){
-            try {
+            if(!this.nombreAreaUtiliazada(nombre)){
                 Area unArea = new Area(nombre);
                 this.areas.add(unArea);
                 this.persistencia.agregarArea(unArea);
-            } catch (Exception e) {
+            }else{
+                throw new PreexistingEntityException("Ya existe un area con el nombre " + nombre);
             }
-                
-            
         }
     }
     
     public boolean existeArea(String nombre){
         boolean existe = false; 
-        if(this.obtenerArea(nombre) != null){
+        if(this.obtenerArea(nombre).getNombre().length() > 0){     
             existe = true;
         }
         return existe;
     }
     
-    public void modificarArea(String oldName, String newName) throws Exception{
-        if(oldName != null){
-            Iterator it = this.areas.iterator();
-            Area unArea = new Area();
-            while(it.hasNext()){
-                unArea = (Area) it.next();
-                if(unArea.getNombre().contains(oldName)){
-                    if(newName != null){
-                        if(this.existeArea(newName)){
-                            unArea.setNombre(newName);
-                            this.persistencia.modificarArea(unArea);
-                        }
-                    }
-                }
+    public void modificarArea(Area unArea) throws Exception{
+        if(unArea != null){
+            if(!nombreAreaUtiliazada(unArea.getNombre())){
+                this.persistencia.modificarArea(unArea);
+            }else{
+                throw new PreexistingEntityException("Ya existe un area con el nombre " + unArea.getNombre());
             }
-        }
+        }else{
+            throw new NullPointerException("el area es null");
+        } 
     }
     
-    public void borrarArea(int id) throws NonexistentEntityException{
-        this.persistencia.borrarArea(id);
+    public void borrarArea(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
+        if(!areaUtilizada(id)){
+            this.persistencia.borrarArea(id);
+        }else{
+            throw new ViolacionClaveForaneaException();
+        }
+            
+    }
+    
+    public boolean areaUtilizada(int id){
+        Iterator it  = this.obtenerCobranzas().iterator();
+        boolean existe = false;
+        while(it.hasNext() && existe == false){
+            Cobranza unaCobranza  = (Cobranza) it.next();
+            if(unaCobranza.getUnArea().getId() == id){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    
+    public boolean nombreAreaUtiliazada(String nombre){
+        Iterator it = this.persistencia.obtenerAreas().iterator();
+        Area unArea = new Area();
+        boolean existe = false;
+        while((it.hasNext()) && (existe == false)){
+            unArea = (Area) it.next();
+            if(unArea.getNombre().contains(nombre)){
+                existe = true;
+            }
+        }
+        return existe;
     }
     
     public Area obtenerArea(String nombre){
         Iterator it = this.persistencia.obtenerAreas().iterator();
         Area unArea = new Area();
         boolean existe = false;
-        while((it.hasNext()) && (existe==false)){
+        while((it.hasNext()) && (existe == false)){
             unArea = (Area) it.next();
             if(unArea.getNombre().contains(nombre)){
                 existe = true;
@@ -148,7 +172,6 @@ public class CelsoFinanzas implements Serializable {
     public List<Area> obtenerAreas(){
         return this.persistencia.obtenerAreas();
     }
-    
     
     //fin abm Area
     //inicio Abm cobrador
@@ -272,7 +295,7 @@ public class CelsoFinanzas implements Serializable {
                 unaCobranza.setMes(mes);
                 unaCobranza.setYear(year);
                 unaCobranza.setUnCobrador(this.obtenerCobrador(dni));
-                unaCobranza.setUnArea(this.obtenerArea(area));
+                //unaCobranza.setUnArea(this.obtenerArea(area));
                 this.cobranzas.add(unaCobranza);
                 this.persistencia.modificarCobranza(unaCobranza);
             }
@@ -348,6 +371,7 @@ public class CelsoFinanzas implements Serializable {
     
     public void agregarListado(int idCobranza, Ingreso unIngreso) throws Exception{
         Cobranza unaCobranza = this.persistencia.obtenerUnaCobranza(idCobranza);
+        
         this.persistencia.modificarCobranza(unaCobranza);
         this.persistencia.agregarIngreso(unIngreso);
     }
@@ -439,6 +463,9 @@ public class CelsoFinanzas implements Serializable {
     
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         unaCobranza.agregarIngreso(unIngreso);
+        unaCobranza.setAfiliado(unaCobranza.calcularAfiliadoTotal());
+        unaCobranza.setComision(unaCobranza.calcularComision());
+        unaCobranza.setNeto(unaCobranza.calcularNeto());
         this.persistencia.modificarCobranza(unaCobranza);
     }
 }

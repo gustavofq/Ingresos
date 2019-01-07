@@ -45,9 +45,9 @@ public  class Cobranza implements Serializable {
         this.year = year;
         this.unCobrador = unCobrador;
         this.unArea = unArea;
-        this.afiliado = calcularAfiliadoTotal();
-        this.comision = calcularComision();
-        this.neto = calcularNeto();
+        this.afiliado = 0.0;
+        this.comision = 0.0;
+        this.neto = 0.0;
     }
     
     public Cobranza(Double listado, int mes, int year, Cobrador unCobrador, Area unArea, List<Ingreso> ingresos){
@@ -57,9 +57,9 @@ public  class Cobranza implements Serializable {
         this.unCobrador = unCobrador;
         this.unArea = unArea;
         this.Ingresos = ingresos;
-        this.afiliado = calcularAfiliadoTotal();
-        this.comision = calcularComision();
-        this.neto = calcularNeto();
+        this.afiliado = 0.0;
+        this.comision = 0.0;
+        this.neto = 0.0;
     }
 
     public int getId() {
@@ -87,7 +87,6 @@ public  class Cobranza implements Serializable {
     }
 
     public Double getNeto() {
-        
         return neto;
     }
 
@@ -147,8 +146,8 @@ public  class Cobranza implements Serializable {
         if(this.comision == null){
            this.comision = 0.0; 
         }else{            
-            Double totalComision = this.comision;
-            this.comision = this.afiliado - totalComision;
+            Double totalComision = this.calcularComision();
+            this.comision = this.calcularAfiliadoTotal() - totalComision;
         }
         
         return this.comision;
@@ -159,7 +158,7 @@ public  class Cobranza implements Serializable {
             this.afiliado = 0.0;
         }else{
             Double comisionCobrador = new Double(this.unCobrador.getUnaComision());
-            this.comision = (  comisionCobrador * this.afiliado ) / 100;        
+            this.comision = (  comisionCobrador * this.calcularAfiliadoTotal() ) / 100;        
         }
         return this.comision;
     }
@@ -176,12 +175,8 @@ public  class Cobranza implements Serializable {
         this.Ingresos.add(unIngreso);
     }
     
-    
     @Override
     public String toString() {
         return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + '}';
     }
-    
-    
-    
 }

@@ -7,6 +7,7 @@ import Logica.Cobranza;
 import Logica.Ingreso;
 import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.util.Calendar;
 import java.util.List;
@@ -29,15 +30,15 @@ public class ControladorVisual {
         this.unCelsoFinanzas = unCelsoFinanzasna;
     }
     //abm Areas
-    public void agregarArea(String nombre){
+    public void agregarArea(String nombre) throws PreexistingEntityException{
         this.unCelsoFinanzas.agregarArea(nombre);
     }
     
-    public void modificarArea(String oldName, String newName) throws Exception{
-        this.unCelsoFinanzas.modificarArea(oldName, newName);
+    public void modificarArea(Area unArea) throws Exception{
+        this.unCelsoFinanzas.modificarArea(unArea);
     }
     
-    public void borrarArea(int id) throws NonexistentEntityException{
+    public void borrarArea(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
         this.unCelsoFinanzas.borrarArea(id);
     }
     

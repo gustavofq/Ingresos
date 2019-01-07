@@ -9,10 +9,11 @@ import javax.swing.JOptionPane;
 public class GestionVendedor extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
+    
     public GestionVendedor() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
-        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -46,11 +47,6 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
 
         cmbCobradores.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCobradores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbCobradores.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmbCobradoresMouseClicked(evt);
-            }
-        });
         cmbCobradores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCobradoresActionPerformed(evt);
@@ -71,11 +67,6 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel4.setText("DNI");
 
         tfDni.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        tfDni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDniActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Alias");
@@ -141,7 +132,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                                     .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(tfAlias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                                         .addComponent(tfDni, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addGap(0, 6, Short.MAX_VALUE))
+                                .addGap(0, 5, Short.MAX_VALUE))
                             .addGroup(jpCobradorLayout.createSequentialGroup()
                                 .addGroup(jpCobradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(tfNombre, javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,17 +199,15 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
-        
+        if(this.cmbCobradores.getSelectedItem() != null){
+            Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+            this.tfApellido.setText(unCobrador.getApellido());
+            this.tfNombre.setText(unCobrador.getNombre());
+            this.tfAlias.setText(unCobrador.getAlias());
+            this.tfDni.setText(Long.toString(unCobrador.getDni()));
+            this.tfPorcentaje.setText(Integer.toString(unCobrador.getUnaComision()));
+        }  
     }//GEN-LAST:event_cmbCobradoresActionPerformed
-
-    private void cmbCobradoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbCobradoresMouseClicked
-        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-        this.tfApellido.setText(unCobrador.getApellido());
-        this.tfNombre.setText(unCobrador.getNombre());
-        this.tfAlias.setText(unCobrador.getAlias());
-        this.tfDni.setText(Long.toString(unCobrador.getDni()));
-        this.tfPorcentaje.setText(Integer.toString(unCobrador.getUnaComision()));
-    }//GEN-LAST:event_cmbCobradoresMouseClicked
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
@@ -261,16 +250,10 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }else{
             JOptionPane.showMessageDialog(rootPane, "faltan datos");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void tfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDniActionPerformed
-
-    }//GEN-LAST:event_tfDniActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

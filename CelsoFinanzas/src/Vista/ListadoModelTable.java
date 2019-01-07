@@ -3,6 +3,7 @@ package Vista;
 import Logica.Cobranza;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Cell;
 import javax.swing.table.AbstractTableModel;
 
 public class ListadoModelTable extends AbstractTableModel{
@@ -40,6 +41,7 @@ public class ListadoModelTable extends AbstractTableModel{
                     value = unaCobranza.getUnArea().getNombre();
                 }
                 break;
+                
             case 3: value = unaCobranza.getUnCobrador().getAlias();
                 break;
             case 4: value = unaCobranza.getListado();

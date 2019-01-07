@@ -48,7 +48,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         render.setSeriesStroke(0, new BasicStroke(4.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 500, 400);
+        panel.setBounds(0, 0, 1000, 900);
         this.jpGraficos.add(panel); 
     }
 
@@ -83,7 +83,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         jpGraficos.setLayout(jpGraficosLayout);
         jpGraficosLayout.setHorizontalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 575, Short.MAX_VALUE)
+            .addGap(0, 875, Short.MAX_VALUE)
         );
         jpGraficosLayout.setVerticalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,8 +120,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                         .addComponent(cmbCobrador, 0, 163, Short.MAX_VALUE)
                         .addComponent(cmbArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jpTodoLayout.setVerticalGroup(
             jpTodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +141,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                     .addComponent(cmbArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnGraficar)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addContainerGap(489, Short.MAX_VALUE))
             .addGroup(jpTodoLayout.createSequentialGroup()
                 .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -180,26 +181,33 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         this.jpGraficos.removeAll();
         TimeSeries Listado = new TimeSeries("Listado");
         TimeSeries cobrado = new TimeSeries("Cobrado");
+        TimeSeries neto = new TimeSeries("Neto");
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         Iterator it = this.unControladorVisual.obenerCobranzasDeCobrador(unCobrador, year).iterator();
         Cobranza unaCobranza = new Cobranza();
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
-            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getAfiliado());
+            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
+            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
+            
+            
         }
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(unCobrador.getAlias() , "Meses","Ingreso",dataset,true,true,false);
+        dataset.addSeries(neto);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(unCobrador.getAlias() , "Meses","Ingreso",dataset,true,false,false);
         XYPlot plot  = (XYPlot) chart.getPlot();
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
         render.setSeriesPaint(0, Color.RED);
         render.setSeriesPaint(1, Color.GREEN);
+        render.setSeriesPaint(2, Color.YELLOW);
         render.setSeriesStroke(0, new BasicStroke(4.0f));
         render.setSeriesStroke(1, new BasicStroke(3.0f));
+        render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 500, 400);
+        panel.setBounds(0, 0, 700, 600);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
