@@ -89,13 +89,13 @@ public class CelsoFinanzas implements Serializable {
         }
     }
     
-    public boolean existeArea(String nombre){
+ /*   public boolean existeArea(String nombre){
         boolean existe = false; 
         if(this.obtenerArea(nombre).getNombre().length() > 0){     
             existe = true;
         }
         return existe;
-    }
+    }*/
     
     public void modificarArea(Area unArea) throws Exception{
         if(unArea != null){
@@ -115,7 +115,6 @@ public class CelsoFinanzas implements Serializable {
         }else{
             throw new ViolacionClaveForaneaException();
         }
-            
     }
     
     public boolean areaUtilizada(int id){
@@ -201,6 +200,7 @@ public class CelsoFinanzas implements Serializable {
             }
         }
     }
+    
     
     public void borrarCobrador(long dni) throws NonexistentEntityException{
          this.persistencia.borrarCobrador(dni);
