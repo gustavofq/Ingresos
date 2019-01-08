@@ -13,6 +13,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     public GestionVendedor() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+        this.unUtilitario.LimpiarCaja(jpCobrador);
     }
 
     @SuppressWarnings("unchecked")
@@ -66,7 +67,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("DNI");
 
-        tfDni.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        tfDni.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Alias");
@@ -206,7 +207,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             this.tfAlias.setText(unCobrador.getAlias());
             this.tfDni.setText(Long.toString(unCobrador.getDni()));
             this.tfPorcentaje.setText(Integer.toString(unCobrador.getUnaComision()));
-        }  
+        }
     }//GEN-LAST:event_cmbCobradoresActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -238,13 +239,13 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
         if(this.unUtilitario.campoCompleto(this.jpCobrador)){
-            String nombre = this.tfNombre.getText();
-            String alias = this.tfAlias.getText();
-            String apellido = this.tfApellido.getText();
-            long dni= Long.parseLong(this.tfDni.getText());
+            unCobrador.setNombre(this.tfNombre.getText());
+            unCobrador.setAlias(this.tfAlias.getText());
+            unCobrador.setApellido(this.tfApellido.getText());
+            unCobrador.setUnaComision(Integer.parseInt(this.tfPorcentaje.getText()));
             try {
-                this.unControladorVisual.modificarCobrador(unCobrador.getDni(), nombre, alias, apellido, dni, 0);
-                this.cmbCobradores.removeAll();
+                
+                this.unControladorVisual.modificarCobrador(unCobrador);
                 this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
                 this.unUtilitario.LimpiarCaja(jpCobrador);
             } catch (Exception ex) {

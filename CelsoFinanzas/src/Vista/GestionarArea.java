@@ -4,17 +4,22 @@ import Logica.Area;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GestionarArea extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
+    JLabel mensaje = new JLabel("mensaje");
     
     public GestionarArea() {
         initComponents();
+        this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
+        this.unUtilitario.LimpiarCaja(plGestionArea);
     }
 
     @SuppressWarnings("unchecked")
@@ -40,11 +45,6 @@ public class GestionarArea extends javax.swing.JInternalFrame {
 
         cmbAreas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbAreas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbAreas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmbAreasMouseClicked(evt);
-            }
-        });
         cmbAreas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbAreasActionPerformed(evt);
@@ -147,7 +147,8 @@ public class GestionarArea extends javax.swing.JInternalFrame {
                     this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
                     this.unUtilitario.LimpiarCaja(plGestionArea);
                 } catch (Exception ex) {
-                    Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
+                    this.mensaje.setText("Actualmente existe una cartera con el nombre " + unArea.getNombre());
+                    JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -159,19 +160,22 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
             this.unUtilitario.LimpiarCaja(plGestionArea);
         } catch (PreexistingEntityException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ya existe una Cartera con tal nombre");
+            this.mensaje.setText("Actualmente existe una cartera con el nombre "+ this.tfNombre.getText());
+            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
         }
-        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         Area unArea = (Area) this.cmbAreas.getSelectedItem();
         try {
             this.unControladorVisual.borrarArea(unArea.getId());
+            this.unUtilitario.LimpiarCaja(plGestionArea);
+            this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ViolacionClaveForaneaException ex) {
-            JOptionPane.showMessageDialog(rootPane, "No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
+            this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -180,14 +184,7 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             Area unArea = (Area) this.cmbAreas.getSelectedItem();
             this.tfNombre.setText(unArea.getNombre());
         }
-        
     }//GEN-LAST:event_cmbAreasActionPerformed
-
-    private void cmbAreasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbAreasMouseClicked
-        //Area unArea = (Area) this.cmbAreas.getSelectedItem();
-        //this.tfNombre.setText(unArea.getNombre());
-    }//GEN-LAST:event_cmbAreasMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

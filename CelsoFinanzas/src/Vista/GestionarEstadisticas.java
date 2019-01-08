@@ -83,7 +83,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         jpGraficos.setLayout(jpGraficosLayout);
         jpGraficosLayout.setHorizontalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 875, Short.MAX_VALUE)
+            .addGap(0, 1086, Short.MAX_VALUE)
         );
         jpGraficosLayout.setVerticalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +207,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 700, 600);
+        panel.setBounds(0, 0, 1095, 645);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);

@@ -93,11 +93,9 @@ public class ControladorPersistencia implements Serializable{
         } catch (Exception e) {
             System.out.println("Error en agregarUnCobrador: " + unCobrador);
         }
-        
     }
     
     public void modificarCobrador(Cobrador unCobrador) throws Exception{
-        unCobradorJpaController.destroy(unCobrador.getDni());
         unCobradorJpaController.edit(unCobrador);
     }
     

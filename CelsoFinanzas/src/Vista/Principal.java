@@ -119,7 +119,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMGestionarCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMGestionarCobradorActionPerformed
         GestionVendedor unaGestionVendedor = new GestionVendedor();
         this.dpContenedor.add(unaGestionVendedor);
-        unaGestionVendedor.show();
+        unaGestionVendedor.setVisible(true);
     }//GEN-LAST:event_jMGestionarCobradorActionPerformed
 
     private void jmGestionAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionAreaActionPerformed
