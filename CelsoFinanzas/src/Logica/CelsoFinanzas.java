@@ -149,10 +149,28 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.modificarCobrador(unCobrador);
     }
     
-    public void borrarCobrador(long dni) throws NonexistentEntityException{
-         this.persistencia.borrarCobrador(dni);
+    public void borrarCobrador(long dni) throws NonexistentEntityException, ViolacionClaveForaneaException{
+        if(!this.cobradorUtilizado(dni)){
+            this.persistencia.borrarCobrador(dni);
+        }else{
+            throw new ViolacionClaveForaneaException();
+        }
+        
     }
 
+    public boolean cobradorUtilizado(long dni){
+        boolean esUtilizado = false;
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+        Cobranza unaCobranza = new Cobranza();
+        while(it.hasNext() && esUtilizado == false){
+            unaCobranza = (Cobranza) it.next();
+            if(unaCobranza.getUnCobrador().getDni() == dni){
+                esUtilizado = true;
+            }
+        }
+        return esUtilizado;
+    }
+    
     public Cobrador obtenerCobrador(long dni){
         Iterator it = this.persistencia.obtenerCobradores().iterator();
         Cobrador unCobrador = new Cobrador();
@@ -214,6 +232,19 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
     
+    public List<Cobranza> obtenerCobranzaDeCartera(Area unArea, int year){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if(unaCobranza.getUnArea().equals(unArea) && unaCobranza.getYear() == year){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         unaCobranza.agregarIngreso(unIngreso);
         unaCobranza.setAfiliado(unaCobranza.calcularAfiliadoTotal());
@@ -221,4 +252,6 @@ public class CelsoFinanzas implements Serializable {
         unaCobranza.setNeto(unaCobranza.calcularNeto());
         this.persistencia.modificarCobranza(unaCobranza);
     }
+    
+   
 }

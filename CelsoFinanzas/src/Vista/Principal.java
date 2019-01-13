@@ -1,13 +1,16 @@
 package Vista;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Principal extends javax.swing.JFrame {
-
+public class Principal extends javax.swing.JFrame{
+    
+    
     public Principal() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -190,4 +193,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jmGestionArea;
     // End of variables declaration//GEN-END:variables
+
 }

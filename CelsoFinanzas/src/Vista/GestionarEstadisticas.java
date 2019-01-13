@@ -3,7 +3,6 @@ package Vista;
 import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
-import Vista.Graficos.ReporteArea;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.Iterator;
@@ -13,7 +12,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.Day;
 import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -36,7 +34,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         Cobranza unaCobranza = new Cobranza();
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
-            
             series.add(unaCobranza.getMes(), unaCobranza.getListado());
         }
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -169,8 +166,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
 
         Cobrador unCobrador = (Cobrador) this.cmbCobrador.getSelectedItem();
         Area unArea = (Area) this.cmbArea.getSelectedItem();
-        this.generarGrafica(unCobrador, Integer.parseInt(tfYear.getText()),unArea);
         
+        //this.generarGrafica(unCobrador, Integer.parseInt(tfYear.getText()) , unArea);
+        this.generarGrafica(unArea,  Integer.parseInt(tfYear.getText()) );
     }//GEN-LAST:event_btnGraficarActionPerformed
 
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
@@ -216,6 +214,42 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         
     }
     
+    public void generarGrafica(Area unArea, int year){
+        this.jpGraficos.removeAll();
+        TimeSeries Listado = new TimeSeries("Listado");
+        TimeSeries cobrado = new TimeSeries("Cobrado");
+        TimeSeries neto = new TimeSeries("Neto");
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
+        Cobranza unaCobranza = new Cobranza();
+        while (it.hasNext()){
+            unaCobranza = (Cobranza) it.next();
+            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
+            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
+            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
+        }
+        dataset.addSeries(cobrado);
+        dataset.addSeries(Listado);
+        dataset.addSeries(neto);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(unArea.getNombre() , "Meses","Ingreso",dataset,true,false,false);
+        XYPlot plot  = (XYPlot) chart.getPlot();
+        XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
+        render.setSeriesPaint(0, Color.RED);
+        render.setSeriesPaint(1, Color.GREEN);
+        
+        render.setSeriesStroke(0, new BasicStroke(4.0f));
+        render.setSeriesStroke(1, new BasicStroke(3.0f));
+        
+        plot.setRenderer(render);
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setBounds(0, 0, 1095, 645);
+        this.jpGraficos.add(panel);
+        this.jpGraficos.setEnabled(false);
+        panel.setEnabled(false);
+        panel.setFocusable(false);
+        this.jpGraficos.setFocusable(false);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGraficar;

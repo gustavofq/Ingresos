@@ -2,18 +2,24 @@ package Vista;
 
 import Logica.Cobrador;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.ViolacionClaveForaneaException;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GestionVendedor extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
+    JLabel mensaje = new JLabel("mensaje");
     
     public GestionVendedor() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
         this.unUtilitario.LimpiarCaja(jpCobrador);
+        this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +74,13 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel4.setText("DNI");
 
         tfDni.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tfDni.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                tfDniInputMethodTextChanged(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Alias");
@@ -211,6 +224,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbCobradoresActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        if(this.cmbCobradores.getSelectedItem() != null){
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         try {
             this.unControladorVisual.borrarCobrador(unCobrador.getDni());
@@ -218,11 +232,21 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             this.unUtilitario.LimpiarCaja(jpCobrador);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ViolacionClaveForaneaException ex) {
+            this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a este Cobrador.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+        }
+        }else{
+            this.mensaje.setText("Debe seleccionar un Cobrador para borrar.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(this.unUtilitario.campoCompleto(this.jpCobrador)){
+            if(this.unUtilitario.isNumeric(this.tfDni.getText())){
+            
+            }
             String nombre = this.tfNombre.getText();
             String alias = this.tfAlias.getText();
             String apellido = this.tfApellido.getText();
@@ -231,6 +255,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             this.unControladorVisual.agregarCobrador(nombre, alias, apellido, dni, comision);
             this.cmbCobradores.removeAll();
             this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+            this.unUtilitario.LimpiarCaja(jpCobrador);
         }else{
             JOptionPane.showMessageDialog(rootPane, "faltan datos");
         }
@@ -256,6 +281,23 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void tfDniInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tfDniInputMethodTextChanged
+          System.out.println("nueva palabra");
+        if(!this.unUtilitario.isNumeric(this.tfDni.getText())){
+            
+         }
+    }//GEN-LAST:event_tfDniInputMethodTextChanged
+    
+    public void keyTyped(KeyEvent e) 
+
+    {
+        if (this.tfDni.getText().length() == 2){ 
+
+         e.consume();
+        }
+    } 
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;

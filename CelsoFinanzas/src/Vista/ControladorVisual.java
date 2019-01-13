@@ -55,7 +55,7 @@ public class ControladorVisual {
         this.unCelsoFinanzas.modificarCobrador(unCobrador);
     }
     
-    public void borrarCobrador(long dni) throws NonexistentEntityException{
+    public void borrarCobrador(long dni) throws NonexistentEntityException, ViolacionClaveForaneaException{
         this.unCelsoFinanzas.borrarCobrador(dni);
     }
   
@@ -78,6 +78,13 @@ public class ControladorVisual {
     
     public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
         return this.unCelsoFinanzas.obenerCobranzasDeCobrador(unCobrador, year);
+    }
+    
+    public List<Cobranza> obtenerCobranzaDeCartera(Area unArea, int year){
+        return this.unCelsoFinanzas.obtenerCobranzaDeCartera(unArea, year);
+    }
+    public List<Cobranza> cobranzasDeCartera(Area unArea, int year){
+        return this.unCelsoFinanzas.obtenerCobranzaDeCartera(unArea, year);
     }
     
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{

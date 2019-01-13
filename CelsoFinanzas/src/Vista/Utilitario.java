@@ -102,7 +102,15 @@ public class Utilitario {
         }
     }
     
-    
-    
+    public boolean isNumeric(String cadena){
+        boolean esNumerico = false;
+	try {
+		Integer.parseInt(cadena);
+		esNumerico = true;
+	} catch (NumberFormatException nfe){
+		esNumerico = false;
+	}
+        return esNumerico;
+    }
 }
 
