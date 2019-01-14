@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class BuscarListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
-    private String[] columnas= {"Año","Mes","Area","Cobrador"};
+    private String[] columnas= {"Año","Mes","Cartera","Cobrador"};
     
     public BuscarListadoModelTable(List<Cobranza> cobranzas){
         this.cobranzas = new ArrayList<>(cobranzas);

@@ -175,6 +175,10 @@ public  class Cobranza implements Serializable {
         this.Ingresos.add(unIngreso);
     }
     
+    public void borrarIngreso(Ingreso unIngreso){
+        this.Ingresos.remove(unIngreso);
+    }
+    
     @Override
     public String toString() {
         return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + '}';

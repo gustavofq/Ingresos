@@ -12,7 +12,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class IngresoModelTable extends AbstractTableModel{
     private List<Ingreso> ingresos;
-    private String[] columnas = {"Concepto","Afiliado", "Comisión" ,"Neto"};
+    private String[] columnas = {"Fecha","Concepto","Afiliado", "Comisión" ,"Neto"};
+    private Utilitario unUtilitario = new Utilitario();
     
     public IngresoModelTable(List<Ingreso> ingresos){
         this.ingresos = new ArrayList<>(ingresos);
@@ -39,15 +40,18 @@ public class IngresoModelTable extends AbstractTableModel{
         Object value = "??";
         Ingreso unIngreso = this.ingresos.get(rowIndex);
         switch (columnIndex) {
-            case 0:
-                value = unIngreso.getConcepto();
+            case 0: 
+                value = this.unUtilitario.obtenerFecha(unIngreso.getFecha());
                 break;
             case 1:
+                value = unIngreso.getConcepto();
+                break;
+            case 2:
                 value = unIngreso.getAfiliado();
                 break;
-            case 2: 
-                value = 0;
             case 3: 
+                value = 0;
+            case 4: 
                 value = 0;
         }
         return value;

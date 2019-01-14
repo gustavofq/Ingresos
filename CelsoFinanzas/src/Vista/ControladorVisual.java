@@ -90,4 +90,8 @@ public class ControladorVisual {
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         this.unCelsoFinanzas.agregarIngreso(unaCobranza, unIngreso);
     }
+    
+    public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        this.unCelsoFinanzas.borrarListado(unaCobranza, unIngreso);
+    }
 }

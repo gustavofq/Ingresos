@@ -253,5 +253,10 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.modificarCobranza(unaCobranza);
     }
     
+    public void borrarListado(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        unaCobranza.borrarIngreso(unIngreso);
+        this.persistencia.modificarCobranza(unaCobranza);
+    }
+    
    
 }

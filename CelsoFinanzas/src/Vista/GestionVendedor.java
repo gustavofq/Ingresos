@@ -4,7 +4,6 @@ import Logica.Cobrador;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -74,11 +73,9 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel4.setText("DNI");
 
         tfDni.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        tfDni.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                tfDniInputMethodTextChanged(evt);
+        tfDni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfDniKeyReleased(evt);
             }
         });
 
@@ -115,6 +112,11 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel6.setText("Comisión");
 
         tfPorcentaje.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tfPorcentaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfPorcentajeKeyReleased(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("%");
@@ -225,17 +227,17 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         if(this.cmbCobradores.getSelectedItem() != null){
-        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-        try {
-            this.unControladorVisual.borrarCobrador(unCobrador.getDni());
-            this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
-            this.unUtilitario.LimpiarCaja(jpCobrador);
-        } catch (NonexistentEntityException ex) {
+            Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+            try {
+                this.unControladorVisual.borrarCobrador(unCobrador.getDni());
+                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+                this.unUtilitario.LimpiarCaja(jpCobrador);
+            } catch (NonexistentEntityException ex) {
             Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ViolacionClaveForaneaException ex) {
+            } catch (ViolacionClaveForaneaException ex) {
             this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a este Cobrador.");
             JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
-        }
+            }
         }else{
             this.mensaje.setText("Debe seleccionar un Cobrador para borrar.");
             JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
@@ -244,9 +246,6 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(this.unUtilitario.campoCompleto(this.jpCobrador)){
-            if(this.unUtilitario.isNumeric(this.tfDni.getText())){
-            
-            }
             String nombre = this.tfNombre.getText();
             String alias = this.tfAlias.getText();
             String apellido = this.tfApellido.getText();
@@ -269,7 +268,6 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             unCobrador.setApellido(this.tfApellido.getText());
             unCobrador.setUnaComision(Integer.parseInt(this.tfPorcentaje.getText()));
             try {
-                
                 this.unControladorVisual.modificarCobrador(unCobrador);
                 this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
                 this.unUtilitario.LimpiarCaja(jpCobrador);
@@ -281,22 +279,16 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void tfDniInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tfDniInputMethodTextChanged
-          System.out.println("nueva palabra");
-        if(!this.unUtilitario.isNumeric(this.tfDni.getText())){
-            
-         }
-    }//GEN-LAST:event_tfDniInputMethodTextChanged
-    
-    public void keyTyped(KeyEvent e) 
+    private void tfDniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDniKeyReleased
+        this.unUtilitario.borrarLetra(tfDni);
+        this.unUtilitario.limitarLetra(8, tfDni);
+    }//GEN-LAST:event_tfDniKeyReleased
 
-    {
-        if (this.tfDni.getText().length() == 2){ 
+    private void tfPorcentajeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPorcentajeKeyReleased
+        this.unUtilitario.borrarLetra(tfPorcentaje);
+        this.unUtilitario.limitarLetra(2, tfPorcentaje);
+    }//GEN-LAST:event_tfPorcentajeKeyReleased
 
-         e.consume();
-        }
-    } 
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

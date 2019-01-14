@@ -2,14 +2,9 @@ package Vista;
 import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
-import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.eclipse.persistence.exceptions.DatabaseException;
-import org.postgresql.util.PSQLException;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();

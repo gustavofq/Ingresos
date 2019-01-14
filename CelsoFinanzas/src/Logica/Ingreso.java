@@ -2,7 +2,11 @@
 package Logica;
 
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -78,15 +82,15 @@ public class Ingreso implements Serializable {
     public void setFecha(Calendar fecha) {
         this.fecha = fecha;
     }
-/*
-    public Cobranza getUnaCobranza() {
-        return unaCobranza;
-    }
 
-    public void setUnaCobranza(Cobranza unaCobranza) {
-        this.unaCobranza = unaCobranza;
+    public String obtenerDate(){
+       Calendar cal = this.fecha;
+       Date dat = cal.getTime();
+       Format formatter = new SimpleDateFormat("dd/MM/yyyy");
+       String s = formatter.format(dat);
+       return s;
     }
-    */
+    
     @Override
     public String toString() {
         return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';
