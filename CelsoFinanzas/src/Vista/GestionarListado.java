@@ -71,11 +71,21 @@ public class GestionarListado extends javax.swing.JInternalFrame {
 
         tfListado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tfListado.setNextFocusableComponent(cmbCobradores);
+        tfListado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfListadoKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Año");
 
         tfanho.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tfanho.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfanhoKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setText("Mes");
@@ -248,6 +258,15 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "No se ha borrado debido a que existen Ingresos relacionados.");
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void tfanhoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfanhoKeyReleased
+        this.unUtilitario.limitarLetra(4, tfanho);
+        this.unUtilitario.borrarLetra(tfanho);
+    }//GEN-LAST:event_tfanhoKeyReleased
+
+    private void tfListadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfListadoKeyReleased
+        this.unUtilitario.borrarLetra(this.tfListado);
+    }//GEN-LAST:event_tfListadoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

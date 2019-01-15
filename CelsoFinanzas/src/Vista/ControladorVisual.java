@@ -94,4 +94,8 @@ public class ControladorVisual {
     public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         this.unCelsoFinanzas.borrarListado(unaCobranza, unIngreso);
     }
+    
+    public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{
+        this.unCelsoFinanzas.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
+    }
 }

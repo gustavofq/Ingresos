@@ -1,6 +1,7 @@
 
 package Vista;
 
+import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -118,6 +119,13 @@ public class Utilitario {
         int mes = cal.get(Calendar.MONTH);
         unMonthChooser.setMonth(mes);
     }
+    /**Establece la fecha actual.
+     * @param jdc JDateChooser el cual se establecerá la fecha actual.
+     */
+    public void cargarFechaActual(JDateChooser jdc){
+        Calendar cal = Calendar.getInstance();
+        jdc.setCalendar(cal);
+    }
     
     /**Limpia todos los valores contenidios en un Jtable.
      *@param tabla   Jtable el cual se limpiará.  
@@ -153,8 +161,14 @@ public class Utilitario {
     public String obtenerFecha(Calendar fecha){
        Calendar cal = fecha;
        Date dat = cal.getTime();
-       Format formatter = new SimpleDateFormat("dd/MM/yyyy");
-       String s = formatter.format(dat);
+       String s = "";
+       if(dat != null){
+           Format formatter = new SimpleDateFormat("dd/MM/yyyy");
+           s = formatter.format(dat);
+       }else{
+           s="-";
+       }
+       
        return s;
     }
     

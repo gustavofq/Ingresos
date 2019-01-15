@@ -179,6 +179,12 @@ public  class Cobranza implements Serializable {
         this.Ingresos.remove(unIngreso);
     }
     
+    public void modificarIngreso(Ingreso oldIngreso, Ingreso newIngreso){
+        System.out.println("tamaño de : " + this.Ingresos.size());
+        //this.Ingresos.set(this.Ingresos.indexOf(oldIngreso), newIngreso);
+        
+    }
+    
     @Override
     public String toString() {
         return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + '}';

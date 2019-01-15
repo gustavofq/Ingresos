@@ -32,7 +32,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         th.setFont(fuente);
         this.tblListado.setTableHeader(th);
         this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
-        
+        this.unUtilitario.cargarFechaActual(jdcFecha);
     }
 
     private void cargarTabla(){
@@ -64,7 +64,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         cmbMes = new com.toedter.calendar.JMonthChooser();
         cmbAreas = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jpIngresos = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         tfConcepto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -112,6 +112,11 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         jLabel1.setText("Año");
 
         tfyear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tfyear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfyearKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Mes");
@@ -174,7 +179,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingresos"));
+        jpIngresos.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingresos"));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Concepto");
@@ -185,14 +190,16 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         jLabel6.setText("Afiliado");
 
         tfAfiliado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tfAfiliado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfAfiliadoKeyReleased(evt);
+            }
+        });
 
         tblAfiliados.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         tblAfiliados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Fecha", "Concepto", "Afiliado", "Comision", "Neto"
@@ -239,33 +246,33 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
         jdcFecha.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jpIngresosLayout = new javax.swing.GroupLayout(jpIngresos);
+        jpIngresos.setLayout(jpIngresosLayout);
+        jpIngresosLayout.setHorizontalGroup(
+            jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpIngresosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpIngresosLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jpIngresosLayout.createSequentialGroup()
+                        .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpIngresosLayout.createSequentialGroup()
+                                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpIngresosLayout.createSequentialGroup()
                                         .addComponent(tfAfiliado, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(tfConcepto))
-                                .addGap(82, 82, 82))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(16, 16, 16))
+                            .addGroup(jpIngresosLayout.createSequentialGroup()
                                 .addGap(42, 42, 42)
                                 .addComponent(btnAgregar)
                                 .addGap(109, 109, 109)
@@ -274,16 +281,16 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                         .addComponent(btnBorrar)
                         .addGap(70, 70, 70))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jpIngresosLayout.setVerticalGroup(
+            jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpIngresosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(tfConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(tfAfiliado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7))
@@ -291,7 +298,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnEditar)
                     .addComponent(btnBorrar))
@@ -306,7 +313,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jpBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpIngresos, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pIngresoLayout.setVerticalGroup(
@@ -314,7 +321,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             .addGroup(pIngresoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pIngresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpIngresos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -343,22 +350,59 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblListadoMouseClicked
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
-        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
-        Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), this.jdcFecha.getCalendar());
-        try {
-            this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
-        } catch (Exception ex) {
-            Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        cargarTablaIngresos();
+        if(this.tblListado.getSelectedRow() != -1){
+            if(!this.unUtilitario.campoCompleto(pIngreso) && this.jdcFecha.getCalendar()!= null){
+                BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+                Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
+                Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+                Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), this.jdcFecha.getCalendar());
+                try {
+                    this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
+                } catch (Exception ex) {
+                    Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                }        
+                cargarTablaIngresos(); 
+            }else{
+                this.mensaje.setText("Verifique que esten todos los datos.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+             this.mensaje.setText("Debe seleccionar una Cobranza.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-
+        if(this.unUtilitario.campoCompleto(this.jpIngresos)&&this.jdcFecha.getCalendar()!= null){
+            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+            Ingreso oldIngreso;
+            Ingreso newIngreso = obtenerIngresoSeleccionado();
+            oldIngreso = newIngreso;
+            newIngreso.setAfiliado(Double.parseDouble(this.tfAfiliado.getText()));
+            newIngreso.setConcepto(this.tfConcepto.getText());
+            newIngreso.setFecha(this.jdcFecha.getCalendar());
+            try {
+                this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
+                this.cargarJtableAfiliado();
+            } catch (Exception ex) {
+                Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private Cobranza obtenerCobranzaSeleccionada(){
+        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+        return unaCobranza;
+    }
+    
+    private Ingreso obtenerIngresoSeleccionado(){
+        IngresoModelTable modelIngreso = new IngresoModelTable(this.obtenerCobranzaSeleccionada().getIngresos());
+        Ingreso unIngreso = (Ingreso)modelIngreso.getUserAt(this.tblAfiliados.getSelectedRow());
+        return unIngreso;    
+    }
+    
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         this.mensaje.setText("Esta seguro de que desea borrar?");
         if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Borrando", JOptionPane.YES_NO_OPTION) == 0) {
@@ -378,10 +422,10 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void cargarJtableAfiliado(){
-        BuscarListadoModelTable modelListado2 = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza2 = modelListado2.getUserAt(this.tblListado.getSelectedRow());
-        IngresoModelTable modelIngreso2 = new IngresoModelTable(unaCobranza2.getIngresos());
-        this.tblAfiliados.setModel(modelIngreso2);
+        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+        IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza.getIngresos());
+        this.tblAfiliados.setModel(modelIngreso);
     }
     
     private void tblAfiliadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAfiliadosMouseClicked
@@ -392,14 +436,23 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             Ingreso unIngreso = modelIngreso.getUserAt(this.tblAfiliados.getSelectedRow());
             this.tfConcepto.setText(unIngreso.getConcepto());
             this.tfAfiliado.setText(String.valueOf(unIngreso.getAfiliado()));
+            this.jdcFecha.setCalendar(unIngreso.getFecha());
         }
     }//GEN-LAST:event_tblAfiliadosMouseClicked
 
     private void tblAfiliadosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblAfiliadosFocusLost
-        // TODO add your handling code here:
-        this.tfConcepto.setText("");
+        /*this.tfConcepto.setText("");
         this.tfAfiliado.setText("");
+        this.unUtilitario.cargarFechaActual(jdcFecha);*/
     }//GEN-LAST:event_tblAfiliadosFocusLost
+
+    private void tfyearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfyearKeyReleased
+        this.unUtilitario.borrarLetra(tfyear);
+    }//GEN-LAST:event_tfyearKeyReleased
+
+    private void tfAfiliadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAfiliadoKeyReleased
+        this.unUtilitario.borrarLetra(tfAfiliado);
+    }//GEN-LAST:event_tfAfiliadoKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -415,11 +468,11 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JPanel jpBuscar;
+    private javax.swing.JPanel jpIngresos;
     private javax.swing.JPanel pIngreso;
     private javax.swing.JTable tblAfiliados;
     private javax.swing.JTable tblListado;
