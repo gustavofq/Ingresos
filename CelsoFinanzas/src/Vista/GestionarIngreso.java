@@ -351,7 +351,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(this.tblListado.getSelectedRow() != -1){
-            if(!this.unUtilitario.campoCompleto(pIngreso) && this.jdcFecha.getCalendar()!= null){
+            if(this.unUtilitario.campoCompleto(this.jpIngresos) && this.jdcFecha.getCalendar()!= null){
                 BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
                 Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
                 Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
@@ -375,22 +375,30 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(this.unUtilitario.campoCompleto(this.jpIngresos)&&this.jdcFecha.getCalendar()!= null){
-            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
-            Ingreso oldIngreso;
-            Ingreso newIngreso = obtenerIngresoSeleccionado();
-            oldIngreso = newIngreso;
-            newIngreso.setAfiliado(Double.parseDouble(this.tfAfiliado.getText()));
-            newIngreso.setConcepto(this.tfConcepto.getText());
-            newIngreso.setFecha(this.jdcFecha.getCalendar());
-            try {
-                this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
-                this.cargarJtableAfiliado();
-            } catch (Exception ex) {
-                Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            this.mensaje.setText("Esta seguro de que desea modificar?");
+            if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Modificar Datos", JOptionPane.YES_NO_OPTION) == 0){
+               Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+                Ingreso oldIngreso;
+                Ingreso newIngreso = obtenerIngresoSeleccionado();
+                oldIngreso = newIngreso;
+                newIngreso.setAfiliado(Double.parseDouble(this.tfAfiliado.getText()));
+                newIngreso.setConcepto(this.tfConcepto.getText());
+                newIngreso.setFecha(this.jdcFecha.getCalendar());
+                try {
+                    this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
+                    this.cargarJtableAfiliado();
+                } catch (Exception ex) {
+                    Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        }else{
+            this.mensaje.setText("Verifique que esten todos los datos.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    
+    
     private Cobranza obtenerCobranzaSeleccionada(){
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
@@ -440,6 +448,12 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblAfiliadosMouseClicked
 
+    private void controlarConcepto(){
+        if(this.tfConcepto.getText().length() == 0){
+            this.tfConcepto.setText("-");
+        }
+    }
+    
     private void tblAfiliadosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblAfiliadosFocusLost
         /*this.tfConcepto.setText("");
         this.tfAfiliado.setText("");

@@ -4,6 +4,7 @@ import Logica.Cobrador;
 import Logica.Cobranza;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
@@ -106,6 +107,11 @@ public class GestionarListado extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnBorrar.setText("Borrar");
@@ -138,6 +144,11 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                 "Listado", "Cobrado", "Comisión", "Neto"
             }
         ));
+        tblListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblListadoMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblListado);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -268,6 +279,31 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         this.unUtilitario.borrarLetra(this.tfListado);
     }//GEN-LAST:event_tfListadoKeyReleased
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tblListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListadoMouseClicked
+        Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+        posicionarComboCobrador(unaCobranza);
+        this.cmbCartera.setSelectedItem(unaCobranza.getUnArea());
+        this.tfanho.setText(String.valueOf(unaCobranza.getYear()));
+        this.tfListado.setText(String.valueOf(unaCobranza.getListado()));
+        
+        //falta terminar.
+    }//GEN-LAST:event_tblListadoMouseClicked
+
+    private void posicionarComboCobrador(Cobranza unaCobranza){
+        
+        System.out.println(this.cmbCobradores.getSelectedItem().equals(unaCobranza.getUnCobrador()));
+        this.cmbCobradores.setSelectedItem(unaCobranza.getUnCobrador());
+    }
+    
+    private Cobranza obtenerCobranzaSeleccionada(){
+        ListadoModelTable model = new ListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+        Cobranza unaCobranza = (Cobranza) model.getUserAt(this.tblListado.getSelectedRow());
+        return unaCobranza;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

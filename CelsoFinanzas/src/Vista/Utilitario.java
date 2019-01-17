@@ -89,7 +89,7 @@ public class Utilitario {
         while((i  < panel.getComponents().length)&&(completo)){
             if(panel.getComponents()[i] instanceof JTextField){
                 String texto = ((JTextField) panel.getComponents()[i]).getText();
-                if(texto.length() == 0){
+                if(texto.equals("")){
                     completo = false;
                 }
             }
