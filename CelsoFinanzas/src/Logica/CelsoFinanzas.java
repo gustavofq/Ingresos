@@ -194,6 +194,10 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.agregarCobranza(unaCobranza);
     }
     
+    public void modificarCobranza(Cobranza unaCobranza) throws Exception{
+        this.persistencia.modificarCobranza(unaCobranza);
+    }
+    
     public void borrarCobranza(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
         if(this.persistencia.obtenerUnaCobranza(id).getIngresos().isEmpty()){
             this.persistencia.borrarCobranza(id);
@@ -253,9 +257,8 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.modificarCobranza(unaCobranza);
     }
     
-    public void borrarListado(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+    public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         unaCobranza.borrarIngreso(unIngreso);
-        
         this.persistencia.modificarCobranza(unaCobranza);
     }
     

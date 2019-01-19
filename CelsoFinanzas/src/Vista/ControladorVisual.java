@@ -68,6 +68,10 @@ public class ControladorVisual {
         this.unCelsoFinanzas.agregarCobranza(listado, mes, year, unCobrador,unArea);
     }
     
+    public void modificarCobranza(Cobranza unaCobranza) throws Exception{
+        this.unCelsoFinanzas.modificarCobranza(unaCobranza);
+    } 
+    
     public void borrarCobranza(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
         this.unCelsoFinanzas.borrarCobranza(id);
     }
@@ -92,7 +96,7 @@ public class ControladorVisual {
     }
     
     public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
-        this.unCelsoFinanzas.borrarListado(unaCobranza, unIngreso);
+        this.unCelsoFinanzas.borrarIngreso(unaCobranza, unIngreso);
     }
     
     public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{

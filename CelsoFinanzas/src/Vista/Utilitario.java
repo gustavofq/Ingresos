@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -97,6 +99,20 @@ public class Utilitario {
                 if(((JPasswordField)panel.getComponents()[i]).getPassword().equals(" "));
                     completo = false;
                 }
+            i++;
+        }
+        return completo;
+    }
+     
+    public boolean comboBoxCompleto(JPanel panel){
+        boolean completo = true;
+        int i = 0;
+        while((i  < panel.getComponents().length)&&(completo)){
+            if(panel.getComponents()[i] instanceof JComboBox){
+                if(((JComboBox) panel.getComponents()[i]).getSelectedIndex() == -1){
+                    completo = false;
+                }
+            }
             i++;
         }
         return completo;
@@ -196,6 +212,18 @@ public class Utilitario {
                 String cadena2 = cadena.substring(0, cantidad);
                 text.setText(cadena2);
             }
+        }
+    }
+    
+    public void posicionarCombo(JComboBox combo, Object object){
+        int i = combo.getItemCount() -1;
+        boolean listo = false;
+        while((i>=0)&&(listo == false)){
+            if(combo.getItemAt(i).toString().equals(object.toString())){
+                combo.setSelectedIndex(i);
+                listo = true;
+            }
+            i--;
         }
     }
 }

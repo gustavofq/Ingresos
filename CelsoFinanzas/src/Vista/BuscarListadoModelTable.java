@@ -48,7 +48,6 @@ public class BuscarListadoModelTable extends AbstractTableModel{
                 }else{
                     value = unaCobranza.getUnArea().getNombre();
                 }
-                
                 break;
             case 3:
                 value = unaCobranza.getUnCobrador();
