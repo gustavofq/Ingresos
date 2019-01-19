@@ -144,17 +144,20 @@ public class GestionarArea extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(this.cmbAreas.getSelectedIndex() != -1){
             if(this.tfNombre.getText().length() > 0){
-                Area unArea = (Area) this.cmbAreas.getSelectedItem();
-                unArea.setNombre(this.tfNombre.getText());
-                try {
-                    this.unControladorVisual.modificarArea(unArea);
-                    this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
-                    this.unUtilitario.LimpiarCaja(plGestionArea);
-                    this.mensaje.setText("Se editó exitosamente.");
-                    JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception ex) {
-                    this.mensaje.setText("Actualmente existe una cartera con el nombre " + unArea.getNombre());
-                    JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+                this.mensaje.setText("Estas seguro de que desea modificar esta cartera?");
+                if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Modificar Cartera.", JOptionPane.YES_NO_OPTION) == 0){
+                    Area unArea = (Area) this.cmbAreas.getSelectedItem();
+                    unArea.setNombre(this.tfNombre.getText());
+                    try {
+                        this.unControladorVisual.modificarArea(unArea);
+                        this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
+                        this.unUtilitario.LimpiarCaja(plGestionArea);
+                        this.mensaje.setText("Se editó exitosamente.");
+                        JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE);
+                    }catch (Exception ex) {
+                        this.mensaje.setText("Actualmente existe una cartera con el nombre " + unArea.getNombre());
+                        JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             }else{
                 this.mensaje.setText("Debe completar los datos");
@@ -187,20 +190,28 @@ public class GestionarArea extends javax.swing.JInternalFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         if(this.cmbAreas.getSelectedIndex() != -1){
-            Area unArea = (Area) this.cmbAreas.getSelectedItem();
-            try {
-                this.unControladorVisual.borrarArea(unArea.getId());
+            this.mensaje.setText("Estas seguro de que desea eliminar esta cartera?");
+            if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Borrar Cartera.", JOptionPane.YES_NO_OPTION) == 0){
+                Area unArea = (Area) this.cmbAreas.getSelectedItem();
+                try {
+                    this.unControladorVisual.borrarArea(unArea.getId());
+                    this.unUtilitario.LimpiarCaja(plGestionArea);
+                    this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
+                    this.mensaje.setText("Se ha borrado satisfactoriamente");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                    
+                }catch (NonexistentEntityException ex) {
+                    Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
+                }catch (ViolacionClaveForaneaException ex) {
+                    this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+                }
                 this.unUtilitario.LimpiarCaja(plGestionArea);
-                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ViolacionClaveForaneaException ex) {
-                this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
-                JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+                this.cmbAreas.setSelectedIndex(-1);
             }
         }else{
             this.mensaje.setText("Debe seleccionar una cartera para eliminar.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"Modificar Cartera.",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,this.mensaje,"Eliminar Cartera.",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
