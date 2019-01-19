@@ -3,6 +3,7 @@ package Vista;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
+import java.awt.Color;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -103,7 +104,7 @@ public class Utilitario {
         }
         return completo;
     }
-     
+    
     public boolean comboBoxCompleto(JPanel panel){
         boolean completo = true;
         int i = 0;
@@ -225,6 +226,23 @@ public class Utilitario {
             }
             i--;
         }
+    }
+    
+    public void marcarCamposVacios(JPanel panel){
+        int i = 0;
+        while((i  < panel.getComponents().length)){
+            if(panel.getComponents()[i] instanceof JTextField){
+                String texto = ((JTextField) panel.getComponents()[i]).getText();
+                if(texto.equals("")){
+                    ((JTextField) panel.getComponents()[i]).setBackground(Color.getHSBColor(249, 114, 85));
+                }
+            }
+            i++;
+        }
+    }
+    
+    public void desmarcarCamposVacios(JTextField texto){
+        texto.setBackground(Color.white);
     }
 }
 

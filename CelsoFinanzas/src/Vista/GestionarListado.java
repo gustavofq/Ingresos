@@ -4,16 +4,21 @@ import Logica.Cobrador;
 import Logica.Cobranza;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
+    Font fuente = new Font("Dialog", Font.BOLD, 18);
+    JLabel mensaje = new JLabel("mensaje");
     
     public  GestionarListado() {
         initComponents();
+        this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbCartera);
         this.unUtilitario.cargarAnhoActual(this.tfanho);
@@ -255,22 +260,31 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         Area unArea = (Area) this.cmbCartera.getSelectedItem();
         this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
         this.cargarTabla();
+        this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
+        JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        ListadoModelTable unListadoModelTable = new ListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza = unListadoModelTable.getUserAt(this.tblListado.getSelectedRow());
-        try {
-            if(JOptionPane.showConfirmDialog(rootPane, "Realmente quiere eliminar el listado?", "Borrar Listado ", JOptionPane.YES_NO_OPTION) == 0){
-                this.unControladorVisual.borrarCobranza(unaCobranza.getId());
-                JOptionPane.showMessageDialog(rootPane, "Se ha borrado exitosamente.");
-                this.cargarTabla();
-            } 
-        } catch (NonexistentEntityException ex) {
-            JOptionPane.showMessageDialog(rootPane, "No se Existe tal Listado");
-        } catch(ViolacionClaveForaneaException ex){
-            JOptionPane.showMessageDialog(rootPane, "No se ha borrado debido a que existen Ingresos relacionados.");
+        if(this.tblListado.getSelectedRow() != -1){
+            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+            try {
+                this.mensaje.setText("Realmente quiere eliminar el listado?");
+                if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Borrar Listado ", JOptionPane.YES_NO_OPTION) == 0){
+                    this.unControladorVisual.borrarCobranza(unaCobranza.getId());
+                    JOptionPane.showMessageDialog(rootPane, "Se ha borrado exitosamente.");
+                    this.cargarTabla();
+                } 
+            } catch (NonexistentEntityException ex) {
+                JOptionPane.showMessageDialog(rootPane, "No se Existe tal Listado");
+            } catch(ViolacionClaveForaneaException ex){
+                this.mensaje.setText("No se puede borrar porque existen Ingresos relacionados a este listado.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Denegado",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+            this.mensaje.setText("Debe seleccionar un Listado para borrar.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Borrar Listado",JOptionPane.INFORMATION_MESSAGE);
         }
+        
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void tfanhoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfanhoKeyReleased
@@ -297,7 +311,8 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             }
             this.cargarTabla();
         }else{
-            JOptionPane.showMessageDialog(rootPane, "Faltan datos");
+            this.mensaje.setText("Debe ingresar todos los datos requeridos.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos.",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -313,7 +328,14 @@ public class GestionarListado extends javax.swing.JInternalFrame {
     
     private Cobranza obtenerCobranzaSeleccionada(){
         ListadoModelTable model = new ListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza = (Cobranza) model.getUserAt(this.tblListado.getSelectedRow());
+        Cobranza unaCobranza = new Cobranza();
+        try {
+            unaCobranza = (Cobranza) model.getUserAt(this.tblListado.getSelectedRow());
+        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            System.out.println("debe seleccionar un listado");
+        }
+        
+        
         return unaCobranza;
     }
 

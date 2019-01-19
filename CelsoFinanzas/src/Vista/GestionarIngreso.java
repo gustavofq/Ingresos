@@ -106,11 +106,6 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 "Fecha", "Concepto", "Afiliado", "Comision", "Neto"
             }
         ));
-        tblAfiliados.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tblAfiliadosFocusLost(evt);
-            }
-        });
         tblAfiliados.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblAfiliadosMouseClicked(evt);
@@ -399,9 +394,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    
-    
+   
     private Cobranza obtenerCobranzaSeleccionada(){
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
@@ -450,18 +443,6 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             this.jdcFecha.setCalendar(unIngreso.getFecha());
         }
     }//GEN-LAST:event_tblAfiliadosMouseClicked
-
-    private void controlarConcepto(){
-        if(this.tfConcepto.getText().length() == 0){
-            this.tfConcepto.setText("-");
-        }
-    }
-    
-    private void tblAfiliadosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblAfiliadosFocusLost
-        /*this.tfConcepto.setText("");
-        this.tfAfiliado.setText("");
-        this.unUtilitario.cargarFechaActual(jdcFecha);*/
-    }//GEN-LAST:event_tblAfiliadosFocusLost
 
     private void tfyearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfyearKeyReleased
         this.unUtilitario.borrarLetra(tfyear);

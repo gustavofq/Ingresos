@@ -13,13 +13,17 @@ import javax.swing.JOptionPane;
 public class GestionarArea extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
+    Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
+    
     
     public GestionarArea() {
         initComponents();
         this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
         this.unUtilitario.LimpiarCaja(plGestionArea);
+        this.cmbAreas.setSelectedIndex(-1);
+        mensaje.setFont(fuente);
     }
 
     @SuppressWarnings("unchecked")
@@ -138,7 +142,7 @@ public class GestionarArea extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        if(this.cmbAreas.getSelectedItem() != null){
+        if(this.cmbAreas.getSelectedIndex() != -1){
             if(this.tfNombre.getText().length() > 0){
                 Area unArea = (Area) this.cmbAreas.getSelectedItem();
                 unArea.setNombre(this.tfNombre.getText());
@@ -146,36 +150,57 @@ public class GestionarArea extends javax.swing.JInternalFrame {
                     this.unControladorVisual.modificarArea(unArea);
                     this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
                     this.unUtilitario.LimpiarCaja(plGestionArea);
+                    this.mensaje.setText("Se editó exitosamente.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     this.mensaje.setText("Actualmente existe una cartera con el nombre " + unArea.getNombre());
                     JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
                 }
+            }else{
+                this.mensaje.setText("Debe completar los datos");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.WARNING_MESSAGE);
             }
+        }else{
+            this.mensaje.setText("Debe completar los campos coloreados.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        try {
-            this.unControladorVisual.agregarArea(this.tfNombre.getText());
-            this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
-            this.unUtilitario.LimpiarCaja(plGestionArea);
-        } catch (PreexistingEntityException ex) {
-            this.mensaje.setText("Actualmente existe una cartera con el nombre "+ this.tfNombre.getText());
-            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+        if(this.unUtilitario.campoCompleto(plGestionArea)){
+            try {
+                this.unControladorVisual.agregarArea(this.tfNombre.getText());
+                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
+                this.unUtilitario.LimpiarCaja(plGestionArea);
+                this.mensaje.setText("Se agregó existosamente.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Existo!",JOptionPane.WARNING_MESSAGE);
+            } catch (PreexistingEntityException ex) {
+                this.mensaje.setText("Actualmente existe una cartera con el nombre "+ this.tfNombre.getText());
+                JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+            this.mensaje.setText("Debe completar los campos coloreados.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
         }
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Area unArea = (Area) this.cmbAreas.getSelectedItem();
-        try {
-            this.unControladorVisual.borrarArea(unArea.getId());
-            this.unUtilitario.LimpiarCaja(plGestionArea);
-            this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ViolacionClaveForaneaException ex) {
-            this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+        if(this.cmbAreas.getSelectedIndex() != -1){
+            Area unArea = (Area) this.cmbAreas.getSelectedItem();
+            try {
+                this.unControladorVisual.borrarArea(unArea.getId());
+                this.unUtilitario.LimpiarCaja(plGestionArea);
+                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ViolacionClaveForaneaException ex) {
+                this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a esta cartera.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            this.mensaje.setText("Debe seleccionar una cartera para eliminar.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Modificar Cartera.",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 

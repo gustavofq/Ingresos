@@ -199,10 +199,14 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public void borrarCobranza(int id) throws NonexistentEntityException, ViolacionClaveForaneaException{
-        if(this.persistencia.obtenerUnaCobranza(id).getIngresos().isEmpty()){
-            this.persistencia.borrarCobranza(id);
+        if(id != -1 ){
+            if(this.persistencia.obtenerUnaCobranza(id).getIngresos().isEmpty()){
+                this.persistencia.borrarCobranza(id);
+            }else{
+                throw new ViolacionClaveForaneaException(); 
+            }
         }else{
-            throw new ViolacionClaveForaneaException(); 
+            throw new NonexistentEntityException("No existe tal cobranza");
         }
     }
 

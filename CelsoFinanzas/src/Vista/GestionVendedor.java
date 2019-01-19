@@ -13,12 +13,15 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
     JLabel mensaje = new JLabel("mensaje");
+    Font fuente = new Font("Dialog", Font.BOLD, 18);
+    
     
     public GestionVendedor() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
         this.unUtilitario.LimpiarCaja(jpCobrador);
         this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
+        this.cmbCobradores.setSelectedIndex(-1);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,6 +66,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
         jLabel2.setText("Nombre");
 
         tfNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tfNombre.setCaretColor(new java.awt.Color(0, 0, 204));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setText("Apellido");
@@ -256,7 +260,9 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
             this.unUtilitario.LimpiarCaja(jpCobrador);
         }else{
-            JOptionPane.showMessageDialog(rootPane, "faltan datos");
+            //this.unUtilitario.marcarCamposVacios(jpCobrador);
+            this.mensaje.setText("Debe completar los campos coloreados.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Borrar Listado",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -275,7 +281,8 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                 Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(rootPane, "faltan datos");
+            this.mensaje.setText("Debe ingresa datos en los campos coloreados.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
