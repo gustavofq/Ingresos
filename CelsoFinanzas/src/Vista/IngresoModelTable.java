@@ -16,7 +16,7 @@ public class IngresoModelTable extends AbstractTableModel{
     private Cobranza unCobranza;
     private String[] columnas = {"Fecha","Concepto","Afiliado", "Comisión" ,"Neto"};
     private Utilitario unUtilitario = new Utilitario();
-    
+    @Deprecated 
     public IngresoModelTable(List<Ingreso> ingresos){
         this.ingresos = new ArrayList<>(ingresos);
     }
@@ -75,14 +75,11 @@ public class IngresoModelTable extends AbstractTableModel{
     }
     
     private Double calcularComision(Ingreso unIngreso){
-        System.out.println(unIngreso.getAfiliado());
-        System.out.println(this.unCobranza.getUnCobrador().toString());
+        System.out.println(unIngreso.toString());
         return (this.unCobranza.getUnCobrador().getUnaComision() * unIngreso.getAfiliado())/100 ;
     }
-    
     
     private Double calcularNeto(Ingreso unIngreso){
         return  unIngreso.getAfiliado() - this.calcularComision(unIngreso);
     }
-    
 }

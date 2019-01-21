@@ -180,9 +180,7 @@ public  class Cobranza implements Serializable {
     }
     
     public void modificarIngreso(Ingreso oldIngreso, Ingreso newIngreso){
-        System.out.println("tamaño de : " + this.Ingresos.size());
-        //this.Ingresos.set(this.Ingresos.indexOf(oldIngreso), newIngreso);
-        
+
     }
     
     @Override

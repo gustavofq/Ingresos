@@ -137,11 +137,13 @@ public class CelsoFinanzas implements Serializable {
     }
     //fin abm Area
     //inicio Abm cobrador
-    public void agregarCobrador(String nombre, String alias, String apellido ,long dni, int comisionC){
-        if(dni > 0){//controlar el rango de valor tambien 
+    public void agregarCobrador(String nombre, String alias, String apellido ,long dni, int comisionC) throws PreexistingEntityException{
+        if(!this.existeCobrador(dni)){//controlar el rango de valor tambien 
             Cobrador unCobrador = new Cobrador(nombre, alias, apellido ,dni, comisionC );
             this.cobradores.add(unCobrador);
             this.persistencia.agregarUnCobrador(unCobrador);
+        }else{
+            throw new PreexistingEntityException(alias);
         }    
     }
     
@@ -187,6 +189,20 @@ public class CelsoFinanzas implements Serializable {
     public List<Cobrador> obtenerCobradores(){
         return this.persistencia.obtenerCobradores();
     }
+    
+    public boolean existeCobrador(long dni){
+        Iterator it = this.persistencia.obtenerCobradores().iterator();
+        Cobrador unCobrador = new Cobrador();
+        boolean existe = false;
+        while((it.hasNext()) && (existe==false)){
+            unCobrador = (Cobrador) it.next();
+            if(unCobrador.getDni() == dni){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    
     //fin abm cobrador
     //inicio abm cobranza
     public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){

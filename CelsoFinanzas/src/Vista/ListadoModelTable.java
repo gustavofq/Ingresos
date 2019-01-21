@@ -3,16 +3,17 @@ package Vista;
 import Logica.Cobranza;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.Cell;
 import javax.swing.table.AbstractTableModel;
 
 public class ListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
     ControladorVisual unControladorVisual = new ControladorVisual();
     private String[] columnas= {"Año","Mes","Cartera","Cobrador","Listado","Cobrado","Comisión","Neto"};
+    
     public ListadoModelTable(List<Cobranza> cobranzas){
         this.cobranzas = new ArrayList<>(cobranzas);
     }
+    
     @Override
     public int getRowCount() {
         return this.cobranzas.size();

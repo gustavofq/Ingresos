@@ -26,6 +26,7 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         this.cmbCobradores.setSelectedIndex(-1);
         this.cmbCartera.setSelectedIndex(-1);
         this.cargarTabla();
+        mensaje.setFont(fuente);
     }
 
     private void cargarTabla(){
@@ -252,16 +253,22 @@ public class GestionarListado extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        int year = Integer.parseInt(this.tfanho.getText());
-        int mes =this.cmbMoth.getMonth();
-        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-        long dni = unCobrador.getDni();
-        Double listado = Double.parseDouble(this.tfListado.getText());
-        Area unArea = (Area) this.cmbCartera.getSelectedItem();
-        this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
-        this.cargarTabla();
-        this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
-        JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE);
+        if(this.unUtilitario.comboBoxCompleto(jpListado) && this.unUtilitario.campoCompleto(jpListado) ){
+            int year = Integer.parseInt(this.tfanho.getText());
+            int mes =this.cmbMoth.getMonth();
+            Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+            long dni = unCobrador.getDni();
+            Double listado = Double.parseDouble(this.tfListado.getText());
+            Area unArea = (Area) this.cmbCartera.getSelectedItem();
+            this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
+            this.cargarTabla();
+            this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE); 
+        }else{
+            this.mensaje.setText("Debe completar los campos coloreados y seleccionar cobrador y area correspondientes.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.INFORMATION_MESSAGE); 
+        }
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -271,7 +278,8 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                 this.mensaje.setText("Realmente quiere eliminar el listado?");
                 if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Borrar Listado ", JOptionPane.YES_NO_OPTION) == 0){
                     this.unControladorVisual.borrarCobranza(unaCobranza.getId());
-                    JOptionPane.showMessageDialog(rootPane, "Se ha borrado exitosamente.");
+                    this.mensaje.setText("Se ha borrado el listado exitosamente.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
                     this.cargarTabla();
                 } 
             } catch (NonexistentEntityException ex) {
@@ -284,7 +292,6 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             this.mensaje.setText("Debe seleccionar un Listado para borrar.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Borrar Listado",JOptionPane.INFORMATION_MESSAGE);
         }
-        
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void tfanhoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfanhoKeyReleased
@@ -306,6 +313,8 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             unaCobranza.setUnCobrador((Cobrador)this.cmbCobradores.getSelectedItem());
             try {
                 this.unControladorVisual.modificarCobranza(unaCobranza);
+                 this.mensaje.setText("Se modifico exitosamente.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Éxito.",JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 Logger.getLogger(GestionarListado.class.getName()).log(Level.SEVERE, null, ex);
             }

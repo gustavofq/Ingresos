@@ -47,7 +47,7 @@ public class ControladorVisual {
     
     //fin abm areas
     //abm cobrador 
-    public void agregarCobrador(String nombre, String alias, String apellido, long dni, int comision){
+    public void agregarCobrador(String nombre, String alias, String apellido, long dni, int comision) throws PreexistingEntityException{
         this.unCelsoFinanzas.agregarCobrador(nombre, alias, apellido, dni, comision);
     }
     

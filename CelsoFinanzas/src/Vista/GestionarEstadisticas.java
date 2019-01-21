@@ -80,11 +80,11 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         jpGraficos.setLayout(jpGraficosLayout);
         jpGraficosLayout.setHorizontalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1086, Short.MAX_VALUE)
+            .addGap(0, 987, Short.MAX_VALUE)
         );
         jpGraficosLayout.setVerticalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 615, Short.MAX_VALUE)
         );
 
         btnGraficar.setText("Graficar");
@@ -118,8 +118,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                         .addComponent(cmbArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpTodoLayout.setVerticalGroup(
             jpTodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,10 +138,10 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                     .addComponent(cmbArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnGraficar)
-                .addContainerGap(489, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jpTodoLayout.createSequentialGroup()
-                .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,8 +167,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         Cobrador unCobrador = (Cobrador) this.cmbCobrador.getSelectedItem();
         Area unArea = (Area) this.cmbArea.getSelectedItem();
         
-        //this.generarGrafica(unCobrador, Integer.parseInt(tfYear.getText()) , unArea);
-        this.generarGrafica(unArea,  Integer.parseInt(tfYear.getText()) );
+        this.generarGrafica(unCobrador, Integer.parseInt(tfYear.getText()) , unArea);
+        //this.generarGrafica(unArea,  Integer.parseInt(tfYear.getText()) );
     }//GEN-LAST:event_btnGraficarActionPerformed
 
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
@@ -205,7 +205,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 1095, 645);
+        panel.setBounds(0, 0, 1000, 600);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);

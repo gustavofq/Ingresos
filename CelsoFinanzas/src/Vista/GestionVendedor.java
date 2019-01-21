@@ -2,6 +2,7 @@ package Vista;
 
 import Logica.Cobrador;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
 import java.util.logging.Level;
@@ -236,11 +237,14 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
                 this.unControladorVisual.borrarCobrador(unCobrador.getDni());
                 this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
                 this.unUtilitario.LimpiarCaja(jpCobrador);
+                this.mensaje.setText("Se ha agregado satisfactoriamente!");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                this.cmbCobradores.setSelectedIndex(-1);
             } catch (NonexistentEntityException ex) {
-            Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GestionVendedor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ViolacionClaveForaneaException ex) {
-            this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a este Cobrador.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
+                this.mensaje.setText("No se puede borrar debido a que existen cobranzas relacionadas a este Cobrador.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.WARNING_MESSAGE);
             }
         }else{
             this.mensaje.setText("Debe seleccionar un Cobrador para borrar.");
@@ -255,12 +259,21 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
             String apellido = this.tfApellido.getText();
             int comision = Integer.parseInt(this.tfPorcentaje.getText());
             long dni= Long.parseLong(this.tfDni.getText());
-            this.unControladorVisual.agregarCobrador(nombre, alias, apellido, dni, comision);
-            this.cmbCobradores.removeAll();
-            this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
-            this.unUtilitario.LimpiarCaja(jpCobrador);
+            try {
+                this.unControladorVisual.agregarCobrador(nombre, alias, apellido, dni, comision);
+                this.cmbCobradores.removeAll();
+                this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
+                this.unUtilitario.LimpiarCaja(jpCobrador);
+                this.mensaje.setText("Se ha agregado satisfactoriamente!");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                this.cmbCobradores.setSelectedIndex(-1);
+            } catch (PreexistingEntityException ex) {
+                this.mensaje.setText("Ya existe un Cobrador con este DNI.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"ERROR!",JOptionPane.ERROR_MESSAGE);
+                this.unUtilitario.LimpiarCaja(jpCobrador);
+                this.cmbCobradores.setSelectedIndex(-1);
+            }
         }else{
-            //this.unUtilitario.marcarCamposVacios(jpCobrador);
             this.mensaje.setText("Debe completar los campos coloreados.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Borrar Listado",JOptionPane.INFORMATION_MESSAGE);
         }
