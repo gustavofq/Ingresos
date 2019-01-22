@@ -42,6 +42,11 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         this.tblAfiliados.setModel(model);
     }
     
+    public void cargarTablaListado(){
+        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
+        this.tblListado.setModel(modelListado);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -351,7 +356,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }        
-                cargarTablaIngresos(); 
+                this.cargarTablaIngresos();
+                //this.cargarTablaListado();
             }else{
                 this.mensaje.setText("Verifique que esten todos los datos.");
                 JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
@@ -376,7 +382,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     newIngreso.setFecha(this.jdcFecha.getCalendar());
                     try {
                         this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
-                        this.cargarJtableAfiliado();
+                        //this.cargarJtableAfiliado();
+                        cargarTablaIngresos();
                     } catch (Exception ex) {
                         Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -389,7 +396,6 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             this.mensaje.setText("Seleccione un ingreso para modificar");
         JOptionPane.showMessageDialog(null,this.mensaje,"Editar Ingresos.",JOptionPane.INFORMATION_MESSAGE); 
         }
-        
     }//GEN-LAST:event_btnEditarActionPerformed
    
     private Cobranza obtenerCobranzaSeleccionada(){
@@ -416,8 +422,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 Ingreso unIngreso = (Ingreso)modelIngreso.getUserAt(this.tblAfiliados.getSelectedRow());
                 try {
                     this.unControladorVisual.borrarIngreso(unaCobranza, unIngreso);
-                    
-                    cargarJtableAfiliado();
+                    cargarTablaIngresos();
+                    //cargarJtableAfiliado();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -428,12 +434,12 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
-    private void cargarJtableAfiliado(){
+    /*private void cargarJtableAfiliado(){
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
         IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza);
         this.tblAfiliados.setModel(modelIngreso);
-    }
+    }*/
     
     private void tblAfiliadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAfiliadosMouseClicked
         if(this.tblListado.getSelectedRow() != -1){

@@ -220,7 +220,7 @@ public class GestionVendedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
-        if(this.cmbCobradores.getSelectedItem() != null){
+        if(this.cmbCobradores.getSelectedIndex() != -1){
             Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
             this.tfApellido.setText(unCobrador.getApellido());
             this.tfNombre.setText(unCobrador.getNombre());

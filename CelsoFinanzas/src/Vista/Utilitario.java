@@ -4,14 +4,13 @@ package Vista;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import java.awt.Color;
+import java.text.DateFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -120,7 +119,7 @@ public class Utilitario {
     }
      
     /**Establece el año actual en un JTextField. 
-     *@param unCampo JTextField en el cual se establecerá el año actual.
+     *@param unCampo <code>JTextField</code> en el cual se establecerá el año actual.
      */
     public void cargarAnhoActual(JTextField unCampo){
         Calendar cal= Calendar.getInstance();
@@ -244,5 +243,10 @@ public class Utilitario {
     public void desmarcarCamposVacios(JTextField texto){
         texto.setBackground(Color.white);
     }
+    
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
+    }
+    
 }
 

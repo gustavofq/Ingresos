@@ -8,6 +8,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class BuscarListadoModelTable extends AbstractTableModel{
     private List<Cobranza> cobranzas;
+    private Utilitario unUtilitario = new Utilitario();
     private String[] columnas= {"Año","Mes","Cartera","Cobrador"};
     
     public BuscarListadoModelTable(List<Cobranza> cobranzas){
@@ -40,7 +41,7 @@ public class BuscarListadoModelTable extends AbstractTableModel{
                 value = unaCobranza.getYear();
                 break;
             case 1:
-                value = unaCobranza.getMes();
+                value = this.unUtilitario.getMonth(unaCobranza.getMes());
                 break;
             case 2:
                 if(unaCobranza.getUnArea() == null){

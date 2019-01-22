@@ -5,6 +5,7 @@ import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
@@ -187,7 +188,9 @@ public class CelsoFinanzas implements Serializable {
     }
 
     public List<Cobrador> obtenerCobradores(){
-        return this.persistencia.obtenerCobradores();
+        List cobradoresObtenidos = this.persistencia.obtenerCobradores();
+        Collections.sort(cobradoresObtenidos);
+        return cobradoresObtenidos;
     }
     
     public boolean existeCobrador(long dni){
@@ -240,7 +243,9 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public List<Cobranza> obtenerCobranzas(){
-        return this.persistencia.obtenerCobranzas();
+        List cobranzasOptenidas = this.persistencia.obtenerCobranzas();
+        Collections.sort(cobranzasOptenidas);
+        return cobranzasOptenidas;
     }
     
     public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){

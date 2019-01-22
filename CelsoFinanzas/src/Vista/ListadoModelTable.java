@@ -1,6 +1,7 @@
 package Vista;
 
 import Logica.Cobranza;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -33,7 +34,7 @@ public class ListadoModelTable extends AbstractTableModel{
         switch (columnIndex) {
             case 0: value = unaCobranza.getYear();
                 break;
-            case 1: value = unaCobranza.getMes();
+            case 1: value = this.getMonth(unaCobranza.getMes());
                 break;
             case 2: 
                 if(unaCobranza.getUnArea() == null){
@@ -76,4 +77,7 @@ public class ListadoModelTable extends AbstractTableModel{
         return cobranzas.get(row);
     }
     
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
+    }
 }

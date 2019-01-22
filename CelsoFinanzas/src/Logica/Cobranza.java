@@ -2,7 +2,9 @@ package Logica;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public  class Cobranza implements Serializable {
+public  class Cobranza implements Serializable,Comparable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
@@ -135,7 +137,9 @@ public  class Cobranza implements Serializable {
     }
 
     public List<Ingreso> getIngresos() {
-        return Ingresos;
+        List<Ingreso> ingresosObtenidos = this.Ingresos;
+        Collections.sort(ingresosObtenidos);
+        return ingresosObtenidos;
     }
 
     public void setIngresos(List<Ingreso> Ingresos) {
@@ -187,4 +191,60 @@ public  class Cobranza implements Serializable {
     public String toString() {
         return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + '}';
     }
+
+    @Override
+    public int compareTo(Object o) {
+        int resultado =1;
+        Cobranza unaCobranza = (Cobranza) o;
+        if ((this.year == unaCobranza.getYear())&&(this.mes == unaCobranza.getMes())){
+            resultado = 0;
+        }else if(this.year == unaCobranza.getYear()){
+            if(this.mes < unaCobranza.getMes()){
+                resultado = -1;
+            }
+        }else if(this.year < unaCobranza.getYear()){
+            resultado = -1;
+        }
+        return resultado;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.mes;
+        hash = 59 * hash + this.year;
+        hash = 59 * hash + Objects.hashCode(this.unCobrador);
+        hash = 59 * hash + Objects.hashCode(this.unArea);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cobranza other = (Cobranza) obj;
+        if (this.mes != other.mes) {
+            return false;
+        }
+        if (this.year != other.year) {
+            return false;
+        }
+        if (!Objects.equals(this.unCobrador, other.unCobrador)) {
+            return false;
+        }
+        if (!Objects.equals(this.unArea, other.unArea)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
 }

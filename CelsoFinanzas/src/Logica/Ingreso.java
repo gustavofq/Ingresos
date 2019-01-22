@@ -4,7 +4,6 @@ package Logica;
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -14,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 @Entity
-public class Ingreso implements Serializable {
+public class Ingreso implements Serializable,Comparable<Ingreso> {
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
@@ -24,8 +23,6 @@ public class Ingreso implements Serializable {
     private String concepto;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fecha;
-   /* @OneToOne
-    private Cobranza unaCobranza;*/
 
     public Ingreso() {
     }
@@ -47,9 +44,7 @@ public class Ingreso implements Serializable {
         this.Afiliado = Afiliado;
         this.concepto = concepto;
         this.fecha = fecha;
-        //this.unaCobranza = unaCobranza;
     }
-    
 
     public int getId() {
         return id;
@@ -83,16 +78,21 @@ public class Ingreso implements Serializable {
         this.fecha = fecha;
     }
 
-    public String obtenerDate(){
+    /*public String obtenerDate(){
        Calendar cal = this.fecha;
        Date dat = cal.getTime();
        Format formatter = new SimpleDateFormat("dd/MM/yyyy");
        String s = formatter.format(dat);
        return s;
-    }
+    }*/
     
     @Override
     public String toString() {
         return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';
     } 
+
+    @Override
+    public int compareTo(Ingreso o) {
+        return this.fecha.compareTo(o.getFecha());
+    }
 }

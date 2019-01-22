@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Cobrador implements Serializable {
+public class Cobrador implements Serializable, Comparable<Cobrador> {
     @Basic
     private String nombre;
     @Basic
@@ -75,5 +75,10 @@ public class Cobrador implements Serializable {
     @Override
     public String toString() {
         return nombre + " " + apellido +" (" + alias +")";
+    }
+
+    @Override
+    public int compareTo(Cobrador o) {
+        return this.apellido.compareTo(o.getApellido());
     }
 }
