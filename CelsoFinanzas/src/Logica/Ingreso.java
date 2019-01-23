@@ -78,6 +78,8 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.fecha = fecha;
     }
 
+    
+    
     /*public String obtenerDate(){
        Calendar cal = this.fecha;
        Date dat = cal.getTime();

@@ -208,9 +208,14 @@ public class CelsoFinanzas implements Serializable {
     
     //fin abm cobrador
     //inicio abm cobranza
-    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea) throws PreexistingEntityException{
         Cobranza unaCobranza = new Cobranza(listado, mes, year, unCobrador, unArea);
-        this.persistencia.agregarCobranza(unaCobranza);
+        if(this.existeCobranza(unaCobranza)){
+            throw new PreexistingEntityException("ya existe cobranza");
+        }else{
+            this.persistencia.agregarCobranza(unaCobranza);
+        }
+        
     }
     
     public void modificarCobranza(Cobranza unaCobranza) throws Exception{
@@ -246,6 +251,19 @@ public class CelsoFinanzas implements Serializable {
         List cobranzasOptenidas = this.persistencia.obtenerCobranzas();
         Collections.sort(cobranzasOptenidas);
         return cobranzasOptenidas;
+    }
+    
+    public boolean existeCobranza(Cobranza unaCobranza){
+        boolean existe = false;
+        Cobranza otraCobranza = new Cobranza();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+        while(it.hasNext()){
+            otraCobranza = (Cobranza) it.next();
+            if(unaCobranza.equals(otraCobranza)){
+                existe = true;
+            }
+        }
+        return existe;
     }
     
     public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){

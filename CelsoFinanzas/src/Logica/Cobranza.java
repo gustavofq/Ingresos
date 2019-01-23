@@ -244,7 +244,4 @@ public  class Cobranza implements Serializable,Comparable {
         }
         return true;
     }
-    
-    
-    
 }

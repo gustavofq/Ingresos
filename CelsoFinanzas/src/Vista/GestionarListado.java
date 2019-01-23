@@ -3,18 +3,21 @@ import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Persistencia.exceptions.NonexistentEntityException;
+import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
+    
     
     public  GestionarListado() {
         initComponents();
@@ -27,6 +30,7 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         this.cmbCartera.setSelectedIndex(-1);
         this.cargarTabla();
         mensaje.setFont(fuente);
+        this.unUtilitario.CambiarEncabezado(this.tblListado, fuente);
     }
 
     private void cargarTabla(){
@@ -260,7 +264,12 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             long dni = unCobrador.getDni();
             Double listado = Double.parseDouble(this.tfListado.getText());
             Area unArea = (Area) this.cmbCartera.getSelectedItem();
-            this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
+            try {
+                this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
+            } catch (PreexistingEntityException ex) {
+                this.mensaje.setText("ya existe la cobranza de este mes.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.INFORMATION_MESSAGE);
+            }
             this.cargarTabla();
             this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE); 

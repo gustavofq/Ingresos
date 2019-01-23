@@ -4,6 +4,7 @@ package Vista;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import java.awt.Color;
+import java.awt.Font;
 import java.text.DateFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -12,11 +13,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class Utilitario {
 
@@ -248,5 +251,20 @@ public class Utilitario {
         return new DateFormatSymbols().getMonths()[month];
     }
     
+    public void CambiarEncabezado(JTable table, Font unaFuente){
+        JTableHeader th = table.getTableHeader();
+        th.setFont(unaFuente);
+        table.setTableHeader(th);
+    }
+    
+    public void establecerFormato(JPanel panel, Font unaFuente){
+        int i = 0;
+        while((i  < panel.getComponents().length)){
+            if(panel.getComponents()[i] instanceof JLabel){
+                ((JLabel) panel.getComponents()[i]).setFont(unaFuente);
+            }
+            i++;
+        }
+    }
 }
 

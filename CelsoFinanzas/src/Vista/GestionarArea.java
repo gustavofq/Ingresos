@@ -176,7 +176,7 @@ public class GestionarArea extends javax.swing.JInternalFrame {
                 this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
                 this.unUtilitario.LimpiarCaja(plGestionArea);
                 this.mensaje.setText("Se agregó existosamente.");
-                JOptionPane.showMessageDialog(null,this.mensaje,"Existo!",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null,this.mensaje,"Existo!",JOptionPane.INFORMATION_MESSAGE);
             } catch (PreexistingEntityException ex) {
                 this.mensaje.setText("Actualmente existe una cartera con el nombre "+ this.tfNombre.getText());
                 JOptionPane.showMessageDialog(null,this.mensaje,"ERROR",JOptionPane.INFORMATION_MESSAGE);

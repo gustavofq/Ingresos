@@ -64,7 +64,7 @@ public class ControladorVisual {
     }
     //fin abm cobrador
     //abm cobranza
-    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea){
+    public void agregarCobranza(Double listado, int mes, int year, Cobrador unCobrador,Area unArea) throws PreexistingEntityException{
         this.unCelsoFinanzas.agregarCobranza(listado, mes, year, unCobrador,unArea);
     }
     
