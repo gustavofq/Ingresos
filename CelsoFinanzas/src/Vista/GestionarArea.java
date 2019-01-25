@@ -199,7 +199,6 @@ public class GestionarArea extends javax.swing.JInternalFrame {
                     this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbAreas);
                     this.mensaje.setText("Se ha borrado satisfactoriamente");
                     JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
-                    
                 }catch (NonexistentEntityException ex) {
                     Logger.getLogger(GestionarArea.class.getName()).log(Level.SEVERE, null, ex);
                 }catch (ViolacionClaveForaneaException ex) {

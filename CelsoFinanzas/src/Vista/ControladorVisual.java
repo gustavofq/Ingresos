@@ -102,4 +102,12 @@ public class ControladorVisual {
     public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{
         this.unCelsoFinanzas.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
     }
+    
+    public List<Cobranza> obtenerCobrnzasYear(int year){
+        return this.unCelsoFinanzas.obtenerCobrnzasYear(year);
+    }
+    
+    public List<Cobranza> obtenerCobranzasArea(Area unArea, int year){
+        return this.unCelsoFinanzas.obtenerCobranzasArea(unArea, year);
+    }
 }

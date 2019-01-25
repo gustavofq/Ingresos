@@ -446,8 +446,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addComponent(cmbMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -517,7 +516,6 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 try {
                     this.unControladorVisual.borrarIngreso(unaCobranza, unIngreso);
                     cargarTablaIngresos();
-                    //cargarJtableAfiliado();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -530,7 +528,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(this.tblAfiliados.getSelectedRow() != -1){
-            if(this.unUtilitario.campoCompleto(this.jpIngresos)&&this.jdcFecha.getCalendar()!= null){
+            if(this.tfAfiliado.getText().length() > 0 &&this.jdcFecha.getCalendar()!= null){
                 this.mensaje.setText("Esta seguro de que desea modificar?");
                 if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Modificar Datos", JOptionPane.YES_NO_OPTION) == 0){
                     Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
@@ -541,8 +539,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     newIngreso.setConcepto(this.tfConcepto.getText());
                     newIngreso.setFecha(this.jdcFecha.getCalendar());
                     try {
+                        this.controlarConcepto();
                         this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
-                        //this.cargarJtableAfiliado();
                         cargarTablaIngresos();
                     } catch (Exception ex) {
                         Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
@@ -560,18 +558,18 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(this.tblListado.getSelectedRow() != -1){
-            if(this.unUtilitario.campoCompleto(this.jpIngresos) && this.jdcFecha.getCalendar()!= null){
+            if(this.tfAfiliado.getText().length() > 0 && this.jdcFecha.getCalendar()!= null){
                 BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
                 Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
                 Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
                 Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), this.jdcFecha.getCalendar());
+                controlarConcepto();
                 try {
                     this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 this.cargarTablaIngresos();
-                //this.cargarTablaListado();
             }else{
                 this.mensaje.setText("Verifique que esten todos los datos.");
                 JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
@@ -582,12 +580,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    /*private void cargarJtableAfiliado(){
-        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
-        IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza);
-        this.tblAfiliados.setModel(modelIngreso);
-    }*/
+    
     
     private void tblAfiliadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAfiliadosMouseClicked
         if(this.tblListado.getSelectedRow() != -1){
@@ -605,6 +598,12 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         this.unUtilitario.borrarLetra(tfAfiliado);
     }//GEN-LAST:event_tfAfiliadoKeyReleased
 
+    private void controlarConcepto(){
+        if(this.tfConcepto.getText().length() == 0 ){
+            this.tfConcepto.setText("-");
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;

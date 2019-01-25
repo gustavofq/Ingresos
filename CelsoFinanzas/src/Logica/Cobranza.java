@@ -36,6 +36,8 @@ public  class Cobranza implements Serializable,Comparable {
     private Area unArea;
     @OneToMany
     private List<Ingreso> Ingresos  = new ArrayList<>();
+    @Basic 
+    private boolean estado; 
     
 
     public Cobranza() {
@@ -50,6 +52,7 @@ public  class Cobranza implements Serializable,Comparable {
         this.afiliado = 0.0;
         this.comision = 0.0;
         this.neto = 0.0;
+        this.estado = true;
     }
     
     public Cobranza(Double listado, int mes, int year, Cobrador unCobrador, Area unArea, List<Ingreso> ingresos){
@@ -62,6 +65,7 @@ public  class Cobranza implements Serializable,Comparable {
         this.afiliado = 0.0;
         this.comision = 0.0;
         this.neto = 0.0;
+        this.estado= true;
     }
 
     public int getId() {
@@ -136,6 +140,14 @@ public  class Cobranza implements Serializable,Comparable {
         this.unArea = unArea;
     }
 
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
     public List<Ingreso> getIngresos() {
         List<Ingreso> ingresosObtenidos = this.Ingresos;
         Collections.sort(ingresosObtenidos);
@@ -184,7 +196,19 @@ public  class Cobranza implements Serializable,Comparable {
     }
     
     public void modificarIngreso(Ingreso oldIngreso, Ingreso newIngreso){
-
+        
+    }
+    
+    public void cerrarCobranza(){
+        this.estado= false;
+    }
+    
+    public String obtenerEstado(){
+        String textEstado = "Cerrado";
+        if(this.estado){
+            textEstado = "Abierto";
+        }
+        return textEstado;
     }
     
     @Override
@@ -220,28 +244,19 @@ public  class Cobranza implements Serializable,Comparable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        boolean sonIguales = false;
+        Cobranza otraCobranza = (Cobranza) obj;
+        if(this.listado.equals(otraCobranza.getListado())){ 
+            if(this.mes == otraCobranza.getMes()){
+                if(this.year == otraCobranza.getYear()){
+                    if(this.unArea.equals(otraCobranza.getUnArea())){
+                        if(this.unCobrador.equals(otraCobranza.getUnCobrador())){
+                            sonIguales = true;
+                        }
+                    }
+                }
+            }
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Cobranza other = (Cobranza) obj;
-        if (this.mes != other.mes) {
-            return false;
-        }
-        if (this.year != other.year) {
-            return false;
-        }
-        if (!Objects.equals(this.unCobrador, other.unCobrador)) {
-            return false;
-        }
-        if (!Objects.equals(this.unArea, other.unArea)) {
-            return false;
-        }
-        return true;
+        return sonIguales;
     }
 }

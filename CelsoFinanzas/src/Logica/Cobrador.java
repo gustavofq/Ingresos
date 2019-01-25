@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -81,4 +82,34 @@ public class Cobrador implements Serializable, Comparable<Cobrador> {
     public int compareTo(Cobrador o) {
         return this.apellido.compareTo(o.getApellido());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.nombre);
+        hash = 37 * hash + Objects.hashCode(this.alias);
+        hash = 37 * hash + Objects.hashCode(this.apellido);
+        hash = 37 * hash + (int) (this.dni ^ (this.dni >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cobrador other = (Cobrador) obj;
+        if (this.dni != other.dni) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

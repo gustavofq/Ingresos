@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 @Entity
 public class CelsoFinanzas implements Serializable {
     @Id
@@ -24,7 +25,7 @@ public class CelsoFinanzas implements Serializable {
     private List<Cobrador> cobradores = new ArrayList<>();
     @OneToMany
     private List<Cobranza> cobranzas = new ArrayList<>();
-    @OneToMany 
+    @OneToMany
     private List<Ingreso> ingresos = new ArrayList<>();
     
     ControladorPersistencia persistencia = new ControladorPersistencia();
@@ -145,7 +146,7 @@ public class CelsoFinanzas implements Serializable {
             this.persistencia.agregarUnCobrador(unCobrador);
         }else{
             throw new PreexistingEntityException(alias);
-        }    
+        }
     }
     
     public void modificarCobrador(Cobrador unCobrador) throws Exception{
@@ -158,7 +159,6 @@ public class CelsoFinanzas implements Serializable {
         }else{
             throw new ViolacionClaveForaneaException();
         }
-        
     }
 
     public boolean cobradorUtilizado(long dni){
@@ -215,7 +215,6 @@ public class CelsoFinanzas implements Serializable {
         }else{
             this.persistencia.agregarCobranza(unaCobranza);
         }
-        
     }
     
     public void modificarCobranza(Cobranza unaCobranza) throws Exception{
@@ -257,7 +256,7 @@ public class CelsoFinanzas implements Serializable {
         boolean existe = false;
         Cobranza otraCobranza = new Cobranza();
         Iterator it = this.persistencia.obtenerCobranzas().iterator();
-        while(it.hasNext()){
+        while((it.hasNext())&&(existe == false)){
             otraCobranza = (Cobranza) it.next();
             if(unaCobranza.equals(otraCobranza)){
                 existe = true;
@@ -265,7 +264,28 @@ public class CelsoFinanzas implements Serializable {
         }
         return existe;
     }
+    //fin abm cobranzas
+    //inicio abm ingresos
+    public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        unaCobranza.agregarIngreso(unIngreso);
+        unaCobranza.setAfiliado(unaCobranza.calcularAfiliadoTotal());
+        unaCobranza.setComision(unaCobranza.calcularComision());
+        unaCobranza.setNeto(unaCobranza.calcularNeto());
+        this.persistencia.modificarCobranza(unaCobranza);
+    }
     
+    public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
+        unaCobranza.borrarIngreso(unIngreso);
+        this.persistencia.modificarCobranza(unaCobranza);
+    }
+    
+    public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{
+        unaCobranza.modificarIngreso(oldIngreso,newIngreso);
+        this.persistencia.modificarIngreso(newIngreso);
+        this.persistencia.modificarCobranza(unaCobranza);
+    }
+    //fin abm ingresos
+    //inicio reportes
     public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
         List<Cobranza> cobranzasAll = new ArrayList<>();
         Iterator it = this.persistencia.obtenerCobranzas().iterator();
@@ -291,24 +311,31 @@ public class CelsoFinanzas implements Serializable {
             }
         return cobranzasAll;
     }
-    
-    public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
-        unaCobranza.agregarIngreso(unIngreso);
-        unaCobranza.setAfiliado(unaCobranza.calcularAfiliadoTotal());
-        unaCobranza.setComision(unaCobranza.calcularComision());
-        unaCobranza.setNeto(unaCobranza.calcularNeto());
-        this.persistencia.modificarCobranza(unaCobranza);
-    }
-    
-    public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
-        unaCobranza.borrarIngreso(unIngreso);
-        this.persistencia.modificarCobranza(unaCobranza);
-    }
-    
-    public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{
-        unaCobranza.modificarIngreso(oldIngreso,newIngreso);
-        this.persistencia.modificarIngreso(newIngreso);
-        this.persistencia.modificarCobranza(unaCobranza);
-    }
    
+    public List<Cobranza> obtenerCobrnzasYear(int year){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if( unaCobranza.getYear() == year){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
+    public List<Cobranza> obtenerCobranzasArea(Area unArea, int year){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if(( unaCobranza.getYear() == year)&&(unaCobranza.getUnArea().equals(unArea))){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
 }

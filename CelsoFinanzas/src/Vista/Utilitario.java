@@ -131,7 +131,7 @@ public class Utilitario {
     }
     
     /** Establece el mes actual en un JMonthChooser.
-     *@param unMonthChooser jMonthChooser el cual se establecerá.
+     *@param unMonthChooser <code>JMonthChooser</code> el cual se establecerá.
      */ 
     public void cargarMesActual(JMonthChooser unMonthChooser){
         Calendar cal = Calendar.getInstance();

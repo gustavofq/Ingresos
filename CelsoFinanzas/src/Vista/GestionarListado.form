@@ -50,19 +50,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jpListado" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Component id="jpListado" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jpListado" alignment="1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -75,7 +72,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="1064" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
@@ -84,45 +85,42 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="cmbCartera" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cmbCobradores" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="tfanho" min="-2" pref="53" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmbMoth" pref="179" max="32767" attributes="0"/>
+                                  <Component id="cmbMoth" pref="152" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                       <Component id="btnEditar" min="-2" pref="94" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="tfListado" min="-2" pref="122" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                                      <Component id="btnBorrar" min="-2" pref="102" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="tfListado" min="-2" pref="122" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="cmbCobradores" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cmbCartera" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnBorrar" min="-2" pref="102" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="815" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="739" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jScrollPane2" alignment="1" min="-2" pref="208" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jScrollPane2" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -149,7 +147,7 @@
                               <Component id="tfListado" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -157,7 +155,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -298,6 +296,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCarteraActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

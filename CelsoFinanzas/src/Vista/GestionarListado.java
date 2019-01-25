@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.table.JTableHeader;
 
 public class GestionarListado extends javax.swing.JInternalFrame {
     Utilitario unUtilitario = new Utilitario();
@@ -141,6 +140,11 @@ public class GestionarListado extends javax.swing.JInternalFrame {
 
         cmbCartera.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCartera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCartera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCarteraActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setText("Cartera");
@@ -172,6 +176,9 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpListadoLayout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addGap(1064, 1064, 1064))
+                    .addGroup(jpListadoLayout.createSequentialGroup()
                         .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel4)
@@ -179,36 +186,34 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbCartera, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbCobradores, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jpListadoLayout.createSequentialGroup()
                                 .addComponent(tfanho, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbMoth, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-                            .addGroup(jpListadoLayout.createSequentialGroup()
-                                .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(cmbMoth, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                            .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jpListadoLayout.createSequentialGroup()
+                                    .addGap(31, 31, 31)
                                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jpListadoLayout.createSequentialGroup()
-                                        .addComponent(tfListado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel5)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jpListadoLayout.createSequentialGroup()
-                        .addComponent(btnAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jpListadoLayout.createSequentialGroup()
+                                    .addComponent(tfListado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel5))
+                                .addComponent(cmbCobradores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbCartera, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jpListadoLayout.setVerticalGroup(
             jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpListadoLayout.createSequentialGroup()
-                .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpListadoLayout.createSequentialGroup()
+                    .addGroup(jpListadoLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -229,12 +234,12 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1)
                             .addComponent(tfListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEditar)
                             .addComponent(btnAgregar)
                             .addComponent(btnBorrar))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -248,9 +253,7 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jpListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jpListado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -266,18 +269,17 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             Area unArea = (Area) this.cmbCartera.getSelectedItem();
             try {
                 this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador,unArea);
+                this.cargarTabla();
+                this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE); 
             } catch (PreexistingEntityException ex) {
-                this.mensaje.setText("ya existe la cobranza de este mes.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.INFORMATION_MESSAGE);
+                this.mensaje.setText("ya existe la cobranza del mes " + mes +" del año " + year +" corresponeidntes al cobrador " +unCobrador.toString()+" del la cartera " + unArea.getNombre() );
+                JOptionPane.showMessageDialog(null,this.mensaje,"Ya existe.",JOptionPane.INFORMATION_MESSAGE);
             }
-            this.cargarTabla();
-            this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE); 
         }else{
             this.mensaje.setText("Debe completar los campos coloreados y seleccionar cobrador y area correspondientes.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes.",JOptionPane.INFORMATION_MESSAGE); 
         }
-        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -343,6 +345,10 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         this.tfanho.setText(String.valueOf(unaCobranza.getYear()));
         this.tfListado.setText(String.valueOf(unaCobranza.getListado()));
     }//GEN-LAST:event_tblListadoMouseClicked
+
+    private void cmbCarteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCarteraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCarteraActionPerformed
     
     private Cobranza obtenerCobranzaSeleccionada(){
         ListadoModelTable model = new ListadoModelTable(this.unControladorVisual.obtenerCobranzas());
