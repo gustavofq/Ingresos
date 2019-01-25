@@ -338,4 +338,17 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
     
+    public List<Cobranza> obtenerCobranzasAreaCobrador(Area unArea, int year,Cobrador unCobrador){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if(( unaCobranza.getYear() == year)&&(unaCobranza.getUnArea().equals(unArea))&&unaCobranza.getUnCobrador().equals(unCobrador)){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
 }

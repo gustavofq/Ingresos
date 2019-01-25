@@ -110,4 +110,8 @@ public class ControladorVisual {
     public List<Cobranza> obtenerCobranzasArea(Area unArea, int year){
         return this.unCelsoFinanzas.obtenerCobranzasArea(unArea, year);
     }
+    
+    public List<Cobranza> obtenerCobranzasAreaCobrador(Area unArea, int year,Cobrador unCobrador){
+        return this.unCelsoFinanzas.obtenerCobranzasAreaCobrador(unArea, year, unCobrador);
+    }
 }

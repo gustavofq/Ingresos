@@ -218,11 +218,13 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
         render.setSeriesPaint(0, Color.RED);
         render.setSeriesPaint(1, Color.GREEN);
+        render.setSeriesPaint(2, Color.YELLOW);
         render.setSeriesStroke(0, new BasicStroke(4.0f));
         render.setSeriesStroke(1, new BasicStroke(3.0f));
+        render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 1095, 645);
+        panel.setBounds(0, 0, 1000, 600);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
@@ -237,7 +239,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         TimeSeries cobrado = new TimeSeries("Cobrado");
         TimeSeries neto = new TimeSeries("Neto");
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-        Iterator it = this.unControladorVisual.obenerCobranzasDeCobrador(unCobrador, year).iterator();
+        Iterator it = this.unControladorVisual.obtenerCobranzasAreaCobrador(unArea, year,unCobrador).iterator();
         Cobranza unaCobranza = new Cobranza();
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
@@ -289,11 +291,13 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
         render.setSeriesPaint(0, Color.RED);
         render.setSeriesPaint(1, Color.GREEN);
+        render.setSeriesPaint(2, Color.YELLOW);
         render.setSeriesStroke(0, new BasicStroke(4.0f));
         render.setSeriesStroke(1, new BasicStroke(3.0f));
+        render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 1095, 645);
+        panel.setBounds(0, 0, 1000, 600);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
@@ -312,7 +316,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         Cobranza unaCobranza = new Cobranza();
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
-
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
@@ -325,11 +328,13 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
         render.setSeriesPaint(0, Color.RED);
         render.setSeriesPaint(1, Color.GREEN);
+        render.setSeriesPaint(2, Color.YELLOW);
         render.setSeriesStroke(0, new BasicStroke(4.0f));
         render.setSeriesStroke(1, new BasicStroke(3.0f));
+        render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 1095, 645);
+        panel.setBounds(0, 0, 1000, 600);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
