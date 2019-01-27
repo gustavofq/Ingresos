@@ -81,7 +81,7 @@ public class ControladorVisual {
     }
     
     public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
-        return this.unCelsoFinanzas.obenerCobranzasDeCobrador(unCobrador, year);
+        return this.unCelsoFinanzas.obtenerCobranzasDeCobrador(unCobrador, year);
     }
     
     public List<Cobranza> obtenerCobranzaDeCartera(Area unArea, int year){
@@ -113,5 +113,21 @@ public class ControladorVisual {
     
     public List<Cobranza> obtenerCobranzasAreaCobrador(Area unArea, int year,Cobrador unCobrador){
         return this.unCelsoFinanzas.obtenerCobranzasAreaCobrador(unArea, year, unCobrador);
+    }
+    
+    public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
+        return this.unCelsoFinanzas.obtenerListadoDelCobrador(unCobrador, year, mes);
+    }
+    
+    public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year , int mes){
+        return this.unCelsoFinanzas.obtenerAfiliadoDelCobrador(unCobrador, year, mes);
+    }
+    
+    public double obtenerComisionDelCobrador(Cobrador unCobrador, int year , int mes){
+        return this.unCelsoFinanzas.obtenerComisionDelCobrador(unCobrador, year, mes);
+    }
+    
+    public double obtenerNetoDelCobrador(Cobrador unCobrador, int year , int mes){
+        return this.unCelsoFinanzas.obtenerNetoDelCobrador(unCobrador, year, mes);
     }
 }

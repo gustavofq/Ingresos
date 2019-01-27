@@ -264,6 +264,8 @@ public class CelsoFinanzas implements Serializable {
         }
         return existe;
     }
+    
+    
     //fin abm cobranzas
     //inicio abm ingresos
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
@@ -286,7 +288,7 @@ public class CelsoFinanzas implements Serializable {
     }
     //fin abm ingresos
     //inicio reportes
-    public List<Cobranza> obenerCobranzasDeCobrador(Cobrador unCobrador, int year){
+    public List<Cobranza> obtenerCobranzasDeCobrador(Cobrador unCobrador, int year){
         List<Cobranza> cobranzasAll = new ArrayList<>();
         Iterator it = this.persistencia.obtenerCobranzas().iterator();
             Cobranza unaCobranza = new Cobranza();
@@ -297,6 +299,38 @@ public class CelsoFinanzas implements Serializable {
                 }
             }
         return cobranzasAll;
+    }
+    
+    public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, id)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getListado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year , int mes){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, id)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerComisionDelCobrador(Cobrador unCobrador, int year , int mes){
+        double total = 0;
+        total = (unCobrador.getUnaComision() * this.obtenerAfiliadoDelCobrador(unCobrador, year, mes))/100;
+        return total;
+    }
+    
+    public double obtenerNetoDelCobrador(Cobrador unCobrador, int year , int mes){
+        double total = 0;
+        total = this.obtenerAfiliadoDelCobrador(unCobrador, year, mes) - this.obtenerComisionDelCobrador(unCobrador, year, mes);
+        return total;
     }
     
     public List<Cobranza> obtenerCobranzaDeCartera(Area unArea, int year){

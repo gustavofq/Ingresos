@@ -51,11 +51,7 @@ public class Area implements Serializable, Comparable<Area> {
 
     @Override
     public int compareTo(Area o) {
-        int valor = -1;
-        if(this.id == o.getId()){
-            valor = 0;
-        }
-        return valor;
+        return this.nombre.compareTo(o.getNombre());
     }
 
     @Override

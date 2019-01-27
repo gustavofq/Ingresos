@@ -21,7 +21,7 @@ public  class Cobranza implements Serializable,Comparable {
     @Basic
     private Double listado;
     @Basic
-    private Double afiliado;
+    private Double afiliado;//corresponde a la suma de todos los ingresos.
     @Basic
     private Double neto;
     @Basic

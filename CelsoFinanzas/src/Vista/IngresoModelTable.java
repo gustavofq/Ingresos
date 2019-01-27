@@ -16,8 +16,8 @@ public class IngresoModelTable extends AbstractTableModel{
     private Cobranza unCobranza;
     private String[] columnas = {"Fecha","Concepto","Afiliado", "Comisión" ,"Neto"};
     private Utilitario unUtilitario = new Utilitario();
-    @Deprecated 
     
+    @Deprecated 
     public IngresoModelTable(List<Ingreso> ingresos){
         this.ingresos = new ArrayList<>(ingresos);
     }

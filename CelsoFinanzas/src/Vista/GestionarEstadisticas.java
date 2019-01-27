@@ -41,7 +41,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
     }
     
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
