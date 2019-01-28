@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Logica.Cobranza;
@@ -14,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 public class IngresoModelTable extends AbstractTableModel{
     private List<Ingreso> ingresos;
     private Cobranza unCobranza;
-    private String[] columnas = {"Fecha","Concepto","Afiliado", "Comisión" ,"Neto"};
+    private String[] columnas = {"Fecha","Concepto","Afiliado", "Comisión" ,"Neto", "Pagado"};
     private Utilitario unUtilitario = new Utilitario();
     
     @Deprecated 
@@ -66,6 +61,9 @@ public class IngresoModelTable extends AbstractTableModel{
                 break;
             case 4: 
                 value = this.calcularNeto(unIngreso);
+                break;
+            case 5: 
+                value = unIngreso.getPagado();
                 break;
         }
         return value;

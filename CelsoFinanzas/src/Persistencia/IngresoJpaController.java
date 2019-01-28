@@ -28,16 +28,14 @@ public class IngresoJpaController implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
+    public IngresoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("celso");
+    }
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public IngresoJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("celso");
-    }
-
-    
-    
     public void create(Ingreso ingreso) {
         EntityManager em = null;
         try {

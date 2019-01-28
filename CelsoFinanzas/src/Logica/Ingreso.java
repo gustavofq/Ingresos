@@ -1,11 +1,7 @@
-
 package Logica;
 
 import java.io.Serializable;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +19,9 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
     private String concepto;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fecha;
-
+    @Basic 
+    private Double pagado;
+    
     public Ingreso() {
     }
 
@@ -32,18 +30,21 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.Afiliado = Afiliado;
         this.concepto = concepto;
         this.fecha = fecha;
+        this.pagado = 0.0;
     }
 
     public Ingreso(Double Afiliado, String concepto, Calendar fecha) {
         this.Afiliado = Afiliado;
         this.concepto = concepto;
         this.fecha = fecha;
+        this.pagado = 0.0;
     }
 
     public Ingreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) {
         this.Afiliado = Afiliado;
         this.concepto = concepto;
         this.fecha = fecha;
+        this.pagado = 0.0;
     }
 
     public int getId() {
@@ -78,15 +79,13 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.fecha = fecha;
     }
 
-    
-    
-    /*public String obtenerDate(){
-       Calendar cal = this.fecha;
-       Date dat = cal.getTime();
-       Format formatter = new SimpleDateFormat("dd/MM/yyyy");
-       String s = formatter.format(dat);
-       return s;
-    }*/
+    public Double getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(Double pagado) {
+        this.pagado = pagado;
+    }
     
     @Override
     public String toString() {

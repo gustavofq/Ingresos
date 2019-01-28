@@ -303,7 +303,7 @@ public class CelsoFinanzas implements Serializable {
     
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
-        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, id)){
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
             if(unaCobranza.getMes() == mes){
                 total += unaCobranza.getListado();
             }
@@ -313,7 +313,7 @@ public class CelsoFinanzas implements Serializable {
     
     public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
-        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, id)){
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
             if(unaCobranza.getMes() == mes){
                 total += unaCobranza.getAfiliado();
             }

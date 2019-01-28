@@ -1,5 +1,6 @@
 package Vista;
 
+import Impreso.ComprobantePago;
 import Logica.Cobranza;
 import Logica.Ingreso;
 import java.awt.Font;
@@ -16,6 +17,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     JTableHeader th;
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
+    ComprobantePago unComprobantePago = new ComprobantePago();
  
     public GestionarIngreso() {
         initComponents();
@@ -75,6 +77,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         lblShowComision = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         lblShowNeto = new javax.swing.JLabel();
+        btnPagar = new javax.swing.JButton();
         jpBuscar = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblListado = new javax.swing.JTable();
@@ -127,7 +130,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Fecha", "Concepto", "Afiliado", "Comision", "Neto"
+                "Fecha", "Concepto", "Afiliado", "Comision", "Neto", "Pagado"
             }
         ));
         tblAfiliados.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -249,6 +252,13 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 .addGap(29, 29, 29))
         );
 
+        btnPagar.setText("Pagar");
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpIngresosLayout = new javax.swing.GroupLayout(jpIngresos);
         jpIngresos.setLayout(jpIngresosLayout);
         jpIngresosLayout.setHorizontalGroup(
@@ -281,9 +291,13 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addGroup(jpIngresosLayout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpIngresosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jpDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jpIngresosLayout.createSequentialGroup()
+                        .addComponent(jpDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpIngresosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPagar)
+                .addGap(22, 22, 22))
         );
         jpIngresosLayout.setVerticalGroup(
             jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,9 +315,11 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnPagar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jpDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar)
                     .addComponent(btnBorrar)
@@ -552,6 +568,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListadoMouseClicked
+        limpiarDetalles();
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
         this.lblShowComision.setText(String.valueOf(unaCobranza.calcularComision()));
@@ -567,10 +584,23 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         this.lblShowGeneralNeto.setText(String.valueOf(this.unControladorVisual.obtenerNetoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
         IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza);
         this.tblAfiliados.setModel(modelIngreso);
-        
-        
     }//GEN-LAST:event_tblListadoMouseClicked
    
+    private void limpiarDetalles(){
+        this.lblShowCobrador.setText("");
+        this.lblShowGeneralComision.setText("");
+        this.lblShowGeneralIngreso.setText("");
+        this.lblShowGeneralNeto.setText("");
+        this.lblShowMes.setText("");
+        this.lblShowYear.setText("");
+        this.lblShowListado.setText("");
+        this.lblShowCartera.setText("");
+        this.lblShowIngreso.setText("");
+        this.lblShowComision.setText("");
+        this.lblShowCartera.setText("");
+        
+    }
+    
     private Cobranza obtenerCobranzaSeleccionada(){
         BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
         Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
@@ -578,7 +608,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }
     
     private Ingreso obtenerIngresoSeleccionado(){
-        IngresoModelTable modelIngreso = new IngresoModelTable(this.obtenerCobranzaSeleccionada().getIngresos());
+        IngresoModelTable modelIngreso = new IngresoModelTable(this.obtenerCobranzaSeleccionada());
         Ingreso unIngreso = (Ingreso)modelIngreso.getUserAt(this.tblAfiliados.getSelectedRow());
         return unIngreso;    
     }
@@ -650,10 +680,11 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 controlarConcepto();
                 try {
                     this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
+                    this.cargarTablaIngresos();
+                    this.unComprobantePago.imprimir(unaCobranza,unIngreso);
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                this.cargarTablaIngresos();
             }else{
                 this.mensaje.setText("Verifique que esten todos los datos.");
                 JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
@@ -682,6 +713,24 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         this.unUtilitario.borrarLetra(tfAfiliado);
     }//GEN-LAST:event_tfAfiliadoKeyReleased
 
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+        if(this.tblAfiliados.getSelectedRow() != -1){
+            int fila=0;
+            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+            Ingreso oldIngreso = this.obtenerIngresoSeleccionado();
+            Ingreso newIngreso = oldIngreso;
+            newIngreso.setPagado((unaCobranza.getUnCobrador().getUnaComision() * oldIngreso.getAfiliado())/100);
+            try {
+                fila = this.tblAfiliados.getSelectedRow();
+                this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
+                this.cargarTablaIngresos();
+                this.tblAfiliados.setRowSelectionInterval(fila, fila);
+            } catch (Exception ex) {
+                Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnPagarActionPerformed
+
     private void controlarConcepto(){
         if(this.tfConcepto.getText().length() == 0 ){
             this.tfConcepto.setText("-");
@@ -692,6 +741,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnPagar;
     private javax.swing.JComboBox<String> cmbAreas;
     private javax.swing.JComboBox<String> cmbCobradores;
     private com.toedter.calendar.JMonthChooser cmbMes;
