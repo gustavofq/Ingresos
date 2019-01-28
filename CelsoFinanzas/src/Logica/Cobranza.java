@@ -235,6 +235,7 @@ public  class Cobranza implements Serializable,Comparable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 59 * hash + this.id;
         hash = 59 * hash + this.mes;
         hash = 59 * hash + this.year;
         hash = 59 * hash + Objects.hashCode(this.unCobrador);
