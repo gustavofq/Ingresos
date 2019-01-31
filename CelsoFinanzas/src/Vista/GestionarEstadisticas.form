@@ -55,8 +55,8 @@
                       <Component id="tfYear" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jpGraficos" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jpGraficos" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -111,7 +111,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Area"/>
+            <Property name="text" type="java.lang.String" value="Cartera"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbCobrador">
@@ -155,7 +155,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="974" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="900" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

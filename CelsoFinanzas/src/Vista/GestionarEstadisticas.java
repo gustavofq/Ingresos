@@ -20,7 +20,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 
 
-public class GestionarEstadisticas extends javax.swing.JInternalFrame {
+public class GestionarEstadisticas extends javax.swing.JInternalFrame implements Observador{
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private Utilitario unUtilitario = new Utilitario();
     private TimeSeries Listado = new TimeSeries("Listado");
@@ -65,7 +65,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         jLabel3.setText("Cobrador");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Area");
+        jLabel4.setText("Cartera");
 
         cmbCobrador.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCobrador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -77,7 +77,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         jpGraficos.setLayout(jpGraficosLayout);
         jpGraficosLayout.setHorizontalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 974, Short.MAX_VALUE)
+            .addGap(0, 900, Short.MAX_VALUE)
         );
         jpGraficosLayout.setVerticalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,8 +117,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                         .addComponent(cmbArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpTodoLayout.setVerticalGroup(
             jpTodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,6 +158,12 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficarActionPerformed
+        boolean llamadoLocal = true;
+        this.graficar(llamadoLocal);
+        
+    }//GEN-LAST:event_btnGraficarActionPerformed
+
+    public void graficar(boolean llamadoLocal){
         if(this.tfYear.getText().length()>0){
             if(this.cmbArea.getSelectedIndex()!= -1){
                 if(this.cmbCobrador.getSelectedIndex() != -1 ){
@@ -172,20 +178,20 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
                     }else if((!this.cmbArea.getSelectedItem().equals("Todos")) && (!this.cmbCobrador.getSelectedItem().equals("Todos"))){
                         this.generarGraficaCobradorArea((Cobrador)this.cmbCobrador.getSelectedItem(), Integer.parseInt(tfYear.getText()) , (Area)this.cmbArea.getSelectedItem());
                     }
-                }else{
+                }else if(llamadoLocal){
                     this.mensaje.setText("Seleccione un cobrador.");
-            JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos.",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos.",JOptionPane.INFORMATION_MESSAGE);
                 }
-            }else{
+            }else if(llamadoLocal){
                 this.mensaje.setText("Seleccione una cartera de negocios.");
                 JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos.",JOptionPane.INFORMATION_MESSAGE);
             }
-        }else{
+        }else if(llamadoLocal){
             this.mensaje.setText("Ingrese el año.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos",JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnGraficarActionPerformed
-
+    }
+    
     private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased
         this.unUtilitario.borrarLetra(tfYear);
         this.unUtilitario.limitarLetra(4, tfYear);
@@ -197,6 +203,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         int mes = 1;
         Iterator it = this.unControladorVisual.obtenerCobrnzasYear(year).iterator();
         Cobranza unaCobranza = new Cobranza();
+        this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
@@ -204,7 +211,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
             mes++;
         }
-        this.agregarMeses(mes, year);
+       // this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -218,6 +225,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         int mes = 1;
         Iterator it = this.unControladorVisual.obtenerCobranzasAreaCobrador(unArea, year,unCobrador).iterator();
         Cobranza unaCobranza = new Cobranza();
+        this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
@@ -225,7 +233,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
             mes++;
         }
-        this.agregarMeses(mes, year);
+       // this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -239,6 +247,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         int mes = 1;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
+        this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
@@ -246,7 +255,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
             mes++;
         }
-        this.agregarMeses(mes, year);
+        //this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -260,14 +269,16 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         int mes = 1;
         Iterator it = this.unControladorVisual.obenerCobranzasDeCobrador(unCobrador, year).iterator();
         Cobranza unaCobranza = new Cobranza();
+        this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
-            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
+            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto()); 
             mes++;
         }
-        this.agregarMeses(mes, year);
+        
+        //this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -286,7 +297,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
         render.setSeriesStroke(2,new BasicStroke(3.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 957, 548);
+        panel.setBounds(0, 0, 900, 548);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
@@ -296,12 +307,20 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
 
     private void agregarMeses(int mes, int year){
         if(mes <12 ){
-            while(mes<12){
+            while(mes<=12){
                 Listado.addOrUpdate(new Month( mes, year), 0.0);
                 cobrado.addOrUpdate(new Month( mes, year), 0.0);
                 neto.addOrUpdate(new Month(mes,year), 0.0);
                 mes++;
             }
+        }
+    }
+    
+    public void carcagarSeries(int year){
+        for(int i = 1; i<=12; i++){
+            Listado.addOrUpdate(new Month( i, year), 0);
+            cobrado.addOrUpdate(new Month( i, year), 0);
+            neto.addOrUpdate(new Month(i,year), 0); 
         }
     }
     
@@ -316,4 +335,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jpTodo;
     private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update() {
+        this.graficar(false);
+    }
 }

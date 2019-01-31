@@ -6,17 +6,18 @@ import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class GestionarListado extends javax.swing.JInternalFrame {
+public class GestionarListado extends javax.swing.JInternalFrame implements Observador, Sujeto{
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
-    
+    ArrayList<Observador> observadores = new ArrayList<>();
     
     public  GestionarListado() {
         initComponents();
@@ -272,6 +273,7 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                 this.cargarTabla();
                 this.mensaje.setText("Se a agregado un nuevo listado exitosamente.");
                 JOptionPane.showMessageDialog(null,this.mensaje,"Exito!",JOptionPane.INFORMATION_MESSAGE); 
+                this.notificar();
             } catch (PreexistingEntityException ex) {
                 this.mensaje.setText("ya existe la cobranza del mes " + mes +" del año " + year +" corresponeidntes al cobrador " +unCobrador.toString()+" del la cartera " + unArea.getNombre() );
                 JOptionPane.showMessageDialog(null,this.mensaje,"Ya existe.",JOptionPane.INFORMATION_MESSAGE);
@@ -290,6 +292,7 @@ public class GestionarListado extends javax.swing.JInternalFrame {
                 if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Borrar Listado ", JOptionPane.YES_NO_OPTION) == 0){
                     this.unControladorVisual.borrarCobranza(unaCobranza.getId());
                     this.mensaje.setText("Se ha borrado el listado exitosamente.");
+                    this.notificar();
                     JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
                     this.cargarTabla();
                 } 
@@ -324,7 +327,8 @@ public class GestionarListado extends javax.swing.JInternalFrame {
             unaCobranza.setUnCobrador((Cobrador)this.cmbCobradores.getSelectedItem());
             try {
                 this.unControladorVisual.modificarCobranza(unaCobranza);
-                 this.mensaje.setText("Se modifico exitosamente.");
+                this.notificar();
+                this.mensaje.setText("Se modifico exitosamente.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Éxito.",JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 Logger.getLogger(GestionarListado.class.getName()).log(Level.SEVERE, null, ex);
@@ -358,8 +362,6 @@ public class GestionarListado extends javax.swing.JInternalFrame {
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             System.out.println("debe seleccionar un listado");
         }
-        
-        
         return unaCobranza;
     }
 
@@ -384,4 +386,21 @@ public class GestionarListado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfListado;
     private javax.swing.JTextField tfanho;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update() {
+        this.cargarTabla();
+    }
+
+    @Override
+    public void notificar() {
+        for(Observador unObservador: observadores){
+            unObservador.update();
+        }
+    }
+
+    @Override
+    public void suscribirObservador(Observador o) {
+        this.observadores.add(o);
+    }
 }

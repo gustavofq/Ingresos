@@ -78,7 +78,7 @@ public class ComprobantePago {
     }
     
     public void cargarTexto(Cobranza unaCobranza, Ingreso unIngreso){
-        String cobrador = unaCobranza.getUnCobrador().getApellido() + " "+ unaCobranza.getUnCobrador().getNombre();
+        String cobrador = unaCobranza.getUnCobrador().getApellido() + " "+ unaCobranza.getUnCobrador().getNombre()+ "D.N.I: " + unaCobranza.getUnCobrador().getDni();
         this.hash = " codigo interno "+ unaCobranza.hashCode();
         this.encabezado = "                                                                          CELSO S.R.L ";
         this.recibimos = "Recibimos de " + cobrador;

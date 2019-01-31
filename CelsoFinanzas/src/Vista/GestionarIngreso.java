@@ -5,6 +5,7 @@ import Impreso.PagoCobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
 
-public class GestionarIngreso extends javax.swing.JInternalFrame {
+public class GestionarIngreso extends javax.swing.JInternalFrame implements Sujeto, Observador{
     Utilitario unUtilitario = new Utilitario();
     ControladorVisual unControladorVisual = new ControladorVisual();
     JTableHeader th;
@@ -21,6 +22,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     JLabel mensaje = new JLabel("mensaje");
     ComprobantePago unComprobantePago = new ComprobantePago();
     PagoCobrador unPagoCobrador = new PagoCobrador();
+    private ArrayList<Observador> observadores = new ArrayList<>();
     public GestionarIngreso() {
         initComponents();
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), this.cmbCobradores);
@@ -41,8 +43,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }
 
     public void cargarTablaIngresos(){
-        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+        Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
         IngresoModelTable model = new IngresoModelTable(unaCobranza);
         this.tblAfiliados.setModel(model);
     }
@@ -216,15 +217,14 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblShowNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(lblShowComision, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(lblShowIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(jLabel8)))
         );
 
         javax.swing.GroupLayout jpDetallesLayout = new javax.swing.GroupLayout(jpDetalles);
@@ -251,7 +251,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addComponent(lblShowCartera, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         btnPagar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -288,9 +288,9 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addGroup(jpIngresosLayout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(btnAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(131, 131, 131)
                         .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBorrar)
                         .addGap(69, 69, 69))
                     .addGroup(jpIngresosLayout.createSequentialGroup()
@@ -306,10 +306,10 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpIngresosLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(tfConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
@@ -319,9 +319,9 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                     .addGroup(jpIngresosLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(btnPagar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jpIngresosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -471,7 +471,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(19, 19, 19)
                 .addComponent(lblShowCobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -572,24 +572,29 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListadoMouseClicked
-        limpiarDetalles();
-        BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
-        Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
-        this.lblShowComision.setText(String.valueOf(unaCobranza.calcularComision()));
-        this.lblShowIngreso.setText(String.valueOf(unaCobranza.calcularAfiliadoTotal()));
-        this.lblShowNeto.setText(String.valueOf(unaCobranza.calcularNeto()));
-        this.lblShowCartera.setText(unaCobranza.getUnArea().getNombre());
-        this.lblShowCobrador.setText(unaCobranza.getUnCobrador().toString());
-        this.lblShowMes.setText(this.unUtilitario.getMonth(unaCobranza.getMes()));
-        this.lblShowYear.setText(String.valueOf(unaCobranza.getYear()));
-        this.lblShowListado.setText(String.valueOf(this.unControladorVisual.obtenerListadoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
-        this.lblShowGeneralIngreso.setText(String.valueOf(this.unControladorVisual.obtenerAfiliadoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
-        this.lblShowGeneralComision.setText(String.valueOf(this.unControladorVisual.obtenerComisionDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
-        this.lblShowGeneralNeto.setText(String.valueOf(this.unControladorVisual.obtenerNetoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
-        IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza);
-        this.tblAfiliados.setModel(modelIngreso);
+        cargarDetallesCartera();
     }//GEN-LAST:event_tblListadoMouseClicked
    
+    private void cargarDetallesCartera(){
+        if(this.tblListado.getSelectedRow()!=-1){
+            limpiarDetalles();
+            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+            this.lblShowComision.setText(String.valueOf(unaCobranza.calcularComision()));
+            this.lblShowIngreso.setText(String.valueOf(unaCobranza.calcularAfiliadoTotal()));
+            this.lblShowNeto.setText(String.valueOf(unaCobranza.calcularNeto()));
+            this.lblShowCartera.setText(unaCobranza.getUnArea().getNombre());
+            this.lblShowCobrador.setText(unaCobranza.getUnCobrador().toString());
+            this.lblShowMes.setText(this.unUtilitario.getMonth(unaCobranza.getMes()));
+            this.lblShowYear.setText(String.valueOf(unaCobranza.getYear()));
+            this.lblShowListado.setText(String.valueOf(this.unControladorVisual.obtenerListadoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
+            this.lblShowGeneralIngreso.setText(String.valueOf(this.unControladorVisual.obtenerAfiliadoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
+            this.lblShowGeneralComision.setText(String.valueOf(this.unControladorVisual.obtenerComisionDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
+            this.lblShowGeneralNeto.setText(String.valueOf(this.unControladorVisual.obtenerNetoDelCobrador(unaCobranza.getUnCobrador(), unaCobranza.getYear(), unaCobranza.getMes())));
+            IngresoModelTable modelIngreso = new IngresoModelTable(unaCobranza);
+            this.tblAfiliados.setModel(modelIngreso);
+        }
+    }
+    
     private void limpiarDetalles(){
         this.lblShowCobrador.setText("");
         this.lblShowGeneralComision.setText("");
@@ -634,6 +639,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                 try {
                     this.unControladorVisual.borrarIngreso(unaCobranza, unIngreso);
                     cargarTablaIngresos();
+                    this.notificar();
+                    this.cargarDetallesCartera();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -660,6 +667,8 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
                         this.controlarConcepto();
                         this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso,newIngreso);
                         cargarTablaIngresos();
+                        this.notificar();
+                        this.cargarDetallesCartera();
                     } catch (Exception ex) {
                         Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -677,15 +686,16 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(this.tblListado.getSelectedRow() != -1){
             if(this.tfAfiliado.getText().length() > 0 && this.jdcFecha.getCalendar()!= null){
-                BuscarListadoModelTable modelListado = new BuscarListadoModelTable(this.unControladorVisual.obtenerCobranzas());
                 Double afiliado = Double.parseDouble(this.tfAfiliado.getText());
-                Cobranza unaCobranza = modelListado.getUserAt(this.tblListado.getSelectedRow());
+                Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
                 Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), this.jdcFecha.getCalendar());
                 controlarConcepto();
                 try {
                     this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
                     this.cargarTablaIngresos();
+                    this.notificar();
                     this.unComprobantePago.imprimir(unaCobranza,unIngreso);
+                    this.cargarDetallesCartera();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -723,16 +733,26 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
             Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
             Ingreso oldIngreso = this.obtenerIngresoSeleccionado();
             Ingreso newIngreso = oldIngreso;
-            newIngreso.setPagado((unaCobranza.getUnCobrador().getUnaComision() * oldIngreso.getAfiliado())/100);
-            try {
-                fila = this.tblAfiliados.getSelectedRow();
-                this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
-                this.cargarTablaIngresos();
-                this.tblAfiliados.setRowSelectionInterval(fila, fila);
-                this.unPagoCobrador.imprimir(unaCobranza, newIngreso);
-            } catch (Exception ex) {
-                Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            if(newIngreso.getPagado() ==0.0){
+                newIngreso.setPagado((unaCobranza.getUnCobrador().getUnaComision() * oldIngreso.getAfiliado())/100);
+                try {
+                    fila = this.tblAfiliados.getSelectedRow();
+                    this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
+                    this.cargarTablaIngresos();
+                    this.tblAfiliados.setRowSelectionInterval(fila, fila);
+                    this.unPagoCobrador.imprimir(unaCobranza, newIngreso);
+                    this.mensaje.setText("Se registro el pago exitosamente.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                this.mensaje.setText("Este ingreso ya se encuentra pagado.");
+                JOptionPane.showMessageDialog(null,this.mensaje,"Acción incorrecta.",JOptionPane.INFORMATION_MESSAGE);
             }
+        }else{
+            this.mensaje.setText("Debe seleccionar un Ingreso a pagar.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnPagarActionPerformed
 
@@ -793,4 +813,20 @@ public class GestionarIngreso extends javax.swing.JInternalFrame {
     private javax.swing.JTextField tfConcepto;
     private javax.swing.JTextField tfyear;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void notificar() {
+        for(Observador unObservador : observadores){
+            unObservador.update();
+        }
+    }
+    
+    public void suscribirObservador(Observador o){
+        this.observadores.add(o);
+    }
+
+    @Override
+    public void update() {
+        this.cargarTablaListado();
+    }
 }

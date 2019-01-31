@@ -1,13 +1,11 @@
 package Vista;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Principal extends javax.swing.JFrame{
-    
-    
+    GestionarListado unGestionarListado = new GestionarListado();
+    GestionarIngreso unGestionarIngreso = new GestionarIngreso();
+    GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
     public Principal() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -132,19 +130,20 @@ public class Principal extends javax.swing.JFrame{
     }//GEN-LAST:event_jmGestionAreaActionPerformed
 
     private void jMListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListadoActionPerformed
-        GestionarListado unGestionarListado = new GestionarListado();
         this.dpContenedor.add(unGestionarListado);
         unGestionarListado.setVisible(true);
+        unGestionarListado.suscribirObservador(this.unGestionarEstadisticas);
+        unGestionarListado.suscribirObservador(unGestionarIngreso);
     }//GEN-LAST:event_jMListadoActionPerformed
 
     private void jMIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIngresosActionPerformed
-        GestionarIngreso unGestionarIngreso = new GestionarIngreso();
         this.dpContenedor.add(unGestionarIngreso);
         unGestionarIngreso.setVisible(true);
+        unGestionarIngreso.suscribirObservador(this.unGestionarListado);
+        unGestionarIngreso.suscribirObservador(this.unGestionarEstadisticas);
     }//GEN-LAST:event_jMIngresosActionPerformed
 
     private void jMReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMReporteActionPerformed
-        GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
         this.dpContenedor.add(unGestionarEstadisticas);
         unGestionarEstadisticas.setVisible(true);
     }//GEN-LAST:event_jMReporteActionPerformed

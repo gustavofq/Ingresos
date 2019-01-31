@@ -79,10 +79,10 @@ public class PagoCobrador {
     }
     
     public void cargarTexto(Cobranza unaCobranza, Ingreso unIngreso){
-        String cobrador = unaCobranza.getUnCobrador().getApellido() + " "+ unaCobranza.getUnCobrador().getNombre();
+        String cobrador = unaCobranza.getUnCobrador().getApellido() + " "+ unaCobranza.getUnCobrador().getNombre() + " D.N.I: " + unaCobranza.getUnCobrador().getDni();
         this.hash = " codigo interno "+ unaCobranza.hashCode();
         this.encabezado = "                                                                          CELSO S.R.L ";
-        this.recibimos = "Recibo de CELSO S.R.L " ;
+        this.recibimos = "Recibo de CELSO S.R.L a favor de " +cobrador ;
         this.cantidad = "la cantidad de: $" + unIngreso.getPagado()+".-";
         this.concepto = "en concepto de: comision de cobranza de la cartera "+ unaCobranza.getUnArea().getNombre()+ " correspondiente al año " +unaCobranza.getYear();
         this.concepto2 = "del mes " + this.unUtilitario.getMonth(unaCobranza.getMes())+".";
