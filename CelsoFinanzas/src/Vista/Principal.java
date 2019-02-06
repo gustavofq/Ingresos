@@ -130,17 +130,24 @@ public class Principal extends javax.swing.JFrame{
     }//GEN-LAST:event_jmGestionAreaActionPerformed
 
     private void jMListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListadoActionPerformed
-        this.dpContenedor.add(unGestionarListado);
+        /*this.dpContenedor.add(unGestionarListado);
         unGestionarListado.setVisible(true);
         unGestionarListado.suscribirObservador(this.unGestionarEstadisticas);
-        unGestionarListado.suscribirObservador(unGestionarIngreso);
+        unGestionarListado.suscribirObservador(unGestionarIngreso);*/
+        NuevoListado listado = new NuevoListado();
+        this.dpContenedor.add(listado);
+        listado.setVisible(true);
     }//GEN-LAST:event_jMListadoActionPerformed
 
     private void jMIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIngresosActionPerformed
-        this.dpContenedor.add(unGestionarIngreso);
+        
+        Ingresos unIngresos = new Ingresos();
+        this.dpContenedor.add(unIngresos);
+        unIngresos.setVisible(true);
+        /*this.dpContenedor.add(unGestionarIngreso);
         unGestionarIngreso.setVisible(true);
         unGestionarIngreso.suscribirObservador(this.unGestionarListado);
-        unGestionarIngreso.suscribirObservador(this.unGestionarEstadisticas);
+        unGestionarIngreso.suscribirObservador(this.unGestionarEstadisticas);*/
     }//GEN-LAST:event_jMIngresosActionPerformed
 
     private void jMReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMReporteActionPerformed

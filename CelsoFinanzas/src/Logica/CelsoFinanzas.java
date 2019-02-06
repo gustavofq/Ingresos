@@ -5,7 +5,10 @@ import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
@@ -286,6 +289,21 @@ public class CelsoFinanzas implements Serializable {
         this.persistencia.modificarIngreso(newIngreso);
         this.persistencia.modificarCobranza(unaCobranza);
     }
+    
+    public List<Calendar> obtenerFechas(Cobrador unCobrador, int year, int mes){
+        List<Cobranza> cobranzas = this.obtenerCobranzasDeCobrador(unCobrador, year, mes);
+        HashSet<Calendar> fechas = new HashSet<>();
+        for(Cobranza unaCobranza: cobranzas){
+            for(Ingreso unIngreso:unaCobranza.getIngresos()){
+                fechas.add(unIngreso.getFecha());
+            }
+        }
+        List<Calendar> listaFechas = new ArrayList(fechas);
+        Collections.sort(listaFechas);
+        return listaFechas;
+    }
+    
+    
     //fin abm ingresos
     //inicio reportes
     public List<Cobranza> obtenerCobranzasDeCobrador(Cobrador unCobrador, int year){
@@ -301,6 +319,20 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
     
+    public List<Cobranza> obtenerCobranzasDeCobrador(Cobrador unCobrador, int year, int mes){
+        List<Cobranza> cobranzasAll = new ArrayList<>();
+        Iterator it = this.persistencia.obtenerCobranzas().iterator();
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext()){
+                unaCobranza = (Cobranza) it.next();
+                if((unaCobranza.getUnCobrador().getDni() == unCobrador.getDni())&&(unaCobranza.getYear() == year) && unaCobranza.getMes() == mes){
+                    cobranzasAll.add(unaCobranza);
+                }
+            }
+        return cobranzasAll;
+    }
+    
+    //Obtencion de Listados
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
@@ -310,6 +342,73 @@ public class CelsoFinanzas implements Serializable {
         }
         return total;
     }
+    
+    public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            if((unaCobranza.getMes() == mes)&&(unaCobranza.getUnArea().equals(unArea))){
+                total += unaCobranza.getListado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerListadoDelCobrador(Cobrador unCobrador, int year){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            total += unaCobranza.getListado();
+        }
+        return total;
+    }
+    
+    public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            if(unaCobranza.getUnArea().equals(unArea)){
+                total += unaCobranza.getListado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerListadoDeArea(int year, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzaDeCartera(unArea, year)){
+            total += unaCobranza.getListado();
+        }
+        return total;
+    }
+    
+    public double obtenerListadoMesArea(int year, int mes, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea, year)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getListado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerListadoMesYear(int year, int mes){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasYear( year)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getListado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerListadoYear(int year){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasYear(year)){
+            total += unaCobranza.getListado();
+        }
+        return total;
+    }
+    
+    //Fin Obtencion de listados.
+    //Obtencion de Afiliados.
     
     public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
@@ -321,17 +420,184 @@ public class CelsoFinanzas implements Serializable {
         return total;
     }
     
+    public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year , int mes, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            if((unaCobranza.getMes() == mes)&&(unaCobranza.getUnArea().equals(unArea))){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year ){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            total += unaCobranza.getAfiliado();
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
+            if(unaCobranza.getUnArea().equals(unArea)){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double ObtenerAfiliadoDeArea(int year, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea,year)){
+            if(unaCobranza.getUnArea().equals(unArea)){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoMesArea(int year, int mes , Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea, year)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoMesYear(int year, int mes){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasYear( year)){
+            if(unaCobranza.getMes() == mes){
+                total += unaCobranza.getAfiliado();
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerAfiliadoYear(int year){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasYear(year)){
+            total += unaCobranza.getAfiliado();
+        }
+        return total;
+    }
+    
+    
+    //Fin Obtencion de Afiliados.
+    //Obtencion de Comisiones.
+    
     public double obtenerComisionDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
         total = (unCobrador.getUnaComision() * this.obtenerAfiliadoDelCobrador(unCobrador, year, mes))/100;
         return total;
     }
     
+    public double obtenerComisionDelCobrador(Cobrador unCobrador, int year , int mes, Area unArea){
+        double total = 0;
+        total = (unCobrador.getUnaComision() * this.obtenerAfiliadoDelCobrador(unCobrador, year, mes,unArea))/100;
+        return total;
+    }
+    
+    public double obtenerComisionDelCobrador(Cobrador unCobrador, int year){
+        double total = 0;
+        total = (unCobrador.getUnaComision() * this.obtenerAfiliadoDelCobrador(unCobrador, year))/100;
+        return total;
+    }
+    
+    public double obtenerComisionDelCobrador(Cobrador unCobrador, int year, Area unArea){
+        double total = 0;
+        total = (unCobrador.getUnaComision() * this.obtenerAfiliadoDelCobrador(unCobrador, year, unArea))/100;
+        return total;
+    }
+    
+    public double obtenerComisionDeArea(int year, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza:this.obtenerCobranzasArea(unArea, year)){
+            total += (unaCobranza.getUnCobrador().getUnaComision() * unaCobranza.calcularAfiliadoTotal())/100;
+        }
+        return total;
+    }
+    
+    public double obtenerComisionMesArea(int year, int mes, Area unArea){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea, year)){
+            if(unaCobranza.getMes() == mes){
+                total += (unaCobranza.getUnCobrador().getUnaComision() * unaCobranza.calcularAfiliadoTotal())/100;
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerComisionMesYear(int year, int mes){
+        double total = 0;
+        for(Cobranza unaCobranza: this.obtenerCobranzasYear(year)){
+            if(unaCobranza.getMes() == mes){
+                total += (unaCobranza.getUnCobrador().getUnaComision() * unaCobranza.calcularAfiliadoTotal())/100;
+            }
+        }
+        return total;
+    }
+    
+    public double obtenerComisionYear(int year){
+        double total = 0;
+        for(Cobranza unaCobranza:this.obtenerCobranzasYear(year)){
+            total += (unaCobranza.getUnCobrador().getUnaComision() * unaCobranza.calcularAfiliadoTotal())/100;
+        }
+        return total;
+    }
+    
+    //Fin obtencion de Comision.
+    //Obtencion de Neto
+    
     public double obtenerNetoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
         total = this.obtenerAfiliadoDelCobrador(unCobrador, year, mes) - this.obtenerComisionDelCobrador(unCobrador, year, mes);
         return total;
     }
+    
+    public double obtenerNetoDelCobrador(Cobrador unCobrador, int year , int mes,Area unArea){
+        double total = 0;
+        total = this.obtenerAfiliadoDelCobrador(unCobrador, year, mes,unArea) - this.obtenerComisionDelCobrador(unCobrador, year, mes,unArea);
+        return total;
+    }
+    
+    public double obtenerNetoDelCobrador(Cobrador unCobrador, int year){
+        double total = 0;
+        total = this.obtenerAfiliadoDelCobrador(unCobrador, year) - this.obtenerComisionDelCobrador(unCobrador, year);
+        return total;
+    }
+    
+    public double obtenerNetoDelCobrador(Cobrador unCobrador, int year,Area unArea){
+        double total = 0;
+        total = this.obtenerAfiliadoDelCobrador(unCobrador, year,unArea) - this.obtenerComisionDelCobrador(unCobrador, year,unArea);
+        return total;
+    }
+    
+    public double obtenerNetoDeArea(int year, Area unaArea){
+        double total = 0;
+        total += this.ObtenerAfiliadoDeArea(year, unaArea) - this.obtenerComisionDeArea(year, unaArea);
+        return total;
+    }
+    
+    public double obtenerNetoMesArea(int year, int mes, Area unArea){
+        return this.obtenerAfiliadoMesArea(year, mes, unArea) - this.obtenerComisionMesArea(year, mes, unArea);
+    }
+    
+    public double obtenerNetoMesYear(int year, int mes){
+        return this.obtenerAfiliadoMesYear(year, mes) - this.obtenerComisionMesYear(year, mes);
+    }
+    
+    public double obtenerNetoYear(int year){
+        return this.obtenerAfiliadoYear(year) - this.obtenerComisionYear(year);
+    }
+    
+    
+    
+    //Fin obtencion de Neto
     
     public List<Cobranza> obtenerCobranzaDeCartera(Area unArea, int year){
         List<Cobranza> cobranzasAll = new ArrayList<>();
@@ -346,7 +612,7 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
    
-    public List<Cobranza> obtenerCobrnzasYear(int year){
+    public List<Cobranza> obtenerCobranzasYear(int year){
         List<Cobranza> cobranzasAll = new ArrayList<>();
         Iterator it = this.persistencia.obtenerCobranzas().iterator();
             Cobranza unaCobranza = new Cobranza();

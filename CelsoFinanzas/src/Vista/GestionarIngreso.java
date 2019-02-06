@@ -6,7 +6,6 @@ import Logica.Cobranza;
 import Logica.Ingreso;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -729,26 +728,29 @@ public class GestionarIngreso extends javax.swing.JInternalFrame implements Suje
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
         if(this.tblAfiliados.getSelectedRow() != -1){
-            int fila=0;
-            Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
-            Ingreso oldIngreso = this.obtenerIngresoSeleccionado();
-            Ingreso newIngreso = oldIngreso;
-            if(newIngreso.getPagado() ==0.0){
-                newIngreso.setPagado((unaCobranza.getUnCobrador().getUnaComision() * oldIngreso.getAfiliado())/100);
-                try {
-                    fila = this.tblAfiliados.getSelectedRow();
-                    this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
-                    this.cargarTablaIngresos();
-                    this.tblAfiliados.setRowSelectionInterval(fila, fila);
-                    this.unPagoCobrador.imprimir(unaCobranza, newIngreso);
-                    this.mensaje.setText("Se registro el pago exitosamente.");
-                JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
-                } catch (Exception ex) {
-                    Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+            this.mensaje.setText("Esta a punto de realizar un pago, desea realizarlo?");
+            if(JOptionPane.showConfirmDialog(rootPane, mensaje, "Realizando un pago", JOptionPane.YES_NO_OPTION) == 0) {
+                int fila=0;
+                Cobranza unaCobranza = this.obtenerCobranzaSeleccionada();
+                Ingreso oldIngreso = this.obtenerIngresoSeleccionado();
+                Ingreso newIngreso = oldIngreso;
+                if(newIngreso.getPagado() ==0.0){
+                    newIngreso.setPagado((unaCobranza.getUnCobrador().getUnaComision() * oldIngreso.getAfiliado())/100);
+                    try {
+                        fila = this.tblAfiliados.getSelectedRow();
+                        this.unControladorVisual.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
+                        this.cargarTablaIngresos();
+                        this.tblAfiliados.setRowSelectionInterval(fila, fila);
+                        this.unPagoCobrador.imprimir(unaCobranza, newIngreso);
+                        this.mensaje.setText("Se registro el pago exitosamente.");
+                        JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                    }catch (Exception ex) {
+                        Logger.getLogger(GestionarIngreso.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    this.mensaje.setText("Este ingreso ya se encuentra pagado.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Acción incorrecta.",JOptionPane.INFORMATION_MESSAGE);
                 }
-            }else{
-                this.mensaje.setText("Este ingreso ya se encuentra pagado.");
-                JOptionPane.showMessageDialog(null,this.mensaje,"Acción incorrecta.",JOptionPane.INFORMATION_MESSAGE);
             }
         }else{
             this.mensaje.setText("Debe seleccionar un Ingreso a pagar.");

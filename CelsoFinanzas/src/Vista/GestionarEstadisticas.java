@@ -267,7 +267,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
         int mes = 1;
-        Iterator it = this.unControladorVisual.obenerCobranzasDeCobrador(unCobrador, year).iterator();
+        Iterator it = this.unControladorVisual.obtenerCobranzasDeCobrador(unCobrador, year).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
         while (it.hasNext()){
