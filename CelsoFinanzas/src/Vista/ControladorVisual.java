@@ -125,6 +125,8 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzasAreaCobrador(unArea, year, unCobrador);
     }
     
+    //obtener listados
+    
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
         return this.unCelsoFinanzas.obtenerListadoDelCobrador(unCobrador, year, mes);
     }
@@ -258,5 +260,13 @@ public class ControladorVisual {
     
     public double obtenerNetoMesYear(int year,int mes ){
         return this.unCelsoFinanzas.obtenerNetoMesYear(year,mes);
+    }
+    
+    public boolean existeCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+        return this.unCelsoFinanzas.existeCobranza(unCobrador, year, mes, unArea);
+    }
+    
+    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+        return this.unCelsoFinanzas.obtenerCobranza(unCobrador, year, mes, unArea);
     }
 }

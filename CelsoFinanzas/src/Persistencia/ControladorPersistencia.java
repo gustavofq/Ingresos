@@ -116,7 +116,9 @@ public class ControladorPersistencia implements Serializable{
         }
         return cobradores;
     }
+    
     //abm cobranza
+    
     public void agregarCobranza(Cobranza unaCobranza){
         unaCobranzaJpaController.create(unaCobranza);
     }

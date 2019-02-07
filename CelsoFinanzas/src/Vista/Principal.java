@@ -25,6 +25,9 @@ public class Principal extends javax.swing.JFrame{
         jMReporte = new javax.swing.JMenuItem();
         jMAreas = new javax.swing.JMenu();
         jmGestionArea = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +104,26 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar.add(jMAreas);
 
+        jMenu1.setText("ADMIN");
+
+        jMenuItem1.setText("Listado");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Ingreso");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar.add(jMenu1);
+
         setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,6 +178,18 @@ public class Principal extends javax.swing.JFrame{
         unGestionarEstadisticas.setVisible(true);
     }//GEN-LAST:event_jMReporteActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        GestionarListado unGestionarListado = new GestionarListado();
+        this.dpContenedor.add(unGestionarListado);
+        unGestionarListado.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GestionarIngreso unGestionarIngreso = new GestionarIngreso();
+        this.dpContenedor.add(unGestionarIngreso);
+        unGestionarIngreso.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -196,7 +231,10 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMListado;
     private javax.swing.JMenuItem jMReporte;
     private javax.swing.JMenu jMVendedores;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jmGestionArea;
     // End of variables declaration//GEN-END:variables
 

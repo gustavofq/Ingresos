@@ -2,7 +2,14 @@ package Vista;
 
 import Logica.Area;
 import Logica.Cobrador;
+import Logica.Cobranza;
+import Persistencia.exceptions.PreexistingEntityException;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -141,12 +148,11 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                     this.cargarTablaListadoPorArea();
                     this.cargarTablaTotalPorArea();
                 }else{
-                    cargarTablaListadoMesYear();
+                    this.cargarTablaListadoMesYear();
                     this.cargarTablaTotalYear();
                 }
             }
         }
-        
     }
     
     public boolean isCamposOk(){
@@ -175,6 +181,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         tfYear = new javax.swing.JTextField();
         lblCartera = new javax.swing.JLabel();
         cmbCartera = new javax.swing.JComboBox<>();
+        btnAplicar = new javax.swing.JButton();
         pnlTotales = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTotales = new javax.swing.JTable();
@@ -182,8 +189,8 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListado = new javax.swing.JTable();
         pnlNuevosDatos = new javax.swing.JPanel();
-        btnGuardar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -219,6 +226,14 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         cmbCartera.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCartera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GENERAL", "AFILIADOS", "SECTOR P." }));
 
+        btnAplicar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnAplicar.setText("Aplicar");
+        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBuscarLayout = new javax.swing.GroupLayout(pnlBuscar);
         pnlBuscar.setLayout(pnlBuscarLayout);
         pnlBuscarLayout.setHorizontalGroup(
@@ -236,19 +251,22 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                 .addComponent(lblCartera)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(btnAplicar)
+                .addContainerGap())
         );
         pnlBuscarLayout.setVerticalGroup(
             pnlBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBuscarLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addGap(3, 3, 3)
                 .addGroup(pnlBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCobradores)
                     .addComponent(cmbCobradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblYear)
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCartera)
-                    .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAplicar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -324,6 +342,11 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblListado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblListadoKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblListado);
 
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
@@ -341,35 +364,34 @@ public class NuevoListado extends javax.swing.JInternalFrame {
 
         pnlNuevosDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevos Datos"));
 
-        btnGuardar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnGuardar.setText("GUARDAR");
+        btnImprimir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnImprimir.setText("IMPRIMIR");
+
+        btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
 
-        btnImprimir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnImprimir.setText("IMPRIMIR");
-
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
         pnlNuevosDatosLayout.setHorizontalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(btnGuardar)
-                .addGap(29, 29, 29)
+                .addGap(141, 141, 141)
                 .addComponent(btnImprimir)
+                .addGap(270, 270, 270)
+                .addComponent(btnGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
                 .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnImprimir))
-                .addGap(0, 2, Short.MAX_VALUE))
+                    .addComponent(btnImprimir)
+                    .addComponent(btnGuardar))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -406,12 +428,84 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
         this.cargarTabla();
+    }//GEN-LAST:event_btnAplicarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel(); 
+        if(this.isCamposOk()){
+            if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")&&(!this.cmbCartera.getSelectedItem().equals("GENERAL")) ){
+                Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+                Area unArea = (Area) this.cmbCartera.getSelectedItem();
+                int year = Integer.parseInt(this.tfYear.getText());
+                for(int i= 0; i<=11;i++){
+                    double listado =  Double.parseDouble(model.getValueAt(i, 1).toString());
+                    if(listado != 0.0){
+                        if(this.unControladorVisual.existeCobranza(unCobrador, year, i, unArea)){
+                            Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, i, unArea);
+                            unaCobranza.setListado(listado);
+                            try {
+                                this.unControladorVisual.modificarCobranza(unaCobranza);
+                            } catch (Exception ex) {
+                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }else{
+                            try {
+                                this.unControladorVisual.agregarCobranza(listado, i, year, unCobrador, unArea);
+                            } catch (PreexistingEntityException ex) {
+                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }    
+                } 
+                this.cargarTabla();
+            }  
+        }   
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public int getMesTabla(){
+        int mes = this.tblListado.getSelectedRow();
+        return mes;
+    }
+    
+    private void tblListadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblListadoKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){ 
+            DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel(); 
+            if(this.isCamposOk()){
+                if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")&&(!this.cmbCartera.getSelectedItem().equals("GENERAL")) ){
+                    int mes = this.getMesTabla();
+                    Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+                    Area unArea = (Area) this.cmbCartera.getSelectedItem();
+                    int year = Integer.parseInt(this.tfYear.getText());
+                    double listado =  Double.parseDouble(model.getValueAt(mes, 1).toString());
+                    if(listado != 0.0){
+                        if(this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea)){
+                            Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                            unaCobranza.setListado(listado);
+                            try {
+                                this.unControladorVisual.modificarCobranza(unaCobranza);
+                            } catch (Exception ex) {
+                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }else{
+                            try {
+                                this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador, unArea);
+                            } catch (PreexistingEntityException ex) {
+                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }    
+                    this.cargarTabla();
+                }  
+            }     
+        }
+
+    }//GEN-LAST:event_tblListadoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JComboBox<String> cmbCartera;

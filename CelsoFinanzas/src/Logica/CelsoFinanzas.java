@@ -332,6 +332,32 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
     
+    public boolean existeCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+        Iterator it = this.obtenerCobranzasDeCobrador(unCobrador, year, mes).iterator();
+        boolean existe = false;
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext() && existe == false){
+                unaCobranza = (Cobranza) it.next();
+                if(unaCobranza.getUnArea().equals(unArea)){
+                    existe = true;
+                }
+            }
+        return existe;
+    }
+    
+    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+        Iterator it = this.obtenerCobranzasDeCobrador(unCobrador, year, mes).iterator();
+        boolean existe = false;
+            Cobranza unaCobranza = new Cobranza();
+            while(it.hasNext() && existe == false){
+                unaCobranza = (Cobranza) it.next();
+                if(unaCobranza.getUnArea().equals(unArea)){
+                    existe = true;
+                }
+            }
+        return unaCobranza;
+    }
+    
     //Obtencion de Listados
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
