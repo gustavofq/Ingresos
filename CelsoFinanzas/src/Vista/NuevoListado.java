@@ -3,12 +3,14 @@ package Vista;
 import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
+import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
+import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -17,6 +19,8 @@ public class NuevoListado extends javax.swing.JInternalFrame {
     private JTableHeader th= new JTableHeader();
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private Utilitario unUtilitario = new Utilitario();
+    Font fuente = new Font("Dialog", Font.BOLD, 18);
+    JLabel mensaje = new JLabel("mensaje");
     
     public NuevoListado() {
         initComponents();
@@ -31,6 +35,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), cmbCartera);
         this.cmbCartera.addItem("GENERAL");
         this.cmbCobradores.addItem("GENERAL");
+        this.unUtilitario.cargarAnhoActual(tfYear);
     }
     
     private void cargarTablaListadoCobradorGeneral(){
@@ -155,13 +160,19 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         }
     }
     
+    
+   
     public boolean isCamposOk(){
         boolean camposCompletos = true;
         if(this.cmbCartera.getSelectedIndex()==-1){
             camposCompletos= false;
+            this.mensaje.setText("Seleccione una cartera especifica.");
+            //JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione una cartera",JOptionPane.INFORMATION_MESSAGE);
         }
         if(this.cmbCobradores.getSelectedIndex()==-1){
             camposCompletos = false;
+            this.mensaje.setText("Seleccione un cobrador especifico.");
+            //JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cobrador",JOptionPane.INFORMATION_MESSAGE);
         }
         if(this.tfYear.getText().length()==0){
             camposCompletos = false;
@@ -181,7 +192,6 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         tfYear = new javax.swing.JTextField();
         lblCartera = new javax.swing.JLabel();
         cmbCartera = new javax.swing.JComboBox<>();
-        btnAplicar = new javax.swing.JButton();
         pnlTotales = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTotales = new javax.swing.JTable();
@@ -190,7 +200,6 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         tblListado = new javax.swing.JTable();
         pnlNuevosDatos = new javax.swing.JPanel();
         btnImprimir = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -214,23 +223,36 @@ public class NuevoListado extends javax.swing.JInternalFrame {
 
         cmbCobradores.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCobradores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "QUINTANA JOSE", "GUTLEBER HUGO", "IVAN INSAURRALDE" }));
+        cmbCobradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCobradoresActionPerformed(evt);
+            }
+        });
 
         lblYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblYear.setText("AÑO:");
 
+        tfYear.setColumns(4);
         tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tfYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfYearActionPerformed(evt);
+            }
+        });
+        tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfYearKeyReleased(evt);
+            }
+        });
 
         lblCartera.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblCartera.setText("CARTERA:");
 
         cmbCartera.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCartera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GENERAL", "AFILIADOS", "SECTOR P." }));
-
-        btnAplicar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnAplicar.setText("Aplicar");
-        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
+        cmbCartera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAplicarActionPerformed(evt);
+                cmbCarteraActionPerformed(evt);
             }
         });
 
@@ -251,23 +273,20 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                 .addComponent(lblCartera)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(btnAplicar)
-                .addContainerGap())
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         pnlBuscarLayout.setVerticalGroup(
             pnlBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBuscarLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
+                .addGap(6, 6, 6)
                 .addGroup(pnlBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCobradores)
                     .addComponent(cmbCobradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblYear)
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCartera)
-                    .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAplicar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pnlTotales.setBorder(javax.swing.BorderFactory.createTitledBorder("TOTALES"));
@@ -281,9 +300,16 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                 "", "LISTADO ", "INGRESO", "COMISION", "NETO"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -317,26 +343,33 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         tblListado.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tblListado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"ENERO", null, null, null, null},
-                {"FEBRERO", null, null, null, null},
-                {"MARZO", null, null, null, null},
-                {"ABRIL", null, null, null, null},
-                {"MAYO", null, null, null, null},
-                {"JUNIO", null, null, null, null},
-                {"JULIO", null, null, null, null},
-                {"AGOSTO", null, null, null, null},
-                {"SEPTIEMBRE", null, null, null, null},
-                {"OCTUBRE", null, null, null, null},
-                {"NOVIEMBRE", null, null, null, null},
-                {"DICIEMBRE", null, null, null, null}
+                {"ENERO",  new Double(0.0), null, null, null},
+                {"FEBRERO",  new Double(0.0), null, null, null},
+                {"MARZO",  new Double(0.0), null, null, null},
+                {"ABRIL",  new Double(0.0), null, null, null},
+                {"MAYO",  new Double(0.0), null, null, null},
+                {"JUNIO",  new Double(0.0), null, null, null},
+                {"JULIO",  new Double(0.0), null, null, null},
+                {"AGOSTO",  new Double(0.0), null, null, null},
+                {"SEPTIEMBRE",  new Double(0.0), null, null, null},
+                {"OCTUBRE",  new Double(0.0), null, null, null},
+                {"NOVIEMBRE",  new Double(0.0), null, null, null},
+                {"DICIEMBRE",  new Double(0.0), null, null, null}
             },
             new String [] {
                 "MES", "LISTADO", "INGRESO", "COMISION", "NETO"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, true, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -367,31 +400,20 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         btnImprimir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnImprimir.setText("IMPRIMIR");
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
         pnlNuevosDatosLayout.setHorizontalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(btnImprimir)
-                .addGap(270, 270, 270)
-                .addComponent(btnGuardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnImprimir))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnImprimir)
-                    .addComponent(btnGuardar))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnImprimir)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -428,85 +450,92 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
-        this.cargarTabla();
-    }//GEN-LAST:event_btnAplicarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel(); 
-        if(this.isCamposOk()){
-            if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")&&(!this.cmbCartera.getSelectedItem().equals("GENERAL")) ){
-                Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-                Area unArea = (Area) this.cmbCartera.getSelectedItem();
-                int year = Integer.parseInt(this.tfYear.getText());
-                for(int i= 0; i<=11;i++){
-                    double listado =  Double.parseDouble(model.getValueAt(i, 1).toString());
-                    if(listado != 0.0){
-                        if(this.unControladorVisual.existeCobranza(unCobrador, year, i, unArea)){
-                            Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, i, unArea);
-                            unaCobranza.setListado(listado);
-                            try {
-                                this.unControladorVisual.modificarCobranza(unaCobranza);
-                            } catch (Exception ex) {
-                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }else{
-                            try {
-                                this.unControladorVisual.agregarCobranza(listado, i, year, unCobrador, unArea);
-                            } catch (PreexistingEntityException ex) {
-                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }    
-                } 
-                this.cargarTabla();
-            }  
-        }   
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     public int getMesTabla(){
         int mes = this.tblListado.getSelectedRow();
         return mes;
     }
     
     private void tblListadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblListadoKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){ 
-            DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel(); 
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel();
             if(this.isCamposOk()){
-                if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")&&(!this.cmbCartera.getSelectedItem().equals("GENERAL")) ){
-                    int mes = this.getMesTabla();
-                    Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-                    Area unArea = (Area) this.cmbCartera.getSelectedItem();
-                    int year = Integer.parseInt(this.tfYear.getText());
-                    double listado =  Double.parseDouble(model.getValueAt(mes, 1).toString());
-                    if(listado != 0.0){
-                        if(this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea)){
-                            Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-                            unaCobranza.setListado(listado);
-                            try {
-                                this.unControladorVisual.modificarCobranza(unaCobranza);
-                            } catch (Exception ex) {
-                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")){
+                    if(!this.cmbCartera.getSelectedItem().equals("GENERAL")){
+                        int mes = this.getMesTabla();
+                        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+                        Area unArea = (Area) this.cmbCartera.getSelectedItem();
+                        int year = Integer.parseInt(this.tfYear.getText());
+                        if(model.getValueAt(mes, 1) != null ){
+                            double listado =  Double.parseDouble(model.getValueAt(mes, 1).toString());
+                            if(this.unUtilitario.isDouble(model.getValueAt(mes, 1).toString())){
+                                this.agregarDatos(listado, unCobrador, year, mes, unArea);
+                                this.cargarTabla();
+                            }else{
+                                model.setValueAt(0.0, mes, 1);
+                            } 
                         }else{
-                            try {
-                                this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador, unArea);
-                            } catch (PreexistingEntityException ex) {
-                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            model.setValueAt(0.0, mes, 1);
                         }
-                    }    
-                    this.cargarTabla();
-                }  
-            }     
+                    }else{
+                        this.mensaje.setText("Seleccione una cartera especifica.");
+                        JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione una cartera",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }else{
+                    this.mensaje.setText("Seleccione un cobrador especifico.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cobrador",JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         }
-
     }//GEN-LAST:event_tblListadoKeyReleased
+
+    private void agregarDatos(double listado, Cobrador unCobrador, int year, int mes ,Area unArea){
+        if(listado != 0.0){
+            if(this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea)){
+                Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                unaCobranza.setListado(listado);
+                try {
+                    this.unControladorVisual.modificarCobranza(unaCobranza);
+                } catch (Exception ex) {
+                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    this.unControladorVisual.agregarCobranza(listado, mes, year, unCobrador, unArea);
+                }catch (PreexistingEntityException ex) {
+                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }if(listado == 0.0){
+            Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+            try {
+                unControladorVisual.borrarCobranza(unaCobranza.getId());
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ViolacionClaveForaneaException ex) {
+                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased
+        this.unUtilitario.limitarLetra(4, tfYear);
+        this.unUtilitario.borrarLetra(tfYear);
+    }//GEN-LAST:event_tfYearKeyReleased
+
+    private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_cmbCobradoresActionPerformed
+
+    private void cmbCarteraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCarteraActionPerformed
+        this.cargarTabla();
+    }//GEN-LAST:event_cmbCarteraActionPerformed
+
+    private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
+        this.cargarTabla();
+    }//GEN-LAST:event_tfYearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAplicar;
-    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JComboBox<String> cmbCartera;
     private javax.swing.JComboBox<String> cmbCobradores;
