@@ -475,6 +475,8 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                             } 
                         }else{
                             model.setValueAt(0.0, mes, 1);
+                            this.borrarListado(unCobrador, year, mes, unArea);
+                            this.cargarTabla();
                         }
                     }else{
                         this.mensaje.setText("Seleccione una cartera especifica.");
@@ -505,7 +507,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                     Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }if(listado == 0.0){
+        }if(listado == 0){
             Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
             try {
                 unControladorVisual.borrarCobranza(unaCobranza.getId());
@@ -515,6 +517,17 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                     Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    private void borrarListado(Cobrador unCobrador, int year, int mes, Area unArea){
+        Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+            try {
+                unControladorVisual.borrarCobranza(unaCobranza.getId());
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ViolacionClaveForaneaException ex) {
+                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased

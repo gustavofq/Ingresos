@@ -213,7 +213,7 @@ public  class Cobranza implements Serializable,Comparable {
     
     @Override
     public String toString() {
-        return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + '}';
+        return "Cobranza{" + "id=" + id + ", listado=" + listado + ", afiliado=" + afiliado + ", neto=" + neto + ", mes=" + mes + ", year=" + year + " Area =" + this.unArea.getNombre() + " cobrador="+ this.unCobrador.getAlias()+ '}';
     }
 
     @Override

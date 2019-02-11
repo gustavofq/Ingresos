@@ -136,6 +136,19 @@ public class CelsoFinanzas implements Serializable {
         return existe;
     }
     
+    public Area obtenerAreaPorNombre(String nombre){
+        Iterator it = this.persistencia.obtenerAreas().iterator();
+        Area unArea = new Area();
+        boolean encontro = false;
+        while((it.hasNext()) && (encontro == false)){
+            unArea = (Area) it.next();
+            if(unArea.getNombre().equals(nombre)){
+                encontro = true;
+            }
+        }
+        return unArea;
+    }
+    
     public List<Area> obtenerAreas(){
         return this.persistencia.obtenerAreas();
     }
@@ -270,6 +283,8 @@ public class CelsoFinanzas implements Serializable {
     
     //fin abm cobranzas
     //inicio abm ingresos
+    
+    
     public void agregarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         unaCobranza.agregarIngreso(unIngreso);
         unaCobranza.setAfiliado(unaCobranza.calcularAfiliadoTotal());
@@ -291,15 +306,29 @@ public class CelsoFinanzas implements Serializable {
     
     public List<Calendar> obtenerFechas(Cobrador unCobrador, int year, int mes){
         List<Cobranza> cobranzas = this.obtenerCobranzasDeCobrador(unCobrador, year, mes);
-        HashSet<Calendar> fechas = new HashSet<>();
+        List<Calendar> fechas = new ArrayList<>();
         for(Cobranza unaCobranza: cobranzas){
             for(Ingreso unIngreso:unaCobranza.getIngresos()){
                 fechas.add(unIngreso.getFecha());
             }
         }
         List<Calendar> listaFechas = new ArrayList(fechas);
-        Collections.sort(listaFechas);
+        Collections.sort(fechas);
         return listaFechas;
+    }
+    
+    public List<Ingreso> obtenerIngresos(Cobrador unCobrador,int year, int mes, Area unArea ){
+        List<Cobranza> cobranzas = this.obtenerCobranzasDeCobrador(unCobrador, year, mes);
+        List<Ingreso> ingresos = new ArrayList<>();
+        for(Cobranza unaCobranza: cobranzas){
+            if(unaCobranza.getUnCobrador().equals(unCobrador) 
+                    && unaCobranza.getYear() == year 
+                    && unaCobranza.getMes() == mes 
+                    && unaCobranza.getUnArea().equals(unArea)){
+                ingresos = unaCobranza.getIngresos();
+            }
+        }
+        return ingresos;
     }
     
     
@@ -439,7 +468,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
             if(unaCobranza.getMes() == mes){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -449,7 +478,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
             if((unaCobranza.getMes() == mes)&&(unaCobranza.getUnArea().equals(unArea))){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -458,7 +487,7 @@ public class CelsoFinanzas implements Serializable {
     public double obtenerAfiliadoDelCobrador(Cobrador unCobrador, int year ){
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
-            total += unaCobranza.getAfiliado();
+            total += unaCobranza.calcularAfiliadoTotal();
         }
         return total;
     }
@@ -467,7 +496,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasDeCobrador(unCobrador, year)){
             if(unaCobranza.getUnArea().equals(unArea)){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -477,7 +506,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea,year)){
             if(unaCobranza.getUnArea().equals(unArea)){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -487,7 +516,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasArea(unArea, year)){
             if(unaCobranza.getMes() == mes){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -497,7 +526,7 @@ public class CelsoFinanzas implements Serializable {
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasYear( year)){
             if(unaCobranza.getMes() == mes){
-                total += unaCobranza.getAfiliado();
+                total += unaCobranza.calcularAfiliadoTotal();
             }
         }
         return total;
@@ -506,11 +535,10 @@ public class CelsoFinanzas implements Serializable {
     public double obtenerAfiliadoYear(int year){
         double total = 0;
         for(Cobranza unaCobranza: this.obtenerCobranzasYear(year)){
-            total += unaCobranza.getAfiliado();
+            total += unaCobranza.calcularAfiliadoTotal();
         }
         return total;
     }
-    
     
     //Fin Obtencion de Afiliados.
     //Obtencion de Comisiones.

@@ -690,7 +690,7 @@ public class GestionarIngreso extends javax.swing.JInternalFrame implements Suje
                 Ingreso unIngreso = new Ingreso(afiliado, this.tfConcepto.getText(), this.jdcFecha.getCalendar());
                 controlarConcepto();
                 try {
-                    this.unControladorVisual.agregarIngreso(unaCobranza, unIngreso);
+                       
                     this.cargarTablaIngresos();
                     this.notificar();
                     this.unComprobantePago.imprimir(unaCobranza,unIngreso);

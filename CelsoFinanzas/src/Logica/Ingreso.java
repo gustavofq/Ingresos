@@ -21,6 +21,8 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
     private Calendar fecha;
     @Basic 
     private Double pagado;
+    @Basic 
+    private int fila;
     
     public Ingreso() {
     }
@@ -31,6 +33,7 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.concepto = concepto;
         this.fecha = fecha;
         this.pagado = 0.0;
+        this.fila = 0;
     }
 
     public Ingreso(Double Afiliado, String concepto, Calendar fecha) {
@@ -38,6 +41,7 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.concepto = concepto;
         this.fecha = fecha;
         this.pagado = 0.0;
+         this.fila = 0;
     }
 
     public Ingreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) {
@@ -45,8 +49,17 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.concepto = concepto;
         this.fecha = fecha;
         this.pagado = 0.0;
+        this.fila = 0;
     }
 
+    public Ingreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza ,int fila) {
+        this.Afiliado = Afiliado;
+        this.concepto = concepto;
+        this.fecha = fecha;
+        this.pagado = 0.0;
+        this.fila = fila;
+    }
+    
     public int getId() {
         return id;
     }
@@ -86,6 +99,16 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
     public void setPagado(Double pagado) {
         this.pagado = pagado;
     }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+    
+    
     
     @Override
     public String toString() {

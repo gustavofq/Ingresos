@@ -42,6 +42,10 @@ public class ControladorVisual {
         this.unCelsoFinanzas.borrarArea(id);
     }
     
+    public Area obtenerAreaPorNombre(String nombre){
+        return this.unCelsoFinanzas.obtenerAreaPorNombre(nombre);
+    }
+    
     public List<Area> obtenerAreas(){
         return this.unCelsoFinanzas.obtenerAreas();
     }
@@ -107,6 +111,10 @@ public class ControladorVisual {
     
     public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{
         this.unCelsoFinanzas.modificarIngreso(unaCobranza, oldIngreso, newIngreso);
+    }
+    
+    public List<Ingreso> obtenerIngresos(Cobrador unCobrador, int year, int mes, Area unArea){
+        return this.unCelsoFinanzas.obtenerIngresos(unCobrador, year, mes, unArea);
     }
     
     public List<Calendar> obtenerFechas(Cobrador unCobrador, int year, int mes){
