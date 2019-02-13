@@ -117,6 +117,10 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerIngresos(unCobrador, year, mes, unArea);
     }
     
+    public Ingreso obtenerIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila) throws NonexistentEntityException{
+        return this.unCelsoFinanzas.obtenerIngreso(unCobrador, year, mes, unArea, fila);
+    }
+    
     public List<Calendar> obtenerFechas(Cobrador unCobrador, int year, int mes){
         return this.unCelsoFinanzas.obtenerFechas(unCobrador, year, mes);
     }
@@ -274,7 +278,14 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.existeCobranza(unCobrador, year, mes, unArea);
     }
     
-    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea) throws NonexistentEntityException{
         return this.unCelsoFinanzas.obtenerCobranza(unCobrador, year, mes, unArea);
+    }
+    
+    public boolean existeIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila, Double ingreso){
+        return this.unCelsoFinanzas.existeIngreso(unCobrador, year, mes, unArea, fila, ingreso);
+    }
+    public boolean existeIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila){
+        return this.unCelsoFinanzas.existeIngreso(unCobrador, year, mes, unArea, fila);
     }
 }

@@ -456,7 +456,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
     }
     
     private void tblListadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblListadoKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        /*if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel();
             if(this.isCamposOk()){
                 if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")){
@@ -468,14 +468,22 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                         if(model.getValueAt(mes, 1) != null ){
                             double listado =  Double.parseDouble(model.getValueAt(mes, 1).toString());
                             if(this.unUtilitario.isDouble(model.getValueAt(mes, 1).toString())){
-                                this.agregarDatos(listado, unCobrador, year, mes, unArea);
+                                try {
+                                    this.agregarDatos(listado, unCobrador, year, mes, unArea);
+                                } catch (NonexistentEntityException ex) {
+                                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                                 this.cargarTabla();
                             }else{
                                 model.setValueAt(0.0, mes, 1);
                             } 
                         }else{
                             model.setValueAt(0.0, mes, 1);
-                            this.borrarListado(unCobrador, year, mes, unArea);
+                            try {
+                                this.borrarListado(unCobrador, year, mes, unArea);
+                            } catch (NonexistentEntityException ex) {
+                                Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             this.cargarTabla();
                         }
                     }else{
@@ -487,10 +495,10 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cobrador",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_tblListadoKeyReleased
 
-    private void agregarDatos(double listado, Cobrador unCobrador, int year, int mes ,Area unArea){
+    private void agregarDatos(double listado, Cobrador unCobrador, int year, int mes ,Area unArea) throws NonexistentEntityException{
         if(listado != 0.0){
             if(this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea)){
                 Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
@@ -519,7 +527,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
         }
     }
     
-    private void borrarListado(Cobrador unCobrador, int year, int mes, Area unArea){
+    private void borrarListado(Cobrador unCobrador, int year, int mes, Area unArea) throws NonexistentEntityException{
         Cobranza unaCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
             try {
                 unControladorVisual.borrarCobranza(unaCobranza.getId());

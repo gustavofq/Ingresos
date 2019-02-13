@@ -2,6 +2,7 @@ package Logica;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,6 +45,14 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
          this.fila = 0;
     }
 
+    public Ingreso(Double Afiliado, String concepto, Calendar fecha, int fila) {
+        this.Afiliado = Afiliado;
+        this.concepto = concepto;
+        this.fecha = fecha;
+        this.pagado = 0.0;
+         this.fila = fila;
+    }
+    
     public Ingreso(Double Afiliado, String concepto, Calendar fecha, Cobranza unaCobranza) {
         this.Afiliado = Afiliado;
         this.concepto = concepto;
@@ -108,8 +117,7 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.fila = fila;
     }
     
-    
-    
+
     @Override
     public String toString() {
         return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';
@@ -119,4 +127,39 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
     public int compareTo(Ingreso o) {
         return this.fecha.compareTo(o.getFecha());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ingreso other = (Ingreso) obj;
+        if (this.fila != other.fila) {
+            return false;
+        }
+        if (!Objects.equals(this.concepto, other.concepto)) {
+            return false;
+        }
+        if (!Objects.equals(this.Afiliado, other.Afiliado)) {
+            return false;
+        }
+        if (!Objects.equals(this.fecha, other.fecha)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

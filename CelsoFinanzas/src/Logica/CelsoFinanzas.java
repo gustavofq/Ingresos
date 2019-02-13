@@ -317,6 +317,47 @@ public class CelsoFinanzas implements Serializable {
         return listaFechas;
     }
     
+    public Ingreso obtenerIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila) throws NonexistentEntityException{
+        Ingreso ingreso = new Ingreso();
+        for(Ingreso unIngreso:this.obtenerIngresos(unCobrador, year, mes, unArea)){
+            if(unIngreso.getFila() == fila ){
+                ingreso = unIngreso;
+            }
+        }
+        if(ingreso == null){
+            throw new NonexistentEntityException("no existe tal ingreso.");
+        }
+        return ingreso;
+    }
+    
+    public boolean existeIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila, Double ingreso){
+        boolean existe = false;
+        for(Ingreso unIngreso:this.obtenerIngresos(unCobrador, year, mes, unArea)){
+            if(unIngreso.getFila() == fila && unIngreso.getAfiliado().equals(ingreso)){
+                existe = true;
+                System.out.println("Existe ingreso.");
+            }
+        }
+        if(existe ==false ){
+            System.out.println("no Existe ingreso.");
+        }
+        return existe;
+    }
+    
+    public boolean existeIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila){
+        boolean existe = false;
+        for(Ingreso unIngreso:this.obtenerIngresos(unCobrador, year, mes, unArea)){
+            if(unIngreso.getFila() == fila ){
+                existe = true;
+                System.out.println("Existe ingreso.");
+            }
+        }
+        if(existe ==false ){
+            System.out.println("no Existe ingreso.");
+        }
+        return existe;
+    }
+    
     public List<Ingreso> obtenerIngresos(Cobrador unCobrador,int year, int mes, Area unArea ){
         List<Cobranza> cobranzas = this.obtenerCobranzasDeCobrador(unCobrador, year, mes);
         List<Ingreso> ingresos = new ArrayList<>();
@@ -373,7 +414,7 @@ public class CelsoFinanzas implements Serializable {
         return existe;
     }
     
-    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea){
+    public Cobranza obtenerCobranza(Cobrador unCobrador, int year, int mes, Area unArea) throws NonexistentEntityException{
         Iterator it = this.obtenerCobranzasDeCobrador(unCobrador, year, mes).iterator();
         boolean existe = false;
             Cobranza unaCobranza = new Cobranza();
@@ -382,6 +423,9 @@ public class CelsoFinanzas implements Serializable {
                 if(unaCobranza.getUnArea().equals(unArea)){
                     existe = true;
                 }
+            }
+            if(existe == false){
+                throw new NonexistentEntityException("no exiete la cobranza del cobrador " + unCobrador.getAlias()+ " del mes " + mes + " del año " + year + " en el area " +unArea.getNombre());
             }
         return unaCobranza;
     }
@@ -647,8 +691,6 @@ public class CelsoFinanzas implements Serializable {
     public double obtenerNetoYear(int year){
         return this.obtenerAfiliadoYear(year) - this.obtenerComisionYear(year);
     }
-    
-    
     
     //Fin obtencion de Neto
     

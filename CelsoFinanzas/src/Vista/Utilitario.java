@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.DateFormatSymbols;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -207,6 +208,14 @@ public class Utilitario {
        return s;
     }
     
+    public Calendar obtenerFecha(String fecha) throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse(fecha);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
+    
     /**elimina el caracter que no sea numerico.
      *@param text JtexField el cual se eliminará el caracter no numerico.
      */
@@ -288,6 +297,7 @@ public class Utilitario {
             i++;
         }
     }
+
     
     class MyIntFilter extends DocumentFilter {
     @Override

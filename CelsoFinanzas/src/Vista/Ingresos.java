@@ -4,7 +4,10 @@ import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
+import Persistencia.exceptions.NonexistentEntityException;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,17 +27,16 @@ public class Ingresos extends javax.swing.JInternalFrame {
     
     public Ingresos() {
         initComponents();
+        this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbCarteras);
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), cmbCobradores);
         this.unUtilitario.cargarMesActual(cmbMes);
         this.unUtilitario.cargarAnhoActual(tfYear);
-        th= this.tblIngresos.getTableHeader();
+        th = this.tblIngresos.getTableHeader();
         th.setFont(fuente);
         this.tblIngresos.setTableHeader(th);
-        th= this.tblTotales.getTableHeader();
+        th = this.tblTotales.getTableHeader();
         th.setFont(fuente);
         this.tblTotales.setTableHeader(th);
-        this.carcarFechas();
-        this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbCarteras);
     }
 
     @SuppressWarnings("unchecked")
@@ -268,6 +270,11 @@ public class Ingresos extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblIngresos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblIngresosKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblIngresos);
         if (tblIngresos.getColumnModel().getColumnCount() > 0) {
             tblIngresos.getColumnModel().getColumn(8).setResizable(false);
@@ -384,15 +391,11 @@ public class Ingresos extends javax.swing.JInternalFrame {
         if(this.tfYear.getText().length() == 0){
             camposOk = false;
         }
-        
         return camposOk;
     }
     
     public void actualizarTablas(){
         if(this.isCamposOk()){
-            this.unUtilitario.LimpiarTabla(this.tblIngresos);
-            this.unUtilitario.LimpiarTabla(this.tblTotales);
-            this.carcarFechas();
             this.obtenerIngresosAfiliado();
             this.obtenerIngresosSp();
             calcularFilas();
@@ -401,91 +404,133 @@ public class Ingresos extends javax.swing.JInternalFrame {
     }
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
-        Double importe = Double.parseDouble(this.tfIngreso.getText());
-        Calendar fecha = this.dcFecha.getCalendar();
-        Area unArea = (Area)this.cmbCarteras.getSelectedItem();
-        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
-        int mes = this.cmbMes.getMonth();
-        int year = Integer.parseInt(this.tfYear.getText());
-        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-        Ingreso unIngreso = new Ingreso(importe,controlarConcepto(this.tfConcepto.getText()), fecha);
         try {
-            this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+            guardarAfiliado();
+            guardarSp();
             this.actualizarTablas();
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "alto error al guardarsp");
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
-        //this.actualizarTablas();
+        
     }//GEN-LAST:event_cmbCobradoresActionPerformed
-
-    private String controlarConcepto(String texto){
-        String otroConcepto = "-";
-        if(this.tfConcepto.getText().length()!=0){
-           otroConcepto = texto;
-        }
-        return otroConcepto;
-    }
-    
+ 
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
        this.actualizarTablas();
     }//GEN-LAST:event_tfYearActionPerformed
 
     private void cmbMesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbMesMouseClicked
-        //actualizarTablas();
+        
     }//GEN-LAST:event_cmbMesMouseClicked
 
-    public void carcarFechas(){
-        Cobrador unCobrador =(Cobrador) this.cmbCobradores.getSelectedItem();
+    private void tblIngresosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblIngresosKeyReleased
+        calcularFilas();
+        calcularColumnas();
+    }//GEN-LAST:event_tblIngresosKeyReleased
+
+    private void guardarAfiliado() throws ParseException, Exception{
+        DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
+        Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
+        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         int mes = this.cmbMes.getMonth();
         int year = Integer.parseInt(this.tfYear.getText());
-        DefaultTableModel modelo = (DefaultTableModel) this.tblIngresos.getModel(); //GENERO UN NUEVO TABLE MODEL.. AL CUAL LE ASIGNO EL MODELO DE LA TABLA QUE CARGAMOS
-        int filas = tblIngresos.getRowCount(); ///GENERO UN INDICE PARA SABER CUANTAS FILAS TIENE MI TABLA
-        for (int i = 0; i < filas; i++) {    ////RECORRO EL INDICE A TRAVES DE UN CICLO FOR
-            modelo.removeRow(0);   /////DE ESTA MANERA VOY QUITANDO EL SIEMPRE LA PRIMER FILA DEL MODELO...ESTO UNA VEZ FINALIZADO EL RECORRIDO DEL FOR NOS 								     
-        }		
-        Object[] fila = new Object[1];   ///GENERO UN VECTOR DE TIPO OBJECT DADO QUE EN EL VOY A CARGAR DISTINTOS TIPOS DE DATOS
-            for (Calendar unCalendar: this.unControladorVisual.obtenerFechas(unCobrador, year, mes)) { ///RECORRO LA LISTA UTILIZANDO UN FOR EACH
-                fila[0] = this.unUtilitario.obtenerFecha(unCalendar);
-                modelo.addRow(fila);  ////AGREGO A MI MODELO UNA FILA (ES IMPORTANTE SABER QUE CADA VECTOR ES UNA FILA DA LA TABLA)
+        for(int i = 0; i< this.tblIngresos.getRowCount();i++){
+            if(model.getValueAt(i, 2)!= null){
+                Double importe = Double.parseDouble(model.getValueAt(i, 2).toString());
+                if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i, importe)){
+                    System.out.println("Deberia modificar los otros atriburos.");
+                }else{
+                    if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i)){
+                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
+                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                        Ingreso newIngreso = oldIngreso;
+                        newIngreso.setAfiliado(importe);
+                        newIngreso.setConcepto(concepto);
+                        newIngreso.setFecha(fecha);
+                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
+                    }else{
+                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
+                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                    }
+                    
+                } 
             }
-        tblIngresos.setModel(modelo); 
-    } 
+            
+        }
+        
+    }
+  
+    public void guardarSp() throws ParseException, Exception{
+        Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
+        Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+        int mes = this.cmbMes.getMonth();
+        int year = Integer.parseInt(this.tfYear.getText());
+        for(int i = 0; i< this.tblIngresos.getRowCount();i++){
+            if(this.tblIngresos.getValueAt(i, 4)!= null){
+                Double importe = Double.parseDouble(this.tblIngresos.getValueAt(i, 4).toString());
+                if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i, importe)){
+                
+                }else{
+                    if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i)){
+                        /*Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
+                        Ingreso newIngreso = new Ingreso(importe,concepto, fecha, i);
+                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);*/
+                    }else{
+                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
+                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                    }
+                    
+                } 
+            }
+            
+        }
+
+    }
     
     private void obtenerIngresosAfiliado(){
         Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
         Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
         int year = Integer.parseInt(tfYear.getText());
         int mes = this.cmbMes.getMonth();
+        int fila = 0;
         DefaultTableModel model = (DefaultTableModel) this.tblIngresos.getModel();
-        for(int i = 0; i < model.getRowCount(); i++ ){
-            for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
-                if(this.unUtilitario.obtenerFecha(unIngreso.getFecha()).equals(model.getValueAt(i, 0))){
-                    model.setValueAt(unIngreso.getConcepto(), i, 1);
-                    model.setValueAt(unIngreso.getAfiliado(), i, 2);
-                    model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , i, 3);
-                }
-            }
+        for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
+            fila = unIngreso.getFila();
+            model.setValueAt(this.unUtilitario.obtenerFecha(unIngreso.getFecha()), fila, 0);
+            model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            model.setValueAt(unIngreso.getAfiliado(), fila, 2);
+            model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , fila, 3);      
         }
         this.tblIngresos.setModel(model);
     }
-    
+   
     public void obtenerIngresosSp(){
         Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
         Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
         int year = Integer.parseInt(tfYear.getText());
         int mes = this.cmbMes.getMonth();
+        int fila = 0;
         DefaultTableModel model = (DefaultTableModel) this.tblIngresos.getModel();
-        for(int i = 0; i < model.getRowCount(); i++ ){
-            for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
-                if(this.unUtilitario.obtenerFecha(unIngreso.getFecha()).equals(model.getValueAt(i, 0))){
-                    model.setValueAt(unIngreso.getAfiliado(), i, 4);
-                    model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , i, 5);
-                }
-            }
+        for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
+            fila = unIngreso.getFila();
+            model.setValueAt(this.unUtilitario.obtenerFecha(unIngreso.getFecha()), fila, 0);
+            model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            model.setValueAt(unIngreso.getAfiliado(), fila, 4);
+            model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , fila, 5);      
         }
         this.tblIngresos.setModel(model);
     }
