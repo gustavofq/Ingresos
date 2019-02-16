@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Entity;
@@ -296,6 +295,7 @@ public class CelsoFinanzas implements Serializable {
     public void borrarIngreso(Cobranza unaCobranza, Ingreso unIngreso) throws Exception{
         unaCobranza.borrarIngreso(unIngreso);
         this.persistencia.modificarCobranza(unaCobranza);
+        this.persistencia.borrarIngreso(unIngreso.getId());
     }
     
     public void modificarIngreso(Cobranza unaCobranza, Ingreso oldIngreso, Ingreso newIngreso) throws Exception{

@@ -405,8 +405,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            guardarAfiliado();
-            guardarSp();
+            this.guardarAfiliadoBis();
+            //guardarAfiliado();
+            guardarSPBis();
             this.actualizarTablas();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "alto error al guardarsp");
@@ -431,75 +432,87 @@ public class Ingresos extends javax.swing.JInternalFrame {
         calcularColumnas();
     }//GEN-LAST:event_tblIngresosKeyReleased
 
-    private void guardarAfiliado() throws ParseException, Exception{
+    private void guardarAfiliadoBis() throws ParseException, Exception{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         int mes = this.cmbMes.getMonth();
         int year = Integer.parseInt(this.tfYear.getText());
+        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
         for(int i = 0; i< this.tblIngresos.getRowCount();i++){
             if(model.getValueAt(i, 2)!= null){
                 Double importe = Double.parseDouble(model.getValueAt(i, 2).toString());
-                if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i, importe)){
-                    System.out.println("Deberia modificar los otros atriburos.");
+                Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                 String concepto = "";
+                if((this.tblIngresos.getValueAt(i, 1))!= null){
+                    concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
                 }else{
-                    if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i)){
-                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
-                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                        Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                        Ingreso newIngreso = oldIngreso;
-                        newIngreso.setAfiliado(importe);
-                        newIngreso.setConcepto(concepto);
-                        newIngreso.setFecha(fecha);
-                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+                    concepto= "-";
+                }
+                Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                Ingreso newIngreso = oldIngreso;
+                newIngreso.setAfiliado(importe);
+                newIngreso.setConcepto(concepto);
+                newIngreso.setFecha(fecha);
+                oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                if(oldIngreso.getFecha() != null){
+                     if(!oldIngreso.equals(newIngreso)){
                         this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
-                    }else{
-                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
-                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
-                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
-                    }
-                    
-                } 
+                     }
+                }else{
+                    Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                    this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                }   
             }
-            
         }
-        
     }
-  
-    public void guardarSp() throws ParseException, Exception{
+    
+    public String controlarConcepto(String text){
+        String otroText = "";
+        if((text.length() == 0) || (text == null)){
+            otroText = "-";
+        }else{
+            otroText = text;
+        }
+        return otroText;
+    }
+    
+    private void guardarSPBis() throws ParseException, Exception{
+        DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         int mes = this.cmbMes.getMonth();
         int year = Integer.parseInt(this.tfYear.getText());
+        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
         for(int i = 0; i< this.tblIngresos.getRowCount();i++){
-            if(this.tblIngresos.getValueAt(i, 4)!= null){
-                Double importe = Double.parseDouble(this.tblIngresos.getValueAt(i, 4).toString());
-                if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i, importe)){
-                
+            if(model.getValueAt(i, 4)!= null){
+                Double importe = Double.parseDouble(model.getValueAt(i, 4).toString());
+                Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                String concepto = "";
+                if((this.tblIngresos.getValueAt(i, 1))!= null){
+                    concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
                 }else{
-                    if(this.unControladorVisual.existeIngreso(unCobrador, year, mes, unArea, i)){
-                        /*Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
-                        Ingreso newIngreso = new Ingreso(importe,concepto, fecha, i);
-                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);*/
-                    }else{
-                        Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                        String concepto = (this.tblIngresos.getValueAt(i, 1)).toString();
-                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
-                        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
-                    }
-                    
-                } 
+                    concepto= "-";
+                }
+                Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                Ingreso newIngreso = oldIngreso;
+                newIngreso.setAfiliado(importe);
+                newIngreso.setConcepto(concepto);
+                newIngreso.setFecha(fecha);
+                oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                if(oldIngreso.getFecha() != null){
+                     if(!oldIngreso.equals(newIngreso)){
+                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
+                     }
+                }else{
+                    Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                    this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                }   
             }
-            
         }
-
     }
+    
+   
     
     private void obtenerIngresosAfiliado(){
         Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
@@ -511,7 +524,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
         for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
             fila = unIngreso.getFila();
             model.setValueAt(this.unUtilitario.obtenerFecha(unIngreso.getFecha()), fila, 0);
-            model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            if(!unIngreso.getConcepto().equals("-")){
+                model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            }
             model.setValueAt(unIngreso.getAfiliado(), fila, 2);
             model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , fila, 3);      
         }
@@ -528,7 +543,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
         for(Ingreso unIngreso: this.unControladorVisual.obtenerIngresos(unCobrador, year, mes , unArea)){
             fila = unIngreso.getFila();
             model.setValueAt(this.unUtilitario.obtenerFecha(unIngreso.getFecha()), fila, 0);
-            model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            if(!unIngreso.getConcepto().equals("-")){
+                model.setValueAt(unIngreso.getConcepto(), fila, 1);
+            }
             model.setValueAt(unIngreso.getAfiliado(), fila, 4);
             model.setValueAt((unCobrador.getUnaComision() * unIngreso.getAfiliado())/100 , fila, 5);      
         }

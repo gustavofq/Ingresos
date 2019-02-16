@@ -135,30 +135,25 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    public boolean equals(Object unIngreso) {
+        Ingreso otroIngreso = (Ingreso) unIngreso;
+        boolean iguales = true;
+        if(!this.Afiliado.equals(otroIngreso.getAfiliado())){
+            iguales = false;
         }
-        if (obj == null) {
-            return false;
+        if(!this.concepto.equals(otroIngreso.getConcepto())){
+            iguales = false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
+        if(!this.fecha.equals(otroIngreso.getFecha())){
+            iguales = false;
         }
-        final Ingreso other = (Ingreso) obj;
-        if (this.fila != other.fila) {
-            return false;
+        if(this.id != otroIngreso.getId()){
+            iguales = false;
         }
-        if (!Objects.equals(this.concepto, other.concepto)) {
-            return false;
+        if(this.fila != otroIngreso.getFila()){
+            iguales = false;
         }
-        if (!Objects.equals(this.Afiliado, other.Afiliado)) {
-            return false;
-        }
-        if (!Objects.equals(this.fecha, other.fecha)) {
-            return false;
-        }
-        return true;
+        return iguales;
     }
     
     
