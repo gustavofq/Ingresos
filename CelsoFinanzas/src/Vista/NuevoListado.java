@@ -456,7 +456,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
     }
     
     private void tblListadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblListadoKeyReleased
-        /*if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             DefaultTableModel model = (DefaultTableModel) this.tblListado.getModel();
             if(this.isCamposOk()){
                 if(!this.cmbCobradores.getSelectedItem().equals("GENERAL")){
@@ -495,7 +495,7 @@ public class NuevoListado extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cobrador",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_tblListadoKeyReleased
 
     private void agregarDatos(double listado, Cobrador unCobrador, int year, int mes ,Area unArea) throws NonexistentEntityException{

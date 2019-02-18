@@ -4,9 +4,7 @@ import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
-import Persistencia.exceptions.NonexistentEntityException;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -15,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class Ingresos extends javax.swing.JInternalFrame {
     private Utilitario unUtilitario = new Utilitario();
@@ -27,7 +23,6 @@ public class Ingresos extends javax.swing.JInternalFrame {
     
     public Ingresos() {
         initComponents();
-        this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerAreas(), this.cmbCarteras);
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), cmbCobradores);
         this.unUtilitario.cargarMesActual(cmbMes);
         this.unUtilitario.cargarAnhoActual(tfYear);
@@ -52,15 +47,7 @@ public class Ingresos extends javax.swing.JInternalFrame {
         lblYear = new javax.swing.JLabel();
         tfYear = new javax.swing.JTextField();
         pnlNuevosDatos = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        tfIngreso = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        cmbCarteras = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        dcFecha = new com.toedter.calendar.JDateChooser();
         btnGuardar = new javax.swing.JButton();
-        tfConcepto = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         pnlTablas = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblIngresos = new javax.swing.JTable();
@@ -142,22 +129,6 @@ public class Ingresos extends javax.swing.JInternalFrame {
 
         pnlNuevosDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevos Datos"));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("INGRESO:");
-
-        tfIngreso.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("CARTERA:");
-
-        cmbCarteras.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        cmbCarteras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("FECHA:");
-
-        dcFecha.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
         btnGuardar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -166,33 +137,12 @@ public class Ingresos extends javax.swing.JInternalFrame {
             }
         });
 
-        tfConcepto.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("CONCEPTO:");
-
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
         pnlNuevosDatosLayout.setHorizontalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbCarteras, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(44, 44, 44))
         );
@@ -200,19 +150,7 @@ public class Ingresos extends javax.swing.JInternalFrame {
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnGuardar)
-                        .addComponent(tfConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4))
-                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(tfIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(cmbCarteras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
+                .addComponent(btnGuardar)
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
@@ -396,6 +334,7 @@ public class Ingresos extends javax.swing.JInternalFrame {
     
     public void actualizarTablas(){
         if(this.isCamposOk()){
+            limpiarTabla();
             this.obtenerIngresosAfiliado();
             this.obtenerIngresosSp();
             calcularFilas();
@@ -403,16 +342,26 @@ public class Ingresos extends javax.swing.JInternalFrame {
         }
     }
     
+    private void limpiarTabla(){
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) this.tblIngresos.getModel();
+        int fila = this.tblIngresos.getRowCount();
+        for (int i = 0; i < fila ; i++){
+            model.removeRow(0);
+        }
+    }
+    
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             this.guardarAfiliadoBis();
-            //guardarAfiliado();
-            guardarSPBis();
+            this.guardarSPBis();
             this.actualizarTablas();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "alto error al guardarsp");
+            JOptionPane.showMessageDialog(rootPane, "");
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
@@ -432,6 +381,8 @@ public class Ingresos extends javax.swing.JInternalFrame {
         calcularColumnas();
     }//GEN-LAST:event_tblIngresosKeyReleased
 
+    
+    
     private void guardarAfiliadoBis() throws ParseException, Exception{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
@@ -512,8 +463,6 @@ public class Ingresos extends javax.swing.JInternalFrame {
         }
     }
     
-   
-    
     private void obtenerIngresosAfiliado(){
         Cobrador unCobrador = (Cobrador)this.cmbCobradores.getSelectedItem();
         Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
@@ -570,8 +519,7 @@ public class Ingresos extends javax.swing.JInternalFrame {
             Double neto = (afiliado+sp)- (comisionAF+comisionSP);
             model.setValueAt(afiliado+sp, i, 6);
             model.setValueAt(comisionAF+comisionSP, i, 7);
-            model.setValueAt(neto, i, 8);
-            
+            model.setValueAt(neto, i, 8);   
         }
         this.tblIngresos.setModel(model);
     }
@@ -606,19 +554,11 @@ public class Ingresos extends javax.swing.JInternalFrame {
         total.setValueAt(neto, 0, 8);
         this.tblTotales.setModel(total);
     }
-    
-    
-    
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> cmbCarteras;
     private javax.swing.JComboBox<String> cmbCobradores;
     private com.toedter.calendar.JMonthChooser cmbMes;
-    private com.toedter.calendar.JDateChooser dcFecha;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -631,8 +571,6 @@ public class Ingresos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlTablas;
     private javax.swing.JTable tblIngresos;
     private javax.swing.JTable tblTotales;
-    private javax.swing.JTextField tfConcepto;
-    private javax.swing.JTextField tfIngreso;
     private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
 }
