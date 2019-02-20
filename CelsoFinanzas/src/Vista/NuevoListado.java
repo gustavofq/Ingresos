@@ -8,6 +8,7 @@ import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -15,12 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-public class NuevoListado extends javax.swing.JInternalFrame {
+public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, Observador {
     private JTableHeader th= new JTableHeader();
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private Utilitario unUtilitario = new Utilitario();
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
+    private ArrayList<Observador> observadores = new ArrayList<>();
     
     public NuevoListado() {
         initComponents();
@@ -534,7 +536,8 @@ public class NuevoListado extends javax.swing.JInternalFrame {
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ViolacionClaveForaneaException ex) {
-                    Logger.getLogger(NuevoListado.class.getName()).log(Level.SEVERE, null, ex);
+                     this.mensaje.setText("No se puede eliminar un ingreso debido a que existen ingresos relacionados.");
+                    JOptionPane.showMessageDialog(null,this.mensaje,"Borrado denegado.",JOptionPane.INFORMATION_MESSAGE);
             }
     }
     
@@ -574,4 +577,21 @@ public class NuevoListado extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblTotales;
     private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void notificar() {
+        for(Observador unObservador : observadores){
+            unObservador.update();
+        }
+    }
+
+    @Override
+    public void suscribirObservador(Observador o) {
+        this.observadores.add(o);
+    }
+
+    @Override
+    public void update() {
+        
+    }
 }

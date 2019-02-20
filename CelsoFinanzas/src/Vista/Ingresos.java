@@ -4,8 +4,11 @@ import Logica.Area;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
+import Persistencia.exceptions.NonexistentEntityException;
+import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,12 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-public class Ingresos extends javax.swing.JInternalFrame {
+public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Observador {
     private Utilitario unUtilitario = new Utilitario();
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private JTableHeader th= new JTableHeader();
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
+    private ArrayList<Observador> observadores = new ArrayList<>();
     
     public Ingresos() {
         initComponents();
@@ -48,6 +52,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
         tfYear = new javax.swing.JTextField();
         pnlNuevosDatos = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
+        btnMarcar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblNetoValor = new javax.swing.JLabel();
         pnlTablas = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblIngresos = new javax.swing.JTable();
@@ -76,9 +83,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
         lblMes.setText("MES:");
 
         cmbMes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        cmbMes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmbMesMouseClicked(evt);
+        cmbMes.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cmbMesPropertyChange(evt);
             }
         });
 
@@ -137,20 +144,48 @@ public class Ingresos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnMarcar.setText("MARCAR");
+        btnMarcar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("NETO: ");
+
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
         pnlNuevosDatosLayout.setHorizontalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addGap(44, 44, 44))
+                .addGap(15, 15, 15)
+                .addComponent(btnMarcar)
+                .addGap(458, 458, 458)
+                .addComponent(jLabel1)
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
+                        .addGap(44, 44, 44))
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnGuardar)
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addComponent(lblNetoValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(24, 24, 24))
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnGuardar)
+                                .addComponent(btnMarcar))
+                            .addComponent(jLabel1))))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
@@ -208,9 +243,9 @@ public class Ingresos extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblIngresos.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblIngresosKeyReleased(evt);
+        tblIngresos.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                tblIngresosMouseDragged(evt);
             }
         });
         jScrollPane1.setViewportView(tblIngresos);
@@ -334,7 +369,6 @@ public class Ingresos extends javax.swing.JInternalFrame {
     
     public void actualizarTablas(){
         if(this.isCamposOk()){
-            limpiarTabla();
             this.obtenerIngresosAfiliado();
             this.obtenerIngresosSp();
             calcularFilas();
@@ -345,76 +379,120 @@ public class Ingresos extends javax.swing.JInternalFrame {
     private void limpiarTabla(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblIngresos.getModel();
-        int fila = this.tblIngresos.getRowCount();
-        for (int i = 0; i < fila ; i++){
-            model.removeRow(0);
-        }
+        model.setRowCount(0);
+        model.setRowCount(40);
+        DefaultTableModel model2 = new DefaultTableModel();
+        model2 = (DefaultTableModel) this.tblTotales.getModel();
+        model2.setRowCount(0);
+        model2.setRowCount(1);
     }
     
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
             this.guardarAfiliadoBis();
-            this.guardarSPBis();
-            this.actualizarTablas();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(rootPane, "");
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Afiliados.");
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+        try{
+            this.guardarSPBis();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Sector Protegido.");
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.actualizarTablas();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
-        
+        inicializarTablas();
     }//GEN-LAST:event_cmbCobradoresActionPerformed
  
+    private void inicializarTablas(){
+        if(this.tfYear.getText().length() != 0){
+            Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
+            Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
+            int mes = this.cmbMes.getMonth();
+            int year = Integer.parseInt(this.tfYear.getText());
+            if((this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea))||(this.unControladorVisual.existeCobranza(unCobrador, year, mes, this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido")))){
+                this.limpiarTabla();
+                this.actualizarTablas();
+            }else{
+                DefaultTableModel model = new DefaultTableModel();
+                model = (DefaultTableModel) this.tblIngresos.getModel();
+                model.setRowCount(0);
+                DefaultTableModel model2 = new DefaultTableModel();
+                model2 = (DefaultTableModel) this.tblTotales.getModel();
+                model2.setRowCount(0);
+                this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year);
+                JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
+            }
+        } 
+    }
+    
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
-       this.actualizarTablas();
+        inicializarTablas();
     }//GEN-LAST:event_tfYearActionPerformed
 
-    private void cmbMesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbMesMouseClicked
-        
-    }//GEN-LAST:event_cmbMesMouseClicked
+    private void btnMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarActionPerformed
+        this.tblIngresos.setDefaultRenderer(Object.class, new RenderCelda(this.tblIngresos.getSelectedRow(),1));
+    }//GEN-LAST:event_btnMarcarActionPerformed
 
-    private void tblIngresosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblIngresosKeyReleased
-        calcularFilas();
-        calcularColumnas();
-    }//GEN-LAST:event_tblIngresosKeyReleased
+    private void cmbMesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbMesPropertyChange
+       inicializarTablas();
+    }//GEN-LAST:event_cmbMesPropertyChange
 
-    
-    
-    private void guardarAfiliadoBis() throws ParseException, Exception{
+    private void tblIngresosMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIngresosMouseDragged
+        Double total = 0.0;
+        for(int i = 0; i<this.tblIngresos.getSelectedRowCount();i++){
+            total += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,7).toString());
+        }
+        this.lblNetoValor.setText(String.valueOf(total));
+    }//GEN-LAST:event_tblIngresosMouseDragged
+
+    private void guardarAfiliadoBis() throws ParseException{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         int mes = this.cmbMes.getMonth();
         int year = Integer.parseInt(this.tfYear.getText());
-        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-        for(int i = 0; i< this.tblIngresos.getRowCount();i++){
-            if(model.getValueAt(i, 2)!= null){
-                Double importe = Double.parseDouble(model.getValueAt(i, 2).toString());
-                Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                 String concepto = "";
-                if((this.tblIngresos.getValueAt(i, 1))!= null){
-                    concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
-                }else{
-                    concepto= "-";
+        try {
+            Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+            for(int i = 0; i< this.tblIngresos.getRowCount();i++){
+                if(model.getValueAt(i, 2)!= null){
+                    Double importe = Double.parseDouble(model.getValueAt(i, 2).toString());
+                    Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                    String concepto = "";
+                    if((this.tblIngresos.getValueAt(i, 1))!= null){
+                        concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
+                    }else{
+                        concepto= "-";
+                    }
+                    Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                    Ingreso newIngreso = oldIngreso;
+                    newIngreso.setAfiliado(importe);
+                    newIngreso.setConcepto(concepto);
+                    newIngreso.setFecha(fecha);
+                    oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                    if(oldIngreso.getFecha() != null){
+                        if(!oldIngreso.equals(newIngreso)){
+                            if(importe.equals(0)|| importe == null){
+                                this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
+                            }else{
+                                this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
+                            }
+                        }
+                    }else{
+                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                    }
                 }
-                Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                Ingreso newIngreso = oldIngreso;
-                newIngreso.setAfiliado(importe);
-                newIngreso.setConcepto(concepto);
-                newIngreso.setFecha(fecha);
-                oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                if(oldIngreso.getFecha() != null){
-                     if(!oldIngreso.equals(newIngreso)){
-                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
-                     }
-                }else{
-                    Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
-                    this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
-                }   
             }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
+            this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
+            JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -428,38 +506,52 @@ public class Ingresos extends javax.swing.JInternalFrame {
         return otroText;
     }
     
-    private void guardarSPBis() throws ParseException, Exception{
+    private void guardarSPBis() throws ParseException{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
         Cobrador unCobrador = (Cobrador) this.cmbCobradores.getSelectedItem();
         int mes = this.cmbMes.getMonth();
         int year = Integer.parseInt(this.tfYear.getText());
-        Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
-        for(int i = 0; i< this.tblIngresos.getRowCount();i++){
-            if(model.getValueAt(i, 4)!= null){
-                Double importe = Double.parseDouble(model.getValueAt(i, 4).toString());
-                Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
-                String concepto = "";
-                if((this.tblIngresos.getValueAt(i, 1))!= null){
-                    concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
-                }else{
-                    concepto= "-";
+        try {
+            Cobranza unCobranza = this.unControladorVisual.obtenerCobranza(unCobrador, year, mes, unArea);
+            for(int i = 0; i< this.tblIngresos.getRowCount();i++){
+                if(model.getValueAt(i, 4)!= null){
+                    Double importe = Double.parseDouble(model.getValueAt(i, 4).toString());
+                    Calendar fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                    String concepto = "";
+                    if((this.tblIngresos.getValueAt(i, 1))!= null){
+                        concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
+                    }else{
+                        concepto= "-";
+                    }
+                    Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                    Ingreso newIngreso = oldIngreso;
+                    newIngreso.setAfiliado(importe);
+                    newIngreso.setConcepto(concepto);
+                    newIngreso.setFecha(fecha);
+                    oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
+                    if(oldIngreso.getFecha() != null){
+                        if(!oldIngreso.equals(newIngreso)){
+                            if(importe.equals(0)|| importe == null){
+                                this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
+                            }else{
+                                this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
+                            }
+                        }
+                    }else{
+                        Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                        this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
+                    }
                 }
-                Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                Ingreso newIngreso = oldIngreso;
-                newIngreso.setAfiliado(importe);
-                newIngreso.setConcepto(concepto);
-                newIngreso.setFecha(fecha);
-                oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
-                if(oldIngreso.getFecha() != null){
-                     if(!oldIngreso.equals(newIngreso)){
-                        this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
-                     }
-                }else{
-                    Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
-                    this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
-                }   
             }
+        } catch (NonexistentEntityException ex) {
+            if(unArea.getNombre().equals("Sector Protegido")){
+                Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
+                this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
+                JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -557,14 +649,17 @@ public class Ingresos extends javax.swing.JInternalFrame {
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnMarcar;
     private javax.swing.JComboBox<String> cmbCobradores;
     private com.toedter.calendar.JMonthChooser cmbMes;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCobrador;
     private javax.swing.JLabel lblMes;
+    private javax.swing.JLabel lblNetoValor;
     private javax.swing.JLabel lblYear;
     private javax.swing.JPanel pnlBuscar;
     private javax.swing.JPanel pnlNuevosDatos;
@@ -573,4 +668,21 @@ public class Ingresos extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblTotales;
     private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void notificar() {
+        for(Observador unObservador : observadores){
+            unObservador.update();
+        }
+    }
+
+    @Override
+    public void suscribirObservador(Observador o) {
+        this.observadores.add(o);
+    }
+
+    @Override
+    public void update() {
+        //this.actualizarTablas();
+    }
 }
