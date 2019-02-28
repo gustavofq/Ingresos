@@ -63,7 +63,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         jpGraficos.setLayout(jpGraficosLayout);
         jpGraficosLayout.setHorizontalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1168, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jpGraficosLayout.setVerticalGroup(
             jpGraficosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +119,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(btnGraficar)
                 .addGap(20, 20, 20))
         );
@@ -135,9 +135,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
                         .addComponent(jLabel1)
                         .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGraficar)
-                        .addContainerGap())))
+                    .addComponent(btnGraficar))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jpTodoLayout = new javax.swing.GroupLayout(jpTodo);
@@ -147,18 +146,18 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
             .addGroup(jpTodoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpTodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jpTodoLayout.createSequentialGroup()
-                        .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))))
+                        .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jpTodoLayout.setVerticalGroup(
             jpTodoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpTodoLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jpGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -313,11 +312,11 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         render.setSeriesPaint(1, Color.GREEN);
         render.setSeriesPaint(2, Color.YELLOW);
         render.setSeriesStroke(0, new BasicStroke(4.0f));
-        render.setSeriesStroke(1, new BasicStroke(3.0f));
-        render.setSeriesStroke(2,new BasicStroke(3.0f));
+        render.setSeriesStroke(1, new BasicStroke(6.0f));
+        render.setSeriesStroke(2,new BasicStroke(2.0f));
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setBounds(0, 0, 900, 548);
+        panel.setBounds(0, 0, 1168, 556);
         this.jpGraficos.add(panel);
         this.jpGraficos.setEnabled(false);
         panel.setEnabled(false);
