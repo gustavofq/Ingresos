@@ -151,7 +151,10 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             }
         });
 
-        jLabel1.setText("NETO: ");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Cobranza:");
+
+        lblNetoValor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
@@ -160,32 +163,28 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(btnMarcar)
-                .addGap(458, 458, 458)
+                .addGap(424, 424, 424)
                 .addComponent(jLabel1)
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addGap(44, 44, 44))
-                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addGap(44, 44, 44))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                        .addComponent(lblNetoValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(24, 24, 24))
-                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                            .addComponent(lblNetoValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(24, 24, 24))
+                        .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                            .addContainerGap()
                             .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnGuardar)
-                                .addComponent(btnMarcar))
-                            .addComponent(jLabel1))))
+                                .addComponent(btnMarcar))))
+                    .addComponent(jLabel1))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 

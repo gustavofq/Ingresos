@@ -219,18 +219,13 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaAnual(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
-        int mes = 1;
-        Iterator it = this.unControladorVisual.obtenerCobrnzasYear(year).iterator();
-        Cobranza unaCobranza = new Cobranza();
-        this.carcagarSeries(year);
-        while (it.hasNext()){
-            unaCobranza = (Cobranza) it.next();
-            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
-            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
-            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
+        int mes = 0;
+        while (mes<=11){
+            Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoMesYear(year, mes));
+            cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerAfiliadoMesYear(year, mes));
+            neto.addOrUpdate(new Month(mes+1,year), this.unControladorVisual.obtenerNetoMesYear(year, mes));
             mes++;
         }
-       // this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -285,15 +280,13 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaCobrador(Cobrador unCobrador, int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
-        int mes = 1;
-        Iterator it = this.unControladorVisual.obtenerCobranzasDeCobrador(unCobrador, year).iterator();
-        Cobranza unaCobranza = new Cobranza();
-        this.carcagarSeries(year);
-        while (it.hasNext()){
-            unaCobranza = (Cobranza) it.next();
-            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
-            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
-            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto()); 
+        int mes = 0;
+        //this.carcagarSeries(year);
+        while (mes<=11){
+            
+            Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoDelCobrador(unCobrador, year, mes));
+            cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerAfiliadoDelCobrador(unCobrador, year, mes));
+            neto.addOrUpdate(new Month(mes+1,year), this.unControladorVisual.obtenerNetoDelCobrador(unCobrador, year, mes)); 
             mes++;
         }
         
