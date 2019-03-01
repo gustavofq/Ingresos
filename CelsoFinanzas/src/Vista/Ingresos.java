@@ -53,8 +53,13 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         pnlNuevosDatos = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnMarcar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         lblNetoValor = new javax.swing.JLabel();
+        lblComisionSP = new javax.swing.JLabel();
+        lblSP = new javax.swing.JLabel();
+        lblComisionAF = new javax.swing.JLabel();
+        lblAfiliado = new javax.swing.JLabel();
+        lblComisionT = new javax.swing.JLabel();
+        lblNeto = new javax.swing.JLabel();
         pnlTablas = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblIngresos = new javax.swing.JTable();
@@ -151,10 +156,25 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("Cobranza:");
-
         lblNetoValor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        lblComisionSP.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblComisionSP.setText("jLabel2");
+
+        lblSP.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblSP.setText("jLabel3");
+
+        lblComisionAF.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblComisionAF.setText("jLabel4");
+
+        lblAfiliado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblAfiliado.setText("jLabel5");
+
+        lblComisionT.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblComisionT.setText("jLabel6");
+
+        lblNeto.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblNeto.setText("jLabel7");
 
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
@@ -163,29 +183,47 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(btnMarcar)
-                .addGap(424, 424, 424)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addGap(44, 44, 44))
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
+                        .addComponent(lblAfiliado)
+                        .addGap(85, 85, 85)
+                        .addComponent(lblComisionAF)
+                        .addGap(83, 83, 83)
+                        .addComponent(lblSP)
+                        .addGap(91, 91, 91)
+                        .addComponent(lblComisionSP)
+                        .addGap(83, 83, 83)
+                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81)
+                        .addComponent(lblComisionT)
+                        .addGap(77, 77, 77)
+                        .addComponent(lblNeto)
+                        .addGap(48, 48, 48))))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                            .addComponent(lblNetoValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(24, 24, 24))
-                        .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnGuardar)
-                                .addComponent(btnMarcar))))
-                    .addComponent(jLabel1))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(btnMarcar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNeto)
+                            .addComponent(lblComisionT))
+                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblComisionSP)
+                            .addComponent(lblSP)
+                            .addComponent(lblComisionAF)
+                            .addComponent(lblAfiliado))
+                        .addGap(2, 2, 2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardar))
         );
 
         tblIngresos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -441,11 +479,74 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     }//GEN-LAST:event_cmbMesPropertyChange
 
     private void tblIngresosMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIngresosMouseDragged
-        Double total = 0.0;
+        Double afiliado = 0.0;
+        Double comAf = 0.0;
+        Double sp = 0.0;
+        Double comSp = 0.0;
+        Double cobranzaTotal = 0.0;
+        Double comisionTotal = 0.0;
+        Double neto = 0.0;
         for(int i = 0; i<this.tblIngresos.getSelectedRowCount();i++){
-            total += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,7).toString());
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,2)!= null){
+                afiliado += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,2).toString());
+            }else{
+                afiliado+=0.0;
+            }
+            
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,3)!= null){
+                comAf += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,3).toString());
+            }else{
+                comAf+=0.0;
+            }
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,4)!= null){
+                sp += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,4).toString());
+            }else{
+                sp+=0.0;
+            }
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,5)!= null){
+                comSp += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,5).toString());
+            }else{
+                comSp+=0.0;
+            }
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,6)!= null){
+                cobranzaTotal += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,6).toString());
+            }else{
+                cobranzaTotal+=0.0;
+            }
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,7)!= null){
+                comisionTotal += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,7).toString());
+            }else{
+                comisionTotal+=0.0;
+            }
+            
+            if(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,8)!= null){
+                neto += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,8).toString());
+            }else{
+                neto+=0.0;
+            }
+            /*
+            comAf += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,3).toString());
+            sp += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,4).toString());
+            comSp += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,5).toString());
+            cobranzaTotal += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,6).toString());
+            comisionTotal += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,7).toString());
+            neto += Double.parseDouble(this.tblIngresos.getValueAt(this.tblIngresos.getSelectedRows()[i] ,8).toString());
+           
+            */
         }
-        this.lblNetoValor.setText(String.valueOf(total));
+        this.lblAfiliado.setText(String.valueOf(afiliado));
+        this.lblComisionAF.setText(String.valueOf(comAf));
+        this.lblSP.setText(String.valueOf(sp));
+        this.lblComisionSP.setText(String.valueOf(comSp));
+        this.lblNetoValor.setText(String.valueOf(cobranzaTotal));
+        this.lblComisionT.setText(String.valueOf(comisionTotal));
+        this.lblNeto.setText(String.valueOf(neto));
+        
     }//GEN-LAST:event_tblIngresosMouseDragged
 
     private void guardarAfiliadoBis() throws ParseException{
@@ -651,14 +752,19 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     private javax.swing.JButton btnMarcar;
     private javax.swing.JComboBox<String> cmbCobradores;
     private com.toedter.calendar.JMonthChooser cmbMes;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAfiliado;
     private javax.swing.JLabel lblCobrador;
+    private javax.swing.JLabel lblComisionAF;
+    private javax.swing.JLabel lblComisionSP;
+    private javax.swing.JLabel lblComisionT;
     private javax.swing.JLabel lblMes;
+    private javax.swing.JLabel lblNeto;
     private javax.swing.JLabel lblNetoValor;
+    private javax.swing.JLabel lblSP;
     private javax.swing.JLabel lblYear;
     private javax.swing.JPanel pnlBuscar;
     private javax.swing.JPanel pnlNuevosDatos;
