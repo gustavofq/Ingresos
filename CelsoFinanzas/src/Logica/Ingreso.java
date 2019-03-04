@@ -117,7 +117,29 @@ public class Ingreso implements Serializable,Comparable<Ingreso> {
         this.fila = fila;
     }
     
+    public void pagar(){
+        this.pagado = 1.0;
+        if(!this.concepto.contains("(pagado)")){
+            this.concepto = this.concepto +"(pagado)";
+        }
+        
+    }
+    
+    public void noPagar(){
+        this.pagado=0.0;
+        String texto = this.concepto;
+        String sinTexto = texto.replace("(pagado)", "");
+        this.concepto= sinTexto;
+    }
 
+    public boolean isPagado(){
+        boolean estaPagado = false;
+        if(this.pagado!=0.0){
+            estaPagado = true;
+        }
+        return estaPagado;
+    }
+    
     @Override
     public String toString() {
         return "Ingreso{" + "id=" + id + ", Afiliado=" + Afiliado + ", concepto=" + concepto + ", fecha=" + fecha + '}';

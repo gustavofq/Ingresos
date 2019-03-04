@@ -5,7 +5,6 @@ import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
-import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -150,6 +149,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             }
         });
 
+        btnMarcar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnMarcar.setText("MARCAR");
         btnMarcar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -163,24 +163,25 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         });
 
         lblNetoValor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblNetoValor.setText("0.0");
 
         lblComisionSP.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblComisionSP.setText("jLabel2");
+        lblComisionSP.setText("0.0");
 
         lblSP.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblSP.setText("jLabel3");
+        lblSP.setText("0.0");
 
         lblComisionAF.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblComisionAF.setText("jLabel4");
+        lblComisionAF.setText("0.0");
 
         lblAfiliado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblAfiliado.setText("jLabel5");
+        lblAfiliado.setText("0.0");
 
         lblComisionT.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblComisionT.setText("jLabel6");
+        lblComisionT.setText("0.0");
 
         lblNeto.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblNeto.setText("jLabel7");
+        lblNeto.setText("0.0");
 
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
@@ -189,24 +190,26 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(btnMarcar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
-                        .addComponent(lblAfiliado)
-                        .addGap(85, 85, 85)
-                        .addComponent(lblComisionAF)
-                        .addGap(83, 83, 83)
-                        .addComponent(lblSP)
-                        .addGap(91, 91, 91)
-                        .addComponent(lblComisionSP)
-                        .addGap(83, 83, 83)
-                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)
-                        .addComponent(lblComisionT)
-                        .addGap(77, 77, 77)
-                        .addComponent(lblNeto)
-                        .addGap(48, 48, 48))))
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlNuevosDatosLayout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(lblAfiliado, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(lblComisionAF, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(lblSP, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblComisionSP, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblComisionT, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,19 +218,15 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                 .addComponent(btnMarcar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
-                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNeto)
-                            .addComponent(lblComisionT))
-                        .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlNuevosDatosLayout.createSequentialGroup()
-                        .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblComisionSP)
-                            .addComponent(lblSP)
-                            .addComponent(lblComisionAF)
-                            .addComponent(lblAfiliado))
-                        .addGap(2, 2, 2)))
+                .addGroup(pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblComisionSP)
+                    .addComponent(lblSP)
+                    .addComponent(lblComisionAF)
+                    .addComponent(lblAfiliado)
+                    .addComponent(lblNetoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblComisionT)
+                    .addComponent(lblNeto))
+                .addGap(2, 2, 2)
                 .addComponent(btnGuardar))
         );
 
@@ -429,25 +428,6 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         model2.setRowCount(1);
     }
     
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-      
-            try {
-                this.guardarAfiliadoBis();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Afiliados.");
-                Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try{
-                this.guardarSPBis();
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Sector Protegido.");
-                Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.actualizarTablas(); 
-        
-            
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     private void cmbCobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradoresActionPerformed
         inicializarTablas();
     }//GEN-LAST:event_cmbCobradoresActionPerformed
@@ -477,10 +457,6 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
         inicializarTablas();
     }//GEN-LAST:event_tfYearActionPerformed
-
-    private void btnMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarActionPerformed
-        this.marcarPagado();
-    }//GEN-LAST:event_btnMarcarActionPerformed
 
     private void cmbMesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbMesPropertyChange
        inicializarTablas();
@@ -541,24 +517,69 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         
     }//GEN-LAST:event_tblIngresosMouseDragged
 
+    private void btnMarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarActionPerformed
+        this.marcarPagado();
+    }//GEN-LAST:event_btnMarcarActionPerformed
+
     private void btnMarcarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarcarMouseClicked
-        
-        
+
     }//GEN-LAST:event_btnMarcarMouseClicked
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        try {
+            this.guardarAfiliadoBis();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Afiliados.");
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try{
+            this.guardarSPBis();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Sector Protegido.");
+            Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.actualizarTablas();
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void marcarPagado(){
         int fila = this.tblIngresos.getSelectedRow();
-        if(tblIngresos.getValueAt(fila, 1) != null){
+        if(tblIngresos.getValueAt(fila, 0) != null){
+            if(tblIngresos.getValueAt(fila, 1) != null){
             if(this.tblIngresos.getSelectedRow()!= -1){
                 if(!(tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
                     String texto = this.tblIngresos.getValueAt(fila, 1).toString();
-                    this.tblIngresos.setValueAt(texto+" (pagado)", fila, 1); 
+                    this.tblIngresos.setValueAt(texto+"(pagado)", fila, 1); 
+                }else{
+                    String texto = this.tblIngresos.getValueAt(fila, 1).toString();
+                    String sinTexto = texto.replace("(pagado)", "");
+                    this.tblIngresos.setValueAt(sinTexto, fila, 1); 
                 }
             }
         }else{
             this.tblIngresos.setValueAt("(pagado)", fila, 1);
         }
+        }
+        
     }      
+    
+    
+    private Ingreso gestionarPagos(Ingreso unIngreso, int fila){
+        Ingreso otroIngreso = new Ingreso();
+        otroIngreso= unIngreso;
+        if((tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
+            if(!otroIngreso.isPagado()){
+                otroIngreso.pagar();
+            }
+        }else{
+            if(otroIngreso.isPagado()){
+                otroIngreso.noPagar();
+            }
+        }
+        return otroIngreso;
+    }
+    
     
     private void guardarAfiliadoBis() throws ParseException{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
@@ -588,6 +609,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                         oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
                         if(oldIngreso.getFecha() != null){
                             if(!oldIngreso.equals(newIngreso)){
+                                newIngreso = this.gestionarPagos(newIngreso, i);
                                 if(importe.equals(0)|| importe == null){
                                     this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
                                 }else{
@@ -596,6 +618,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                             }
                         }else{
                             Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                            unIngreso = this.gestionarPagos(unIngreso, i);
                             this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
                         }
                     }catch(ParseException ex){
@@ -651,6 +674,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                         oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
                         if(oldIngreso.getFecha() != null){
                             if(!oldIngreso.equals(newIngreso)){
+                                newIngreso = this.gestionarPagos(newIngreso, i);
                                 if(importe.equals(0)|| importe == null){
                                     this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
                                 }else{
@@ -659,6 +683,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                             }   
                         }else{
                             Ingreso unIngreso = new Ingreso(importe,concepto, fecha, i);
+                            unIngreso= this.gestionarPagos(unIngreso, i);
                             this.unControladorVisual.agregarIngreso(unCobranza, unIngreso);
                         }
                     }catch (ParseException ex){
