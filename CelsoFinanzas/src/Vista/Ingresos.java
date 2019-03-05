@@ -24,9 +24,10 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     JLabel mensaje = new JLabel("mensaje");
     private ArrayList<Observador> observadores = new ArrayList<>();
     int veces = 0;
+    
     public Ingresos() {
         initComponents();
-        //this.marcarPagado();
+        this.mensaje.setFont(fuente);
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), cmbCobradores);
         this.unUtilitario.cargarMesActual(cmbMes);
         this.unUtilitario.cargarAnhoActual(tfYear);
@@ -70,6 +71,23 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                cierraVentana(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         pnlBuscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
@@ -527,6 +545,12 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        this.guardar();
+        this.actualizarTablas();
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public void guardar(){
         try {
             this.guardarAfiliadoBis();
         } catch (Exception ex) {
@@ -539,10 +563,24 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             JOptionPane.showMessageDialog(rootPane, "Ocurrió un error al cargar Sector Protegido.");
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.actualizarTablas();
+    }
+    
+    private void cierraVentana(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_cierraVentana
+        this.cerrar();
+    }//GEN-LAST:event_cierraVentana
 
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
+    public void cerrar(){
+        Object [] opciones ={"Aceptar","Cancelar"};
+        this.mensaje.setText("Guardar antes de cerrar?");
+        int eleccion = JOptionPane.showOptionDialog(rootPane,this.mensaje,"Mensaje de Confirmacion",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE,null,opciones,"Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION){
+            this.guardar();
+            System.exit(0);
+        }
+    }
+    
     private void marcarPagado(){
         int fila = this.tblIngresos.getSelectedRow();
         if(tblIngresos.getValueAt(fila, 0) != null){

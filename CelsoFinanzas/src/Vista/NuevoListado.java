@@ -27,6 +27,7 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
     public NuevoListado() {
         initComponents();
         Font fuente = new Font("Dialog", Font.BOLD, 18);
+        mensaje.setFont(fuente);
         th = this.tblListado.getTableHeader();
         th.setFont(fuente);
         this.tblListado.setTableHeader(th);
@@ -38,6 +39,8 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
         this.cmbCartera.addItem("GENERAL");
         this.cmbCobradores.addItem("GENERAL");
         this.unUtilitario.cargarAnhoActual(tfYear);
+        this.cmbCartera.setSelectedIndex(-1);
+        this.cmbCobradores.setSelectedIndex(-1);
     }
     
     private void cargarTablaListadoCobradorGeneral(){
@@ -496,10 +499,27 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
                     this.mensaje.setText("Seleccione un cobrador especifico.");
                     JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cobrador",JOptionPane.INFORMATION_MESSAGE);
                 }
+            }else{
+                this.alertaCombosVacios();
             }
         }
     }//GEN-LAST:event_tblListadoKeyReleased
 
+    private void alertaCombosVacios(){
+        if((this.cmbCartera.getSelectedIndex()== -1)&&(this.cmbCobradores.getSelectedIndex()== -1)){
+            this.mensaje.setText("Seleccione un cobrador y una cartera especifica.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione cartera",JOptionPane.INFORMATION_MESSAGE);
+        }else if((this.cmbCartera.getSelectedIndex()== -1)){
+            this.mensaje.setText("Seleccione una cartera especifica.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione una cartera",JOptionPane.INFORMATION_MESSAGE);
+        }else if(this.cmbCobradores.getSelectedIndex() == -1){
+            this.mensaje.setText("Seleccione un cobrador especifico.");
+            JOptionPane.showMessageDialog(null,this.mensaje,"Seleccione un cobrador",JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
+    }
+    
     private void agregarDatos(double listado, Cobrador unCobrador, int year, int mes ,Area unArea) throws NonexistentEntityException{
         if(listado != 0.0){
             if(this.unControladorVisual.existeCobranza(unCobrador, year, mes, unArea)){

@@ -106,6 +106,7 @@ public class Principal extends javax.swing.JFrame{
         jMenuBar.add(jMAreas);
 
         jMenu1.setText("ADMIN");
+        jMenu1.setEnabled(false);
 
         jMenuItem1.setText("Listado");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
