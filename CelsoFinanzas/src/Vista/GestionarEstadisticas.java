@@ -28,6 +28,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     private TimeSeries neto = new TimeSeries("Neto");
     private TimeSeriesCollection dataset = new TimeSeriesCollection();
     private JLabel mensaje = new JLabel("mensaje");
+ 
     
     public GestionarEstadisticas() {
         initComponents();
@@ -176,6 +177,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+   
+    
     private void btnGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficarActionPerformed
         boolean llamadoLocal = true;
         this.graficar(llamadoLocal);
