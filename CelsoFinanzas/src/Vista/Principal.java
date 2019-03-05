@@ -6,6 +6,7 @@ public class Principal extends javax.swing.JFrame{
     GestionarListado unGestionarListado = new GestionarListado();
     GestionarIngreso unGestionarIngreso = new GestionarIngreso();
     GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
+    
     public Principal() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -165,7 +166,7 @@ public class Principal extends javax.swing.JFrame{
     }//GEN-LAST:event_jMListadoActionPerformed
 
     private void jMIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIngresosActionPerformed
-        
+
         Ingresos unIngresos = new Ingresos();
         this.dpContenedor.add(unIngresos);
         unIngresos.setVisible(true);

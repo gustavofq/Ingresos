@@ -207,6 +207,7 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
         btnImprimir = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 

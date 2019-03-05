@@ -69,6 +69,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         tblTotales = new javax.swing.JTable();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
