@@ -23,7 +23,7 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
     private ArrayList<Observador> observadores = new ArrayList<>();
-    
+    RenderMonto celda = new RenderMonto(1,2);
     public NuevoListado() {
         initComponents();
         Font fuente = new Font("Dialog", Font.BOLD, 18);
@@ -41,6 +41,7 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
         this.unUtilitario.cargarAnhoActual(tfYear);
         this.cmbCartera.setSelectedIndex(-1);
         this.cmbCobradores.setSelectedIndex(-1);
+        this.tblListado.setDefaultRenderer(Object.class, celda);
     }
     
     private void cargarTablaListadoCobradorGeneral(){

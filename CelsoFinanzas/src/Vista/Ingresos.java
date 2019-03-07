@@ -5,16 +5,25 @@ import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Ingreso;
 import Persistencia.exceptions.NonexistentEntityException;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Event;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Observador {
     private Utilitario unUtilitario = new Utilitario();
@@ -23,10 +32,12 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     Font fuente = new Font("Dialog", Font.BOLD, 18);
     JLabel mensaje = new JLabel("mensaje");
     private ArrayList<Observador> observadores = new ArrayList<>();
-    int veces = 0;
+    RenderCelda celda = new RenderCelda();
+    
     
     public Ingresos() {
         initComponents();
+        this.evitarPegar(tfYear);
         this.mensaje.setFont(fuente);
         this.unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerCobradores(), cmbCobradores);
         this.unUtilitario.cargarMesActual(cmbMes);
@@ -120,6 +131,11 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         tfYear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfYearActionPerformed(evt);
+            }
+        });
+        tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfYearKeyTyped(evt);
             }
         });
 
@@ -416,6 +432,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private boolean isCamposOk(){
         boolean camposOk = true;
         if(this.cmbCobradores.getSelectedIndex() == -1){
@@ -470,7 +487,9 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                 this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year);
                 JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
             }
-        } 
+           
+        }
+        this.tblIngresos.setDefaultRenderer(Object.class, celda);
     }
     
     private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
@@ -570,6 +589,20 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         this.cerrar();
     }//GEN-LAST:event_cierraVentana
 
+    private void tfYearKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(this.tfYear.getText().length() == 8 || (c<'0')||(c>'9')){
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_tfYearKeyTyped
+
+    public static void evitarPegar(JTextField campo){
+        InputMap map2 = campo.getInputMap(JTextField.WHEN_FOCUSED);
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+    }
+    
     public void cerrar(){
         Object [] opciones ={"Aceptar","Cancelar"};
         this.mensaje.setText("Guardar antes de cerrar?");

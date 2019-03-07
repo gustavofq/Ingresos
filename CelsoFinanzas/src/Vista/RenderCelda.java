@@ -8,23 +8,28 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class RenderCelda extends DefaultTableCellRenderer{
-    private final int columna_patron;
-    private final int fila;
-
-    public RenderCelda(int columna_patron, int fila) {
-        this.columna_patron = columna_patron;
-        this.fila = fila;
-    }
+    
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Font font= new Font("Courier", Font.BOLD,16);
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if(column == columna_patron  && fila == row){
-            c.setForeground(Color.GREEN);
+        Font font= new Font("Courier", Font.BOLD,18);
+        table.setForeground(Color.black);
+        JLabel label= (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        if(!hasFocus){
+            if(label.getText().contains("(pagado)")){
+                label.setBackground(Color.green);
+            }else{
+                setBackground(null);
+            }
         }
         
-        return c;
+        if(isSelected){
+            setBackground(Color.LIGHT_GRAY);
+        }
+        
+        label.setForeground(Color.BLACK);
+        label.setFont(font);
+        return label;
     }
     
     
