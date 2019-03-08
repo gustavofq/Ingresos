@@ -640,15 +640,18 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     private Ingreso gestionarPagos(Ingreso unIngreso, int fila){
         Ingreso otroIngreso = new Ingreso();
         otroIngreso= unIngreso;
-        if((tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
-            if(!otroIngreso.isPagado()){
-                otroIngreso.pagar();
-            }
-        }else{
-            if(otroIngreso.isPagado()){
-                otroIngreso.noPagar();
+        if(tblIngresos.getValueAt(fila, 1)!=null){
+            if((tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
+                if(!otroIngreso.isPagado()){
+                    otroIngreso.pagar();
+                }
+            }else{
+                if(otroIngreso.isPagado()){
+                    otroIngreso.noPagar();
+                }
             }
         }
+        
         return otroIngreso;
     }
     
@@ -682,8 +685,11 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                         if(oldIngreso.getFecha() != null){
                             if(!oldIngreso.equals(newIngreso)){
                                 newIngreso = this.gestionarPagos(newIngreso, i);
-                                if(importe.equals(0)|| importe == null){
-                                    this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
+                                if(importe.equals(0) || importe == null){
+                                    importe = 0.0;
+                                    newIngreso.setAfiliado(importe);
+                                    this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
+                                    //this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
                                 }else{
                                     this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
                                 }
@@ -748,7 +754,9 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                             if(!oldIngreso.equals(newIngreso)){
                                 newIngreso = this.gestionarPagos(newIngreso, i);
                                 if(importe.equals(0)|| importe == null){
-                                    this.unControladorVisual.borrarIngreso(unCobranza, oldIngreso);
+                                    importe = 0.0;
+                                    newIngreso.setAfiliado(importe);
+                                    this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
                                 }else{
                                     this.unControladorVisual.modificarIngreso(unCobranza, oldIngreso, newIngreso);
                                 }
