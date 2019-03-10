@@ -45,12 +45,16 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
 
         pnlBusqueda.setBorder(new javax.swing.border.MatteBorder(null));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("AÑO:");
 
+        jTextField1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jTextField1.setText("2019");
 
+        jRadioButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jRadioButton1.setText("PRODUCCION");
 
+        jRadioButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jRadioButton2.setText("COBRADO");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +111,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
