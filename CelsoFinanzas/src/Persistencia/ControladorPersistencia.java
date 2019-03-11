@@ -9,7 +9,10 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
+import Logica.Cobro;
+import Logica.Convenio;
 import Logica.Ingreso;
+import Logica.Produccion;
 import Persistencia.exceptions.IllegalOrphanException;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
@@ -23,6 +26,9 @@ public class ControladorPersistencia implements Serializable{
     private static CobradorJpaController unCobradorJpaController;
     private static CobranzaJpaController unaCobranzaJpaController;
     private static IngresoJpaController unIngresoJpaController;
+    private static CobroJpaController unCobroJpaController;
+    private static ConvenioJpaController unConvenioJpaController;
+    private static ProduccionJpaController unaProduccionJpaController;
     
     static {
         unAreaJpaController = new AreaJpaController();
@@ -30,7 +36,9 @@ public class ControladorPersistencia implements Serializable{
         unCobradorJpaController = new CobradorJpaController();
         unaCobranzaJpaController = new CobranzaJpaController();
         unIngresoJpaController = new IngresoJpaController();
-        
+        unCobroJpaController = new CobroJpaController();
+        unConvenioJpaController = new ConvenioJpaController();
+        unaProduccionJpaController = new ProduccionJpaController();
     }
     //abm areas
     public  void agregarArea(Area unArea) throws PreexistingEntityException{
@@ -157,6 +165,75 @@ public class ControladorPersistencia implements Serializable{
     
     public Ingreso obtenerIngreso(int id){
         return unIngresoJpaController.findIngreso(id);
+    }
+    
+    
+    //alta cobro
+    
+    public void agregarCobro(Cobro unCobro){
+        unCobroJpaController.create(unCobro);
+    }
+    
+    public void modificarCobro(Cobro unCobro) throws Exception{
+        unCobroJpaController.edit(unCobro);
+    }
+    
+    public void borrarCobro(int id) throws NonexistentEntityException{
+        unCobroJpaController.destroy(id);
+    }
+    
+    public Cobro obtenerCobro(int id){
+        return unCobroJpaController.findCobro(id);
+    }
+    
+    public List<Cobro> obtenerCobros(){
+        return unCobroJpaController.findCobroEntities();
+    }
+    
+    //fin abm cobros
+    //abm convenios
+    
+    public void agregarConvenio(Convenio unConvenio){
+        unConvenioJpaController.create(unConvenio);
+    }
+    
+    public void modificarConvenio(Convenio unConvenio) throws Exception{
+        unConvenioJpaController.edit(unConvenio);
+    }
+    
+    public void borrarConvenio(int id) throws NonexistentEntityException{
+        unConvenioJpaController.destroy(id);
+    }
+    
+    public Convenio obtenerConvenio(int id){
+        return unConvenioJpaController.findConvenio(id);
+    }
+    
+    public List<Convenio> obtenerConvenios(){
+        return unConvenioJpaController.findConvenioEntities();
+    }
+    
+    //fin adm convenios
+    //inioc abm Produccion
+    
+    public void agregarProduccion(Produccion unaProduccion){
+        unaProduccionJpaController.create(unaProduccion);
+    }
+    
+    public void modificarProduccion(Produccion unaProduccion) throws Exception{
+        unaProduccionJpaController.edit(unaProduccion);
+    }
+    
+    public void borrarProduccion(int id) throws NonexistentEntityException{
+        unaProduccionJpaController.destroy(id);
+    }
+    
+    public Produccion obtenerProduccion(int id){
+        return unaProduccionJpaController.findProduccion(id);
+    }
+    
+    public List<Produccion> obtenerProducciones(){
+        return unaProduccionJpaController.findProduccionEntities();
     }
     
 }

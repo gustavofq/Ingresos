@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame{
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,6 +130,27 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar.add(jMenu1);
 
+        jMenu2.setText("Convenios");
+        jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jMenuItem3.setText("Cargar Datos");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("nuevos Convenios");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuBar.add(jMenu2);
+
         setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,6 +217,19 @@ public class Principal extends javax.swing.JFrame{
         unGestionarIngreso.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        CargaDatosConvenio unaCargaDatosConvenio = new CargaDatosConvenio();
+        this.dpContenedor.add(unaCargaDatosConvenio);
+        unaCargaDatosConvenio.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        CargaConvenio unaCargaConvenio = new CargaConvenio();
+        this.dpContenedor.add(unaCargaConvenio);
+        unaCargaConvenio.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -235,9 +272,12 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMReporte;
     private javax.swing.JMenu jMVendedores;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jmGestionArea;
     // End of variables declaration//GEN-END:variables
 

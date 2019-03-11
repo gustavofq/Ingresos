@@ -4,7 +4,10 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
+import Logica.Cobro;
+import Logica.Convenio;
 import Logica.Ingreso;
+import Logica.Produccion;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
@@ -137,6 +140,72 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzasAreaCobrador(unArea, year, unCobrador);
     }
     
+    //inicio abm Cobro 
+    public void agregarCobro(Produccion unaProduccion ,Cobro unCobro) throws Exception{
+        this.unCelsoFinanzas.agregarCobro(unaProduccion, unCobro);
+    }
+    
+    public void modificarCobro(Produccion unaProduccion, Cobro oldCobro,Cobro newCobro) throws Exception{
+        this.unCelsoFinanzas.modificarCobro(unaProduccion, oldCobro, newCobro);
+        
+    }
+    
+    public void borrarCobro(Produccion unaProduccion, Cobro unCobro) throws Exception{
+        this.unCelsoFinanzas.borrarCobro(unaProduccion, unCobro);
+    }
+    
+    public List<Cobro> obtenerCobro(Produccion unaProduccion){
+        
+        //no tiene sentido
+        return unaProduccion.obtenerCobros();
+    }
+    
+    //fin abm cobro
+    //inicio abm Convenios
+    public void agregarConvenio(String nombre){
+        this.unCelsoFinanzas.agregarConvenio(nombre);
+    }
+    
+    public void modificarConvenio(Convenio unConvenio) throws Exception{
+        this.unCelsoFinanzas.modificarConvenio(unConvenio);
+    }
+    
+    public void borrarConvenio(int id) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarConvenio(id);
+    }
+    
+    public List<Convenio> obtenerConvenios(){
+        return this.unCelsoFinanzas.obtenerConvenios();
+    }
+    
+    public Convenio obtenerConvenio(int id){
+        return this.unCelsoFinanzas.obtenerConvenio(id);
+    }
+    
+    //fin abm convenios 
+    //inicio abm Produccion
+    
+    public void agregarProduccion(Double producido, int mes, int año, Convenio unConvenio){
+        this.unCelsoFinanzas.agregarProduccion(producido, mes, año, unConvenio);
+    }
+    
+    public void modificarProduccion(Produccion unaProduccion) throws Exception{
+        this.unCelsoFinanzas.modificarProduccion(unaProduccion);
+    }
+    
+    public void borrarProduccion(int id) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarProduccion(id);
+    }
+    
+    public Produccion obtenerProduccion(int id){
+        return this.unCelsoFinanzas.obtenerProduccion(id);
+    }
+    
+    public List<Produccion> obtenerProducciones(){
+        return this.unCelsoFinanzas.obtenerProducciones();
+    }
+    
+    //fin abm produccion
     //obtener listados
     
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){

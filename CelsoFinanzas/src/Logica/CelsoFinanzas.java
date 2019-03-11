@@ -28,7 +28,13 @@ public class CelsoFinanzas implements Serializable {
     private List<Cobranza> cobranzas = new ArrayList<>();
     @OneToMany
     private List<Ingreso> ingresos = new ArrayList<>();
-    
+    @OneToMany
+    private List<Cobro> cobros = new ArrayList<>();
+    @OneToMany
+    private List<Convenio> convenios = new ArrayList<>();
+    @OneToMany
+    private List<Produccion> producciones = new ArrayList<>();
+           
     ControladorPersistencia persistencia = new ControladorPersistencia();
     
     public CelsoFinanzas() {
@@ -430,6 +436,78 @@ public class CelsoFinanzas implements Serializable {
         return unaCobranza;
     }
     
+    //inicio abm Cobro 
+    public void agregarCobro(Produccion unaProduccion ,Cobro unCobro) throws Exception{
+        unaProduccion.agregarCobro(unCobro);
+        persistencia.agregarCobro(unCobro);
+        persistencia.modificarProduccion(unaProduccion);
+    }
+    
+    public void modificarCobro(Produccion unaProduccion, Cobro oldCobro,Cobro newCobro) throws Exception{
+        unaProduccion.modificarCobro(oldCobro, newCobro);
+        persistencia.modificarCobro(newCobro);
+        persistencia.modificarProduccion(unaProduccion);
+        
+    }
+    
+    public void borrarCobro(Produccion unaProduccion, Cobro unCobro) throws Exception{
+        unaProduccion.borrarCobro(unCobro);
+        persistencia.borrarCobro(unCobro.getId());
+        persistencia.modificarProduccion(unaProduccion);
+    }
+    
+    public List<Cobro> obtenerCobro(Produccion unaProduccion){
+        return unaProduccion.obtenerCobros();
+    }
+    
+    //fin abm cobro
+    //inicio abm Convenios
+    public void agregarConvenio(String nombre){
+        Convenio unConvenio = new Convenio(nombre);
+        persistencia.agregarConvenio(unConvenio);
+    }
+    
+    public void modificarConvenio(Convenio unConvenio) throws Exception{
+        persistencia.modificarConvenio(unConvenio);
+    }
+    
+    public void borrarConvenio(int id) throws NonexistentEntityException{
+        persistencia.borrarConvenio(id);
+    }
+    
+    public List<Convenio> obtenerConvenios(){
+        return persistencia.obtenerConvenios();
+    }
+    
+    public Convenio obtenerConvenio(int id){
+        return persistencia.obtenerConvenio(id);
+    }
+    
+    //fin abm convenios 
+    //inicio abm Produccion
+    
+    public void agregarProduccion(Double producido, int mes, int año, Convenio unConvenio){
+        Produccion unaProduccion = new Produccion(producido, mes, año, unConvenio);
+        persistencia.agregarProduccion(unaProduccion);
+    }
+    
+    public void modificarProduccion(Produccion unaProduccion) throws Exception{
+         persistencia.modificarProduccion(unaProduccion);
+    }
+    
+    public void borrarProduccion(int id) throws NonexistentEntityException{
+        persistencia.borrarProduccion(id);
+    }
+    
+    public Produccion obtenerProduccion(int id){
+        return persistencia.obtenerProduccion(id);
+    }
+    
+    public List<Produccion> obtenerProducciones(){
+        return persistencia.obtenerProducciones();
+    }
+    
+    //fin abm produccion
     //Obtencion de Listados
     public double obtenerListadoDelCobrador(Cobrador unCobrador, int year , int mes){
         double total = 0;
