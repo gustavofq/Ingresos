@@ -7,7 +7,6 @@
     <class>Logica.Cobrador</class>
     <class>Logica.Cobranza</class>
     <class>Logica.Ingreso</class>
-    <class>Logica.Cobro</class>
     <class>Logica.Convenio</class>
     <class>Logica.Produccion</class>
     <shared-cache-mode>ALL</shared-cache-mode>

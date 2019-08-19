@@ -29,8 +29,6 @@ public class CelsoFinanzas implements Serializable {
     @OneToMany
     private List<Ingreso> ingresos = new ArrayList<>();
     @OneToMany
-    private List<Cobro> cobros = new ArrayList<>();
-    @OneToMany
     private List<Convenio> convenios = new ArrayList<>();
     @OneToMany
     private List<Produccion> producciones = new ArrayList<>();
@@ -435,32 +433,7 @@ public class CelsoFinanzas implements Serializable {
             }
         return unaCobranza;
     }
-    
-    //inicio abm Cobro 
-    public void agregarCobro(Produccion unaProduccion ,Cobro unCobro) throws Exception{
-        unaProduccion.agregarCobro(unCobro);
-        persistencia.agregarCobro(unCobro);
-        persistencia.modificarProduccion(unaProduccion);
-    }
-    
-    public void modificarCobro(Produccion unaProduccion, Cobro oldCobro,Cobro newCobro) throws Exception{
-        unaProduccion.modificarCobro(oldCobro, newCobro);
-        persistencia.modificarCobro(newCobro);
-        persistencia.modificarProduccion(unaProduccion);
-        
-    }
-    
-    public void borrarCobro(Produccion unaProduccion, Cobro unCobro) throws Exception{
-        unaProduccion.borrarCobro(unCobro);
-        persistencia.borrarCobro(unCobro.getId());
-        persistencia.modificarProduccion(unaProduccion);
-    }
-    
-    public List<Cobro> obtenerCobro(Produccion unaProduccion){
-        return unaProduccion.obtenerCobros();
-    }
-    
-    //fin abm cobro
+
     //inicio abm Convenios
     public void agregarConvenio(String nombre){
         Convenio unConvenio = new Convenio(nombre);
@@ -486,9 +459,14 @@ public class CelsoFinanzas implements Serializable {
     //fin abm convenios 
     //inicio abm Produccion
     
-    public void agregarProduccion(Double producido, int mes, int año, Convenio unConvenio){
-        Produccion unaProduccion = new Produccion(producido, mes, año, unConvenio);
-        persistencia.agregarProduccion(unaProduccion);
+    public void agregarProduccion(Double producido, int mes, int year, Convenio unConvenio, Calendar fecha, String factura, Double cobrado) throws PreexistingEntityException{
+        Produccion unaProduccion = new Produccion(producido, mes, year, unConvenio,fecha, factura, cobrado);
+        if(this.obtenerProduccion(mes, year, unConvenio) == null){
+            persistencia.agregarProduccion(unaProduccion);
+        }else{
+            throw new PreexistingEntityException("Ya existe la produccion " + unaProduccion.toString());
+        }
+        
     }
     
     public void modificarProduccion(Produccion unaProduccion) throws Exception{
@@ -504,7 +482,44 @@ public class CelsoFinanzas implements Serializable {
     }
     
     public List<Produccion> obtenerProducciones(){
-        return persistencia.obtenerProducciones();
+        List produccion = persistencia.obtenerProducciones();
+        Collections.sort(produccion);
+        return produccion;
+    }
+    
+    public List<Produccion> obtenerProducciones(int year, Convenio unConvenio){
+        List<Produccion> produccionesConvenio = new ArrayList<>();
+        Produccion unaProduccion = new Produccion();
+        Iterator it = this.persistencia.obtenerProducciones().iterator();
+        while(it.hasNext()){
+            unaProduccion = (Produccion) it.next();
+            if(unaProduccion.getYear() == year && unaProduccion.getUnConvenio().equals(unConvenio)){
+                produccionesConvenio.add(unaProduccion);
+            }
+        }
+        return produccionesConvenio;
+    }
+    
+    public Produccion obtenerProduccion(int mes, int year, Convenio unConvenio){
+        Produccion unaProduccion = null;
+        Iterator it = this.obtenerProducciones(year, unConvenio).iterator();// no esta trayendo convenio
+        boolean existe = false;
+        while(it.hasNext()){
+            unaProduccion = (Produccion) it.next();//terminar cuando existe es true
+            if(unaProduccion.getMes() == mes){
+                existe = true;
+            }
+        }
+        if(existe == false){
+            unaProduccion = null;
+        }
+        return unaProduccion;
+    }
+    
+    public boolean existeProduccion(int mes, int year, Convenio unConvenio){
+        boolean existe = false;
+        if(this.obtenerProduccion(mes,year,unConvenio) != null) existe = true;
+        return existe;
     }
     
     //fin abm produccion

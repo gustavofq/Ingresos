@@ -3,6 +3,7 @@ package Logica;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 @Entity
-public class Produccion implements Serializable {
+public class Produccion implements Serializable, Comparable<Produccion> {
     @Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
@@ -23,14 +25,18 @@ public class Produccion implements Serializable {
     @Basic
     private int mes;
     @Basic
-    private int año;
+    private int year;
     @OneToOne
     private Convenio unConvenio;
     @Basic
     private String estado;
-    @OneToMany
-    private List<Cobro> cobrado = new ArrayList<>();
-
+    @Basic
+    private Double importeCobrador;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Calendar fechaCobrado;
+    @Basic
+    private String nFactura;
+    
     public Produccion() {
     }
 
@@ -38,7 +44,7 @@ public class Produccion implements Serializable {
         this.id = id;
         this.producido = producido;
         this.mes = mes;
-        this.año = año;
+        this.year = año;
         this.unConvenio = unConvenio;
         this.estado = estado;
     }
@@ -46,10 +52,26 @@ public class Produccion implements Serializable {
     public Produccion(Double producido, int mes, int año, Convenio unConvenio) {
         this.producido = producido;
         this.mes = mes;
-        this.año = año;
+        this.year = año;
         this.unConvenio = unConvenio;
+        this.nFactura = "";
+        this.importeCobrador=0.0;
+        this.fechaCobrado = null;
+        this.noEnviar();
     }
-
+    
+    
+    public Produccion(Double producido, int mes, int año, Convenio unConvenio, Calendar fecha, String factura, Double cobrado) {
+        this.producido = producido;
+        this.mes = mes;
+        this.year = año;
+        this.unConvenio = unConvenio;
+        this.nFactura = factura;
+        this.importeCobrador=cobrado;
+        this.fechaCobrado = fecha;
+        this.noEnviar();
+    }
+    
     public int getId() {
         return id;
     }
@@ -74,12 +96,12 @@ public class Produccion implements Serializable {
         this.mes = mes;
     }
 
-    public int getAño() {
-        return año;
+    public int getYear() {
+        return year;
     }
 
-    public void setAño(int año) {
-        this.año = año;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public Convenio getUnConvenio() {
@@ -98,13 +120,37 @@ public class Produccion implements Serializable {
         this.estado = estado;
     }
 
+    public Double getImporteCobrador() {
+        return importeCobrador;
+    }
+
+    public void setImporteCobrador(Double importeCobrador) {
+        this.importeCobrador = importeCobrador;
+    }
+
+    public Calendar getFechaCobrado() {
+        return fechaCobrado;
+    }
+
+    public void setFechaCobrado(Calendar fechaCobrado) {
+        this.fechaCobrado = fechaCobrado;
+    }
+
+    public String getnFactura() {
+        return nFactura;
+    }
+
+    public void setnFactura(String nFactura) {
+        this.nFactura = nFactura;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + this.id;
         hash = 13 * hash + Objects.hashCode(this.producido);
         hash = 13 * hash + this.mes;
-        hash = 13 * hash + this.año;
+        hash = 13 * hash + this.year;
         hash = 13 * hash + Objects.hashCode(this.unConvenio);
         hash = 13 * hash + Objects.hashCode(this.estado);
         return hash;
@@ -143,40 +189,34 @@ public class Produccion implements Serializable {
         this.estado = "no enviado.";
     }
     
-    
-    public void agregarCobro(Cobro unCobro){
-        this.cobrado.add(unCobro);
-    }
-    
-    public void modificarCobro(Cobro oldCobro, Cobro newCobro){
-        this.cobrado.set(oldCobro.getId(), newCobro);
-    }
-    
-    public void borrarCobro(Cobro unCobro){
-        this.cobrado.remove(unCobro.getId());
-    }
-    
-    public List<Cobro> obtenerCobros(){
-        return this.cobrado;
-    }
-    
-    public Double obtenerCobro(){
-        Double total = 0.0;
-        Cobro unCobro;
-        Iterator it = this.cobrado.iterator();
-        while(it.hasNext()){
-            unCobro = (Cobro)it.next();
-            total += unCobro.getImporte();
-        }
-        return total;
-    }
-    
     public boolean isPagado(){
         boolean pagado = false;
-        if(this.producido.equals(this.obtenerCobro())){
+        if(this.producido.equals(this.importeCobrador)){
             pagado = true;
         }
         return pagado;
     } 
+
+    @Override
+    public int compareTo(Produccion o) {
+        int resultado = 1;
+        if(this.year == o.getYear() && this.mes == o.getMes()){
+            resultado = 0;
+        }else if(this.year == o.getYear()){
+            if(this.mes < o.getMes()){
+                resultado = -1;
+            }
+        }else if(this.year < o.getYear()){
+            resultado = -1;
+        }
+        return resultado;   
+    }
+
+    @Override
+    public String toString() {
+        return "Produccion{" + "id=" + id + ", producido=" + producido + ", mes=" + mes + ", year=" + year + ", unConvenio=" + unConvenio + ", importeCobrador=" + importeCobrador + '}';
+    }
+    
+    
     
 }

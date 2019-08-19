@@ -133,6 +133,7 @@ public class Principal extends javax.swing.JFrame{
         jMenu2.setText("Convenios");
         jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
+        jMenuItem3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMenuItem3.setText("Cargar Datos");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,6 +142,7 @@ public class Principal extends javax.swing.JFrame{
         });
         jMenu2.add(jMenuItem3);
 
+        jMenuItem4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMenuItem4.setText("nuevos Convenios");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

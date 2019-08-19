@@ -164,6 +164,8 @@ public class Utilitario {
         }
     }
     
+    
+    
     /**Conbrueba si una cadena es numerica.
      *@param cadena String a comprobar
      *@return true si es numerico, false si no es numerico.
@@ -204,7 +206,6 @@ public class Utilitario {
        }else{
            s="-";
        }
-       
        return s;
     }
     

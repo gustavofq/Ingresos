@@ -9,7 +9,6 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
-import Logica.Cobro;
 import Logica.Convenio;
 import Logica.Ingreso;
 import Logica.Produccion;
@@ -26,7 +25,6 @@ public class ControladorPersistencia implements Serializable{
     private static CobradorJpaController unCobradorJpaController;
     private static CobranzaJpaController unaCobranzaJpaController;
     private static IngresoJpaController unIngresoJpaController;
-    private static CobroJpaController unCobroJpaController;
     private static ConvenioJpaController unConvenioJpaController;
     private static ProduccionJpaController unaProduccionJpaController;
     
@@ -36,7 +34,6 @@ public class ControladorPersistencia implements Serializable{
         unCobradorJpaController = new CobradorJpaController();
         unaCobranzaJpaController = new CobranzaJpaController();
         unIngresoJpaController = new IngresoJpaController();
-        unCobroJpaController = new CobroJpaController();
         unConvenioJpaController = new ConvenioJpaController();
         unaProduccionJpaController = new ProduccionJpaController();
     }
@@ -167,30 +164,6 @@ public class ControladorPersistencia implements Serializable{
         return unIngresoJpaController.findIngreso(id);
     }
     
-    
-    //alta cobro
-    
-    public void agregarCobro(Cobro unCobro){
-        unCobroJpaController.create(unCobro);
-    }
-    
-    public void modificarCobro(Cobro unCobro) throws Exception{
-        unCobroJpaController.edit(unCobro);
-    }
-    
-    public void borrarCobro(int id) throws NonexistentEntityException{
-        unCobroJpaController.destroy(id);
-    }
-    
-    public Cobro obtenerCobro(int id){
-        return unCobroJpaController.findCobro(id);
-    }
-    
-    public List<Cobro> obtenerCobros(){
-        return unCobroJpaController.findCobroEntities();
-    }
-    
-    //fin abm cobros
     //abm convenios
     
     public void agregarConvenio(Convenio unConvenio){

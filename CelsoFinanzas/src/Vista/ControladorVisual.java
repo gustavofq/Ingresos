@@ -4,14 +4,15 @@ import Logica.Area;
 import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
-import Logica.Cobro;
 import Logica.Convenio;
 import Logica.Ingreso;
 import Logica.Produccion;
 import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
 import Persistencia.exceptions.ViolacionClaveForaneaException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 public class ControladorVisual {
@@ -140,27 +141,6 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerCobranzasAreaCobrador(unArea, year, unCobrador);
     }
     
-    //inicio abm Cobro 
-    public void agregarCobro(Produccion unaProduccion ,Cobro unCobro) throws Exception{
-        this.unCelsoFinanzas.agregarCobro(unaProduccion, unCobro);
-    }
-    
-    public void modificarCobro(Produccion unaProduccion, Cobro oldCobro,Cobro newCobro) throws Exception{
-        this.unCelsoFinanzas.modificarCobro(unaProduccion, oldCobro, newCobro);
-        
-    }
-    
-    public void borrarCobro(Produccion unaProduccion, Cobro unCobro) throws Exception{
-        this.unCelsoFinanzas.borrarCobro(unaProduccion, unCobro);
-    }
-    
-    public List<Cobro> obtenerCobro(Produccion unaProduccion){
-        
-        //no tiene sentido
-        return unaProduccion.obtenerCobros();
-    }
-    
-    //fin abm cobro
     //inicio abm Convenios
     public void agregarConvenio(String nombre){
         this.unCelsoFinanzas.agregarConvenio(nombre);
@@ -185,9 +165,10 @@ public class ControladorVisual {
     //fin abm convenios 
     //inicio abm Produccion
     
-    public void agregarProduccion(Double producido, int mes, int año, Convenio unConvenio){
-        this.unCelsoFinanzas.agregarProduccion(producido, mes, año, unConvenio);
+    public void agregarProduccion(Double producido, int mes, int año, Convenio unConvenio, Calendar fecha, String factura, Double cobrado) throws PreexistingEntityException{
+        this.unCelsoFinanzas.agregarProduccion(producido, mes, año, unConvenio,fecha, factura, cobrado);
     }
+
     
     public void modificarProduccion(Produccion unaProduccion) throws Exception{
         this.unCelsoFinanzas.modificarProduccion(unaProduccion);
@@ -203,6 +184,17 @@ public class ControladorVisual {
     
     public List<Produccion> obtenerProducciones(){
         return this.unCelsoFinanzas.obtenerProducciones();
+    }
+    
+    public List<Produccion> obtenerProducciones(int year, Convenio unConvenio){
+        return this.unCelsoFinanzas.obtenerProducciones(year, unConvenio);
+    }
+    public Produccion obtenerProducciones(int mes ,int year, Convenio unConvenio){
+        return this.unCelsoFinanzas.obtenerProduccion(mes , year, unConvenio);
+    }
+    
+    public boolean existeProduccion(int mes, int year, Convenio unConvenio){
+        return this.unCelsoFinanzas.existeProduccion(mes, year, unConvenio);
     }
     
     //fin abm produccion
