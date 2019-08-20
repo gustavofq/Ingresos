@@ -197,15 +197,19 @@ public class Utilitario {
      *@return String con el formato dd/MM/yyyy del Calendar.
      */
     public String obtenerFecha(Calendar fecha){
-       Calendar cal = fecha;
-       Date dat = cal.getTime();
-       String s = "";
-       if(dat != null){
-           Format formatter = new SimpleDateFormat("dd/MM/yyyy");
-           s = formatter.format(dat);
-       }else{
-           s="-";
-       }
+        String s = "";
+        if(fecha != null){
+            Calendar cal = fecha;
+            Date dat = cal.getTime();
+            if(dat != null){
+                Format formatter = new SimpleDateFormat("dd/MM/yyyy");
+                s = formatter.format(dat);
+            }else{
+                s="";
+            }
+        }else{
+            s="";
+        }
        return s;
     }
     

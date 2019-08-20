@@ -4,7 +4,6 @@ import Logica.Convenio;
 import Logica.Produccion;
 import Persistencia.exceptions.PreexistingEntityException;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -329,35 +328,9 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     }
     
     private void tblProduccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProduccionKeyReleased
-        /*if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            int i = getMesTabla();
-            Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
-            int year = Integer.parseInt(this.tfYear.getText());
-            Double importe = Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
-            if(importe!=null || importe != 0){
-                String factura = this.tblProduccion.getValueAt(i, 2).toString();
-                Double importePagado = Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
-                Calendar fecha = null;
-                try {
-                    if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
-                        fecha = this.unUtilitario.obtenerFecha(this.tblProduccion.getValueAt(i, 4).toString());
-                    }
-                    
-                } catch (ParseException ex) {
-                    Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if(this.unControladorVisual.existeProduccion(i,year, unConvenio)){
-                    this.modificarProduccion(unConvenio, year, importe, year, factura, importePagado, fecha);
-                }else{
-                    this.agregarProduccion(unConvenio, year, importe, i);
-                }
-            }
-            this.cargarTabla();
-        }*/
     }//GEN-LAST:event_tblProduccionKeyReleased
 
     public void limpiarTabla(){
-        
         this.cargarMeses();
     }
     
@@ -393,13 +366,21 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 Calendar fecha = Calendar.getInstance();
                 this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
                 try {
-                    fecha = this.unUtilitario.obtenerFecha(this.tblProduccion.getValueAt(i, 4).toString());
+                    if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
+                        fecha = this.unUtilitario.obtenerFecha(this.tblProduccion.getValueAt(i, 4).toString());
+                    }
                 } catch (ParseException ex) {
                     Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(this.unControladorVisual.existeProduccion(i,year, unConvenio)){
-                    //this.modificarProduccion(unConvenio, year, importe, year, factura, importePagado, fecha);
+                    if(Double.compare(importePagado,0.0)==0){
+                        fecha = null;
+                    }
+                    this.modificarProduccion(unConvenio, year, importe, i, factura, importePagado, fecha);
                 }else{
+                    if(Double.compare(importePagado,0.0)==0){
+                        fecha = null;
+                    }
                     this.agregarProduccion(unConvenio, year, importe, i,fecha, factura, importePagado);
                 }
             }
@@ -429,24 +410,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 }
             }
     }
-    
-    private void borrarProduccion(){
-        
-    }
-    
+
     private void cmbConveniosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbConveniosPropertyChange
        if(this.cmbConvenios.getSelectedIndex()!= -1 ) this.cargarTabla();
     }//GEN-LAST:event_cmbConveniosPropertyChange
 
-    private boolean camposOk(){
-        boolean campoOk = false;
-        if(this.tfYear.getText().length()>0){
-            if(this.cmbConvenios.getSelectedIndex()!= -1){
-                campoOk = true;
-            }
-        }
-        return campoOk;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
