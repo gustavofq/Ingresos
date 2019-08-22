@@ -197,6 +197,11 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.existeProduccion(mes, year, unConvenio);
     }
     
+    public Double obtenerImporteCobradoMes( int mes, int year, Convenio unConvenio){
+        return this.unCelsoFinanzas.obtenerImporteCobradoMes(mes, year, unConvenio);
+    }
+    
+    
     //fin abm produccion
     //obtener listados
     

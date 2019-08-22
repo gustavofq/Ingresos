@@ -504,7 +504,7 @@ public class CelsoFinanzas implements Serializable {
         Produccion unaProduccion = null;
         Iterator it = this.obtenerProducciones(year, unConvenio).iterator();// no esta trayendo convenio
         boolean existe = false;
-        while(it.hasNext()){
+        while(it.hasNext()&&(!existe)){
             unaProduccion = (Produccion) it.next();//terminar cuando existe es true
             if(unaProduccion.getMes() == mes){
                 existe = true;
@@ -514,6 +514,19 @@ public class CelsoFinanzas implements Serializable {
             unaProduccion = null;
         }
         return unaProduccion;
+    }
+    
+    public Double obtenerImporteCobradoMes( int mes, int year, Convenio unConvenio){
+        Double importeCobrado = 0.0;
+        Produccion unaProduccion = null;
+        Iterator it = this.obtenerProducciones(year, unConvenio).iterator();
+        while(it.hasNext()){
+            unaProduccion = (Produccion) it.next();
+            if(unaProduccion.obtenerMesCobro() == mes){
+                importeCobrado+=unaProduccion.getImporteCobrador();
+            }
+        }
+        return importeCobrado;
     }
     
     public boolean existeProduccion(int mes, int year, Convenio unConvenio){

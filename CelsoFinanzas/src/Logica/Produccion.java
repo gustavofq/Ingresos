@@ -144,6 +144,15 @@ public class Produccion implements Serializable, Comparable<Produccion> {
         this.nFactura = nFactura;
     }
 
+    public int  obtenerMesCobro(){
+        int mesCobro = -1;
+        if(fechaCobrado != null){
+            mesCobro = this.fechaCobrado.get(Calendar.MONTH);
+        }
+        
+        return mesCobro;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
@@ -214,7 +223,7 @@ public class Produccion implements Serializable, Comparable<Produccion> {
 
     @Override
     public String toString() {
-        return "Produccion{" + "id=" + id + ", producido=" + producido + ", mes=" + mes + ", year=" + year + ", unConvenio=" + unConvenio + ", importeCobrador=" + importeCobrador + '}';
+        return "Produccion{" + "id=" + id + ", producido=" + producido + ", mes=" + mes + ", year=" + year + ", unConvenio=" + unConvenio + ", importeCobrador=" + importeCobrador + " fecha: "+this.fechaCobrado.get(Calendar.MONTH)+'}';
     }
     
     

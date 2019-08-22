@@ -27,12 +27,14 @@ public class Principal extends javax.swing.JFrame{
         jMReporte = new javax.swing.JMenuItem();
         jMAreas = new javax.swing.JMenu();
         jmGestionArea = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,27 +111,6 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar.add(jMAreas);
 
-        jMenu1.setText("ADMIN");
-        jMenu1.setEnabled(false);
-
-        jMenuItem1.setText("Listado");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Ingreso");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2);
-
-        jMenuBar.add(jMenu1);
-
         jMenu2.setText("Convenios");
         jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
@@ -151,7 +132,46 @@ public class Principal extends javax.swing.JFrame{
         });
         jMenu2.add(jMenuItem4);
 
+        jMenuItem5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem5.setText("Producido/Cobrado");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem6.setText("Estadísticas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
         jMenuBar.add(jMenu2);
+
+        jMenu1.setText("ADMIN");
+        jMenu1.setEnabled(false);
+
+        jMenuItem1.setText("Listado");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Ingreso");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar.add(jMenu1);
 
         setJMenuBar(jMenuBar);
 
@@ -232,6 +252,20 @@ public class Principal extends javax.swing.JFrame{
         unaCargaConvenio.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        ResumenCobros unResumenCobro = new ResumenCobros();
+        this.dpContenedor.add(unResumenCobro);
+        unResumenCobro.setVisible(true);
+        
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ReportesConvenios unReporte = new ReportesConvenios();
+        this.dpContenedor.add(unReporte);
+        unReporte.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -280,6 +314,8 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jmGestionArea;
     // End of variables declaration//GEN-END:variables
 
