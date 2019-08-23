@@ -17,13 +17,16 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         initComponents();
         cargarAspectos();
         cargarProduccion();
-        
+        sumarMensual();
     }
 
+    
+    
     public void cargarAspectos(){
         th= this.tblResumen.getTableHeader();
         th.setFont(fuente);
         this.tblResumen.setTableHeader(th);
+        
     }
     
     public void cargarProduccion(){
@@ -33,21 +36,42 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
         int year = Integer.parseInt(this.tfYear.getText());
         model.setNumRows(0);
-        model.setNumRows(fila);
+        model.setNumRows(fila+1);
         Convenio unConvenio = new Convenio();
+        
         int i=0;
         while(it.hasNext()){
+            Double totalConvenio=0.0;
             unConvenio = (Convenio) it.next();
             this.tblResumen.setValueAt(unConvenio.getNombre(), i, 0);
             for(int j=0;j<12;j++){
                 if(unControladorVisual.obtenerProducciones(j, year, unConvenio) != null){
                     this.tblResumen.setValueAt(unControladorVisual.obtenerProducciones(j, year, unConvenio).getProducido(), i,unControladorVisual.obtenerProducciones(j, year, unConvenio).getMes() +1 );
+                    totalConvenio+=unControladorVisual.obtenerProducciones(j, year, unConvenio).getProducido();
                 }
             }
+            this.tblResumen.setValueAt(totalConvenio, i, 13 );
             i++;
+            
         }
+        this.tblResumen.setValueAt("TOTAL", this.tblResumen.getRowCount()-1, 0);
     }
 
+    private void sumarMensual(){
+       Double total = 0.0;
+       for(int i=1;i<=13;i++){
+           for(int j=0;j< this.tblResumen.getRowCount();j++){
+               if(this.tblResumen.getValueAt(j, i)!=null && this.tblResumen.getValueAt(j, i)!= ""){
+                   total += Double.parseDouble(this.tblResumen.getValueAt(j, i).toString());
+               }
+           }
+           this.tblResumen.setValueAt(total, this.tblResumen.getRowCount()-1, i);
+           total=0.0;
+      }
+      
+   }
+    
+    
     public void cargarCobrado(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblResumen.getModel();
@@ -55,17 +79,22 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
         int year = Integer.parseInt(this.tfYear.getText());
         model.setNumRows(0);
-        model.setNumRows(fila);
+        model.setNumRows(fila+1);
         Convenio unConvenio = new Convenio();
         int i=0;
+        Double totalCobradoConvenio = 0.0;
+        Double totalMes=0.0;
         while(it.hasNext()){
+            totalCobradoConvenio =0.0;
             unConvenio = (Convenio) it.next();
             this.tblResumen.setValueAt(unConvenio.getNombre(), i, 0);
             for(int j=0;j<12;j++){
                 if(unControladorVisual.obtenerImporteCobradoMes(j, year, unConvenio)!=0){
                     this.tblResumen.setValueAt(unControladorVisual.obtenerImporteCobradoMes(j, year, unConvenio), i,j+1 );
+                    totalCobradoConvenio+=unControladorVisual.obtenerImporteCobradoMes(j, year, unConvenio);
                 }
             }
+            this.tblResumen.setValueAt(totalCobradoConvenio, i,13 );
             i++;
         }
     }
@@ -86,9 +115,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResumen = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -210,7 +236,22 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             new String [] {
                 "CONVENIO", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE", "TOTAL"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblResumen);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -226,37 +267,8 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBorder(new javax.swing.border.MatteBorder(null));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "", "", "", "", "", "", "", "", "", "", "", "", "", ""
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout pnlGeneralLayout = new javax.swing.GroupLayout(pnlGeneral);
@@ -266,7 +278,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             .addGroup(pnlGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -275,11 +286,9 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             pnlGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGeneralLayout.createSequentialGroup()
                 .addComponent(pnlBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(85, 85, 85))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -292,7 +301,9 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -304,7 +315,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         }else{
             cargarCobrado();
         }
-           
+           sumarMensual();
     }//GEN-LAST:event_rbProduccionActionPerformed
 
     private void rbCobradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCobradoActionPerformed
@@ -313,6 +324,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         }else{
             cargarProduccion();
         }
+        sumarMensual();
     }//GEN-LAST:event_rbCobradoActionPerformed
 
 
@@ -321,11 +333,8 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlGeneral;
     private javax.swing.JRadioButton rbCobrado;
