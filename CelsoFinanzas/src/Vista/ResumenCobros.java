@@ -2,7 +2,9 @@ package Vista;
 
 import Logica.Convenio;
 import java.awt.Font;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -14,8 +16,8 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
     public ResumenCobros() {
         initComponents();
         cargarAspectos();
-        //cargarProduccion();
-        cargarCobrado();
+        cargarProduccion();
+        
     }
 
     public void cargarAspectos(){
@@ -24,17 +26,14 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         this.tblResumen.setTableHeader(th);
     }
     
-    
-    
     public void cargarProduccion(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblResumen.getModel();
         int fila = unControladorVisual.obtenerConvenios().size();
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
         int year = Integer.parseInt(this.tfYear.getText());
-        for (int i = 0; i < fila ; i++){
-            model.setValueAt(0, i, 0);
-        }
+        model.setNumRows(0);
+        model.setNumRows(fila);
         Convenio unConvenio = new Convenio();
         int i=0;
         while(it.hasNext()){
@@ -55,16 +54,15 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         int fila = unControladorVisual.obtenerConvenios().size();
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
         int year = Integer.parseInt(this.tfYear.getText());
-        for (int i = 0; i < fila ; i++){
-            model.setValueAt(0, i, 0);
-        }
+        model.setNumRows(0);
+        model.setNumRows(fila);
         Convenio unConvenio = new Convenio();
         int i=0;
         while(it.hasNext()){
             unConvenio = (Convenio) it.next();
             this.tblResumen.setValueAt(unConvenio.getNombre(), i, 0);
             for(int j=0;j<12;j++){
-                if(unControladorVisual.obtenerProducciones(j, year, unConvenio) != null){
+                if(unControladorVisual.obtenerImporteCobradoMes(j, year, unConvenio)!=0){
                     this.tblResumen.setValueAt(unControladorVisual.obtenerImporteCobradoMes(j, year, unConvenio), i,j+1 );
                 }
             }
@@ -120,6 +118,11 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         buttonGroup1.add(rbCobrado);
         rbCobrado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         rbCobrado.setText("COBRADO");
+        rbCobrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbCobradoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -303,6 +306,14 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         }
            
     }//GEN-LAST:event_rbProduccionActionPerformed
+
+    private void rbCobradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCobradoActionPerformed
+        if(this.rbCobrado.isSelected()){
+            cargarCobrado();
+        }else{
+            cargarProduccion();
+        }
+    }//GEN-LAST:event_rbCobradoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

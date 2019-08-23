@@ -54,7 +54,7 @@ public class Produccion implements Serializable, Comparable<Produccion> {
         this.mes = mes;
         this.year = año;
         this.unConvenio = unConvenio;
-        this.nFactura = "";
+        this.nFactura = "".toUpperCase();
         this.importeCobrador=0.0;
         this.fechaCobrado = null;
         this.noEnviar();
@@ -66,7 +66,7 @@ public class Produccion implements Serializable, Comparable<Produccion> {
         this.mes = mes;
         this.year = año;
         this.unConvenio = unConvenio;
-        this.nFactura = factura;
+        this.nFactura = factura.toUpperCase();
         this.importeCobrador=cobrado;
         this.fechaCobrado = fecha;
         this.noEnviar();
@@ -137,11 +137,11 @@ public class Produccion implements Serializable, Comparable<Produccion> {
     }
 
     public String getnFactura() {
-        return nFactura;
+        return nFactura.toUpperCase();
     }
 
     public void setnFactura(String nFactura) {
-        this.nFactura = nFactura;
+        this.nFactura = nFactura.toUpperCase();
     }
 
     public int  obtenerMesCobro(){
@@ -223,7 +223,7 @@ public class Produccion implements Serializable, Comparable<Produccion> {
 
     @Override
     public String toString() {
-        return "Produccion{" + "id=" + id + ", producido=" + producido + ", mes=" + mes + ", year=" + year + ", unConvenio=" + unConvenio + ", importeCobrador=" + importeCobrador + " fecha: "+this.fechaCobrado.get(Calendar.MONTH)+'}';
+        return "Produccion{" + "id=" + id + ", producido=" + producido + ", mes=" + mes + ", year=" + year + ", unConvenio=" + unConvenio + ", importeCobrador=" + importeCobrador + " mes: "+this.fechaCobrado.get(Calendar.MONTH)+'}';
     }
     
     

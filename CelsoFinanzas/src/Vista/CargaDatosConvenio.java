@@ -43,7 +43,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         
     }
         for(int i = 0;i<=11;i++){
-            this.tblProduccion.setValueAt(this.unUtilitario.getMonth(i), i, 0);
+            this.tblProduccion.setValueAt(this.unUtilitario.getMonth(i).toUpperCase(), i, 0);
         }
     }
 
@@ -134,7 +134,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addComponent(lblYear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(408, Short.MAX_VALUE))
+                .addContainerGap(889, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,11 +165,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 {"DICIEMBRE", null, null, null, null}
             },
             new String [] {
-                "MES", "PRODUC.", "N° FACT.", "COBRADO", "FECHA"
+                "MES", "PRODUCIDO", "N° FACTURA", "COBRADO", "FECHA COBRO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Double.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true
@@ -205,7 +205,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             pnlTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -235,13 +235,14 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             pnlTotalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTotalesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1278, Short.MAX_VALUE))
         );
         pnlTotalesLayout.setVerticalGroup(
             pnlTotalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTotalesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlGeneralLayout = new javax.swing.GroupLayout(pnlGeneral);
@@ -262,8 +263,8 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(pnlBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlTotales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
@@ -284,20 +285,19 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         pnlBotoneraLayout.setHorizontalGroup(
             pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotoneraLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(199, 199, 199)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(18, 18, 18))
         );
         pnlBotoneraLayout.setVerticalGroup(
             pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBotoneraLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(btnGuardar))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(btnGuardar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,12 +363,15 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             if(Double.compare(importe,0.0)!=0){
                 String factura = this.tblProduccion.getValueAt(i, 2).toString();
                 Double importePagado = Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
-                Calendar fecha = Calendar.getInstance();
-                this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
+                Calendar fecha = null;
                 try {
                     if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
                         fecha = this.unUtilitario.obtenerFecha(this.tblProduccion.getValueAt(i, 4).toString());
+                    }else{
+                        fecha = Calendar.getInstance();
+                        this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
                     }
+                       
                 } catch (ParseException ex) {
                     Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
                 }

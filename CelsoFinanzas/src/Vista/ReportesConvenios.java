@@ -35,13 +35,11 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
         while (mes<=11){
             if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
-                
                 producido.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido());
             }else{
                 producido.addOrUpdate(new Month( mes+1, year),0);
             }
-            
-            cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerAfiliadoMesYear(year, mes));
+            cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio));
             mes++;
         }
         dataset.addSeries(cobrado);
