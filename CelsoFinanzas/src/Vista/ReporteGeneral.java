@@ -1,5 +1,7 @@
 package Vista;
 
+import Logica.Area;
+import Logica.Cobranza;
 import Logica.Convenio;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,47 +16,50 @@ import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-public class ReportesConvenios extends javax.swing.JInternalFrame {
+public class ReporteGeneral extends javax.swing.JInternalFrame {
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private Utilitario unUtilitario = new Utilitario();
     private TimeSeries producido = new TimeSeries("Producido");
     private TimeSeries cobrado = new TimeSeries("Cobrado");
+    private TimeSeries Listado = new TimeSeries("Listado");
+    private TimeSeries cobradoC = new TimeSeries("Cobrado");
+    private TimeSeries neto = new TimeSeries("Neto");
     private TimeSeriesCollection dataset = new TimeSeriesCollection();
     private JLabel mensaje = new JLabel("mensaje");
    
-    public ReportesConvenios() {
+    public ReporteGeneral() {
         initComponents();
         this.unUtilitario.cargarAnhoActual(tfYear);
-        this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
-        this.cmbConvenios.addItem("TODO");
+        cargarCombo();
         this.cmbConvenios.setSelectedIndex(-1);
-        //generarGraficaAnualConvenio(2019);
-        //generarGraficaAnualTotal(2019);
-        
     }
 
-    public void generarGraficaAnualConvenio(int year){
+    public void cargarCombo(){
+        this.cmbConvenios.addItem("TODO");
+        this.cmbConvenios.addItem("Afiliados");
+        this.cmbConvenios.addItem("Convenios");
+        this.cmbConvenios.addItem("Sector Protegido");
+        
+    }
+    
+public void generarGraficaAfiliadosySp(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
         int mes = 0;
-        Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
         while (mes<=11){
-            if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
-                producido.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido());
-            }else{
-                producido.addOrUpdate(new Month( mes+1, year),0);
-            }
-            cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio));
+            Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoMesYear(year, mes));
+            cobradoC.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerAfiliadoMesYear(year, mes));
+            neto.addOrUpdate(new Month(mes+1,year), this.unControladorVisual.obtenerNetoMesYear(year, mes));
             mes++;
         }
-        dataset.addSeries(cobrado);
-        dataset.addSeries(producido);
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Pesos",dataset,true,false,false);
+        dataset.addSeries(cobradoC);
+        dataset.addSeries(Listado);
+        dataset.addSeries(neto);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Ingreso",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
     
-    
-    public void generarGraficaAnualTotal(int year){
+    public void generarGraficaAnualConvenio(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
         int mes = 0;
@@ -81,6 +86,52 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Pesos",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
+
+    public void generarGraficaArea(Area unArea, int year){
+        this.jpGraficos.removeAll();
+        this.dataset.removeAllSeries();
+        Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
+        Cobranza unaCobranza = new Cobranza();
+        this.carcagarSeries(year);
+        while (it.hasNext()){
+            unaCobranza = (Cobranza) it.next();
+            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
+            cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
+            neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
+        }
+        dataset.addSeries(cobrado);
+        dataset.addSeries(Listado);
+        dataset.addSeries(neto);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(unArea.getNombre() +" en el año "+ year , "Meses","Ingreso",dataset,true,false,false);
+        this.renderizarGrafico(chart);
+    }
+
+    public void generarGraficaTotal(int year){
+        this.dataset.removeAllSeries();
+        this.jpGraficos.removeAll();
+        int mes = 0;
+        Double importeProducido = 0.0;
+        Double importeCobrado = 0.0;
+        while (mes<=11){
+            Iterator it = this.unControladorVisual.obtenerConvenios().iterator();
+            while(it.hasNext()){
+                Convenio unConvenio = (Convenio) it.next();
+                if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
+                    importeProducido+=this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
+                    importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
+                }
+                producido.addOrUpdate(new Month( mes+1, year), importeProducido+this.unControladorVisual.obtenerListadoMesYear(year, mes) );
+                cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado+this.unControladorVisual.obtenerNetoMesYear(year, mes));
+            }
+            importeProducido=0.0;
+            importeCobrado=0.0;
+            mes++;
+        }
+        dataset.addSeries(cobrado);
+        dataset.addSeries(producido);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Pesos",dataset,true,false,false);
+        this.renderizarGrafico(chart);
+    }
     
     private void renderizarGrafico(JFreeChart chart){
         XYPlot plot  = (XYPlot) chart.getPlot();
@@ -97,6 +148,14 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         panel.setEnabled(false);
         panel.setFocusable(false);
         this.jpGraficos.setFocusable(false);
+    }
+    
+    public void carcagarSeries(int year){
+        for(int i = 1; i<=12; i++){
+            Listado.addOrUpdate(new Month( i, year), 0);
+            cobrado.addOrUpdate(new Month( i, year), 0);
+            neto.addOrUpdate(new Month(i,year), 0); 
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -151,7 +210,6 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         tfYear.setText("2019");
 
         cmbConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        cmbConvenios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEMEBA", "ALERTA", "UTE OSPIT", "UTE A. URUGUAY", "TODOS" }));
         cmbConvenios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbConveniosActionPerformed(evt);
@@ -159,7 +217,7 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("CONVENIO:");
+        jLabel2.setText("CARTERA:");
 
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
@@ -173,7 +231,7 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
@@ -209,14 +267,19 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
 
     private void cmbConveniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConveniosActionPerformed
         this.jpGraficos.removeAll();
-        if(this.cmbConvenios.getSelectedIndex()!= -1 && this.cmbConvenios.getSelectedItem().toString() == "TODO"){
-            generarGraficaAnualTotal(2019);
-        }else{
-            this.generarGraficaAnualConvenio(2019);
+        if(this.cmbConvenios.getSelectedIndex()!= -1){
+            if(this.cmbConvenios.getSelectedItem().toString() == "TODO"){
+                generarGraficaTotal(2019);
+            }else if(this.cmbConvenios.getSelectedItem().toString() == "Convenios"){
+                this.generarGraficaAnualConvenio(2019);
+            }else if(this.cmbConvenios.getSelectedItem().toString() == "Sector Protegido"){
+                Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
+                this.generarGraficaArea(unArea, 2019);
+            }else if(this.cmbConvenios.getSelectedItem().toString() == "Afiliados"){
+                Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
+                this.generarGraficaArea(unArea, 2019);
+            }
         }
-            
-        
-        
     }//GEN-LAST:event_cmbConveniosActionPerformed
 
 

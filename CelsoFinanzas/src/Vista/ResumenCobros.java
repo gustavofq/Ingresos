@@ -2,9 +2,7 @@ package Vista;
 
 import Logica.Convenio;
 import java.awt.Font;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -20,13 +18,10 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         sumarMensual();
     }
 
-    
-    
     public void cargarAspectos(){
         th= this.tblResumen.getTableHeader();
         th.setFont(fuente);
         this.tblResumen.setTableHeader(th);
-        
     }
     
     public void cargarProduccion(){
@@ -38,7 +33,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         model.setNumRows(0);
         model.setNumRows(fila+1);
         Convenio unConvenio = new Convenio();
-        
         int i=0;
         while(it.hasNext()){
             Double totalConvenio=0.0;
@@ -52,7 +46,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             }
             this.tblResumen.setValueAt(totalConvenio, i, 13 );
             i++;
-            
         }
         this.tblResumen.setValueAt("TOTAL", this.tblResumen.getRowCount()-1, 0);
     }
@@ -67,10 +60,8 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
            }
            this.tblResumen.setValueAt(total, this.tblResumen.getRowCount()-1, i);
            total=0.0;
-      }
-      
-   }
-    
+        }
+    }
     
     public void cargarCobrado(){
         DefaultTableModel model = new DefaultTableModel();
@@ -83,7 +74,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         Convenio unConvenio = new Convenio();
         int i=0;
         Double totalCobradoConvenio = 0.0;
-        Double totalMes=0.0;
         while(it.hasNext()){
             totalCobradoConvenio =0.0;
             unConvenio = (Convenio) it.next();
@@ -97,6 +87,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             this.tblResumen.setValueAt(totalCobradoConvenio, i,13 );
             i++;
         }
+        this.tblResumen.setValueAt("TOTAL", this.tblResumen.getRowCount()-1, 0);
     }
     
     @SuppressWarnings("unchecked")

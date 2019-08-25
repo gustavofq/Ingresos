@@ -19,22 +19,21 @@ public class Principal extends javax.swing.JFrame{
 
         dpContenedor = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
-        jMVendedores = new javax.swing.JMenu();
-        jMGestionarCobrador = new javax.swing.JMenuItem();
         jMCobranzas = new javax.swing.JMenu();
         jMIngresos = new javax.swing.JMenuItem();
         jMListado = new javax.swing.JMenuItem();
         jMReporte = new javax.swing.JMenuItem();
-        jMAreas = new javax.swing.JMenu();
-        jmGestionArea = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMGestionarCobrador = new javax.swing.JMenuItem();
+        jmGestionArea = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,24 +50,11 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        jMVendedores.setText("Cobrador");
-        jMVendedores.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-
-        jMGestionarCobrador.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jMGestionarCobrador.setText("Gestionar Cobradores");
-        jMGestionarCobrador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMGestionarCobradorActionPerformed(evt);
-            }
-        });
-        jMVendedores.add(jMGestionarCobrador);
-
-        jMenuBar.add(jMVendedores);
-
         jMCobranzas.setText("Cobranzas");
         jMCobranzas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jMIngresos.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMIngresos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cobranzas.png"))); // NOI18N
         jMIngresos.setText("Ingresos");
         jMIngresos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +64,7 @@ public class Principal extends javax.swing.JFrame{
         jMCobranzas.add(jMIngresos);
 
         jMListado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMListado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/listado.png"))); // NOI18N
         jMListado.setText("Listado");
         jMListado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +74,7 @@ public class Principal extends javax.swing.JFrame{
         jMCobranzas.add(jMListado);
 
         jMReporte.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadisticas cobranza.png"))); // NOI18N
         jMReporte.setText("Reportes");
         jMReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,20 +84,6 @@ public class Principal extends javax.swing.JFrame{
         jMCobranzas.add(jMReporte);
 
         jMenuBar.add(jMCobranzas);
-
-        jMAreas.setText("Cartera");
-        jMAreas.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-
-        jmGestionArea.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jmGestionArea.setText("Gestionar Cartera");
-        jmGestionArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmGestionAreaActionPerformed(evt);
-            }
-        });
-        jMAreas.add(jmGestionArea);
-
-        jMenuBar.add(jMAreas);
 
         jMenu2.setText("Convenios");
         jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -122,15 +96,6 @@ public class Principal extends javax.swing.JFrame{
             }
         });
         jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jMenuItem4.setText("nuevos Convenios");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem4);
 
         jMenuItem5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMenuItem5.setText("Producido/Cobrado");
@@ -152,10 +117,13 @@ public class Principal extends javax.swing.JFrame{
 
         jMenuBar.add(jMenu2);
 
-        jMenu1.setText("ADMIN");
-        jMenu1.setEnabled(false);
+        jMenu1.setText("Reportes");
+        jMenu1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenu1.add(jSeparator1);
 
-        jMenuItem1.setText("Listado");
+        jMenuItem1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadisticas.png"))); // NOI18N
+        jMenuItem1.setText("General");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -163,15 +131,39 @@ public class Principal extends javax.swing.JFrame{
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Ingreso");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar.add(jMenu1);
+
+        jMenu3.setText("ABM");
+        jMenu3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jMenuItem4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem4.setText("Convenios");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu3.add(jMenuItem4);
 
-        jMenuBar.add(jMenu1);
+        jMGestionarCobrador.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMGestionarCobrador.setText("Gestionar Cobradores");
+        jMGestionarCobrador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMGestionarCobradorActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMGestionarCobrador);
+
+        jmGestionArea.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jmGestionArea.setText("Gestionar Cartera");
+        jmGestionArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmGestionAreaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jmGestionArea);
+
+        jMenuBar.add(jMenu3);
 
         setJMenuBar(jMenuBar);
 
@@ -227,18 +219,6 @@ public class Principal extends javax.swing.JFrame{
         unGestionarEstadisticas.setVisible(true);
     }//GEN-LAST:event_jMReporteActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        GestionarListado unGestionarListado = new GestionarListado();
-        this.dpContenedor.add(unGestionarListado);
-        unGestionarListado.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        GestionarIngreso unGestionarIngreso = new GestionarIngreso();
-        this.dpContenedor.add(unGestionarIngreso);
-        unGestionarIngreso.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         CargaDatosConvenio unaCargaDatosConvenio = new CargaDatosConvenio();
         this.dpContenedor.add(unaCargaDatosConvenio);
@@ -265,6 +245,12 @@ public class Principal extends javax.swing.JFrame{
         this.dpContenedor.add(unReporte);
         unReporte.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ReporteGeneral unGeneral= new ReporteGeneral();
+        this.dpContenedor.add(unGeneral);
+        unGeneral.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -300,22 +286,21 @@ public class Principal extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dpContenedor;
-    private javax.swing.JMenu jMAreas;
     private javax.swing.JMenu jMCobranzas;
     private javax.swing.JMenuItem jMGestionarCobrador;
     private javax.swing.JMenuItem jMIngresos;
     private javax.swing.JMenuItem jMListado;
     private javax.swing.JMenuItem jMReporte;
-    private javax.swing.JMenu jMVendedores;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem jmGestionArea;
     // End of variables declaration//GEN-END:variables
 

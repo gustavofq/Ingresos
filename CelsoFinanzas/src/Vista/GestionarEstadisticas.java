@@ -239,7 +239,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaCobradorArea(Cobrador unCobrador, int year, Area unArea){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
-        int mes = 1;
         Iterator it = this.unControladorVisual.obtenerCobranzasAreaCobrador(unArea, year,unCobrador).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
@@ -248,9 +247,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
-            mes++;
         }
-       // this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -261,7 +258,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaArea(Area unArea, int year){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
-        int mes = 1;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
@@ -270,9 +266,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
             Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
-            mes++;
         }
-        //this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -284,7 +278,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
         int mes = 0;
-        //this.carcagarSeries(year);
         while (mes<=11){
             
             Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoDelCobrador(unCobrador, year, mes));
@@ -292,8 +285,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
             neto.addOrUpdate(new Month(mes+1,year), this.unControladorVisual.obtenerNetoDelCobrador(unCobrador, year, mes)); 
             mes++;
         }
-        
-        //this.agregarMeses(mes, year);
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
@@ -320,17 +311,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         this.jpGraficos.setFocusable(false);
     }
 
-    private void agregarMeses(int mes, int year){
-        if(mes <12 ){
-            while(mes<=12){
-                Listado.addOrUpdate(new Month( mes, year), 0.0);
-                cobrado.addOrUpdate(new Month( mes, year), 0.0);
-                neto.addOrUpdate(new Month(mes,year), 0.0);
-                mes++;
-            }
-        }
-    }
-    
     public void carcagarSeries(int year){
         for(int i = 1; i<=12; i++){
             Listado.addOrUpdate(new Month( i, year), 0);
