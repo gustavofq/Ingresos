@@ -74,6 +74,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="18" style="1"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/IngresoDatos.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cargar Datos"/>
               </Properties>
               <Events>
@@ -85,6 +88,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="18" style="1"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/produccionCobrad.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Producido/Cobrado"/>
               </Properties>
               <Events>
@@ -95,6 +101,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagenes/estadisticasConvenio.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Estad&#xed;sticas"/>
               </Properties>

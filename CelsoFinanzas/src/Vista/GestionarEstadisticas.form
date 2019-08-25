@@ -105,9 +105,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tfYear" min="-2" pref="92" max="-2" attributes="0"/>
-                      <EmptySpace pref="40" max="32767" attributes="0"/>
-                      <Component id="btnGraficar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace pref="159" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -124,9 +122,8 @@
                               <Component id="tfYear" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnGraficar" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -154,6 +151,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCobradorActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -180,6 +180,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbAreaActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -200,17 +203,6 @@
               </Properties>
               <Events>
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfYearKeyReleased"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnGraficar">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="18" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Graficar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGraficarActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -89,6 +89,7 @@ public class Principal extends javax.swing.JFrame{
         jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         jMenuItem3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IngresoDatos.png"))); // NOI18N
         jMenuItem3.setText("Cargar Datos");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +99,7 @@ public class Principal extends javax.swing.JFrame{
         jMenu2.add(jMenuItem3);
 
         jMenuItem5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/produccionCobrad.png"))); // NOI18N
         jMenuItem5.setText("Producido/Cobrado");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +109,7 @@ public class Principal extends javax.swing.JFrame{
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadisticasConvenio.png"))); // NOI18N
         jMenuItem6.setText("Estadísticas");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

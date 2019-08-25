@@ -83,19 +83,21 @@ public void generarGraficaAfiliadosySp(int year){
         }
         dataset.addSeries(cobrado);
         dataset.addSeries(producido);
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Pesos",dataset,true,false,false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Convenios en el año " +year , "Meses","Pesos",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
 
     public void generarGraficaArea(Area unArea, int year){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
+        Double ingresa =0.0;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
-            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
+            ingresa += unaCobranza.getListado();
+            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), ingresa);
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
         }
@@ -129,7 +131,7 @@ public void generarGraficaAfiliadosySp(int year){
         }
         dataset.addSeries(cobrado);
         dataset.addSeries(producido);
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Pesos",dataset,true,false,false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Reporte general del año " +year , "Meses","Pesos",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
     
@@ -208,6 +210,11 @@ public void generarGraficaAfiliadosySp(int year){
 
         tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tfYear.setText("2019");
+        tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfYearKeyReleased(evt);
+            }
+        });
 
         cmbConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbConvenios.addActionListener(new java.awt.event.ActionListener() {
@@ -269,18 +276,23 @@ public void generarGraficaAfiliadosySp(int year){
         this.jpGraficos.removeAll();
         if(this.cmbConvenios.getSelectedIndex()!= -1){
             if(this.cmbConvenios.getSelectedItem().toString() == "TODO"){
-                generarGraficaTotal(2019);
+                generarGraficaTotal(Integer.parseInt(tfYear.getText()));
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Convenios"){
-                this.generarGraficaAnualConvenio(2019);
+                this.generarGraficaAnualConvenio(Integer.parseInt(tfYear.getText()));
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Sector Protegido"){
                 Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
-                this.generarGraficaArea(unArea, 2019);
+                this.generarGraficaArea(unArea, Integer.parseInt(tfYear.getText()));
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Afiliados"){
                 Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
-                this.generarGraficaArea(unArea, 2019);
+                this.generarGraficaArea(unArea, Integer.parseInt(tfYear.getText()));
             }
         }
     }//GEN-LAST:event_cmbConveniosActionPerformed
+
+    private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased
+        this.unUtilitario.borrarLetra(tfYear);
+        this.unUtilitario.limitarLetra(4, tfYear);
+    }//GEN-LAST:event_tfYearKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

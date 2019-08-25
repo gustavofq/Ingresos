@@ -55,7 +55,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         cmbArea = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         tfYear = new javax.swing.JTextField();
-        btnGraficar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -78,12 +77,22 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
 
         cmbCobrador.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbCobrador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCobrador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCobradorActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Cartera");
 
         cmbArea.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAreaActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Año");
@@ -92,14 +101,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfYearKeyReleased(evt);
-            }
-        });
-
-        btnGraficar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnGraficar.setText("Graficar");
-        btnGraficar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGraficarActionPerformed(evt);
             }
         });
 
@@ -120,9 +121,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(btnGraficar)
-                .addGap(20, 20, 20))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,9 +134,8 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
                         .addComponent(cmbArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3)
-                    .addComponent(btnGraficar))
-                .addContainerGap())
+                    .addComponent(jLabel3))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout jpTodoLayout = new javax.swing.GroupLayout(jpTodo);
@@ -179,12 +177,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
 
    
     
-    private void btnGraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficarActionPerformed
-        boolean llamadoLocal = true;
-        this.graficar(llamadoLocal);
-        
-    }//GEN-LAST:event_btnGraficarActionPerformed
-
     public void graficar(boolean llamadoLocal){
         if(this.tfYear.getText().length()>0){
             if(this.cmbArea.getSelectedIndex()!= -1){
@@ -219,6 +211,33 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         this.unUtilitario.limitarLetra(4, tfYear);
     }//GEN-LAST:event_tfYearKeyReleased
 
+    private void cmbCobradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCobradorActionPerformed
+       if(tfYear.getText().length()!=0){
+           if(this.cmbArea.getSelectedIndex()!= -1){
+               if(this.cmbCobrador.getSelectedIndex()!= -1){
+                   boolean llamadoLocal = true;
+               this.graficar(llamadoLocal);
+               }
+               
+           }
+            
+        }
+    }//GEN-LAST:event_cmbCobradorActionPerformed
+
+    private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
+        if(tfYear.getText().length()!=0){
+           if(this.cmbArea.getSelectedIndex()!= -1){
+               if(this.cmbCobrador.getSelectedIndex()!= -1){
+                   boolean llamadoLocal = true;
+               this.graficar(llamadoLocal);
+               }
+               
+           }
+            
+        }
+        
+    }//GEN-LAST:event_cmbAreaActionPerformed
+
     public void generarGraficaAnual(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
@@ -232,7 +251,7 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         dataset.addSeries(cobrado);
         dataset.addSeries(Listado);
         dataset.addSeries(neto);
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Año " +year , "Meses","Ingreso",dataset,true,false,false);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Afiliados y S. Protegido en el Año " +year , "Meses","Ingreso",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
     
@@ -258,12 +277,14 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaArea(Area unArea, int year){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
+        Double ingresa = 0.0;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
         while (it.hasNext()){
             unaCobranza = (Cobranza) it.next();
-            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.getListado());
+            ingresa += unaCobranza.getListado();
+            Listado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), ingresa);
             cobrado.addOrUpdate(new Month( unaCobranza.getMes()+1, year), unaCobranza.calcularAfiliadoTotal());
             neto.addOrUpdate(new Month(unaCobranza.getMes()+1,year), unaCobranza.calcularNeto());
         }
@@ -279,7 +300,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
         this.jpGraficos.removeAll();
         int mes = 0;
         while (mes<=11){
-            
             Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoDelCobrador(unCobrador, year, mes));
             cobrado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerAfiliadoDelCobrador(unCobrador, year, mes));
             neto.addOrUpdate(new Month(mes+1,year), this.unControladorVisual.obtenerNetoDelCobrador(unCobrador, year, mes)); 
@@ -320,7 +340,6 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGraficar;
     private javax.swing.JComboBox<String> cmbArea;
     private javax.swing.JComboBox<String> cmbCobrador;
     private javax.swing.JLabel jLabel1;
