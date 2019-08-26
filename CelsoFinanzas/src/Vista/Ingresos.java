@@ -186,11 +186,6 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
 
         btnMarcar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnMarcar.setText("MARCAR");
-        btnMarcar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMarcarMouseClicked(evt);
-            }
-        });
         btnMarcar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMarcarActionPerformed(evt);
@@ -556,15 +551,9 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         this.marcarPagado();
     }//GEN-LAST:event_btnMarcarActionPerformed
 
-    private void btnMarcarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarcarMouseClicked
-
-    }//GEN-LAST:event_btnMarcarMouseClicked
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-
         this.guardar();
         this.actualizarTablas();
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void guardar(){
@@ -587,12 +576,10 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
     }//GEN-LAST:event_cierraVentana
 
     private void tfYearKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyTyped
-        // TODO add your handling code here:
         char c = evt.getKeyChar();
         if(this.tfYear.getText().length() == 8 || (c<'0')||(c>'9')){
             evt.consume();
         }
-        
     }//GEN-LAST:event_tfYearKeyTyped
 
     public static void evitarPegar(JTextField campo){
@@ -616,23 +603,21 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         int fila = this.tblIngresos.getSelectedRow();
         if(tblIngresos.getValueAt(fila, 0) != null){
             if(tblIngresos.getValueAt(fila, 1) != null){
-            if(this.tblIngresos.getSelectedRow()!= -1){
-                if(!(tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
-                    String texto = this.tblIngresos.getValueAt(fila, 1).toString();
-                    this.tblIngresos.setValueAt(texto+"(pagado)", fila, 1); 
-                }else{
-                    String texto = this.tblIngresos.getValueAt(fila, 1).toString();
-                    String sinTexto = texto.replace("(pagado)", "");
-                    this.tblIngresos.setValueAt(sinTexto, fila, 1); 
+                if(this.tblIngresos.getSelectedRow()!= -1){
+                    if(!(tblIngresos.getValueAt(fila, 1).toString()).contains("(pagado)")){
+                        String texto = this.tblIngresos.getValueAt(fila, 1).toString();
+                        this.tblIngresos.setValueAt(texto+"(pagado)", fila, 1); 
+                    }else{
+                        String texto = this.tblIngresos.getValueAt(fila, 1).toString();
+                        String sinTexto = texto.replace("( pagado)", "");
+                        this.tblIngresos.setValueAt(sinTexto, fila, 1); 
+                    }
                 }
+            }else{
+                this.tblIngresos.setValueAt("( pagado)", fila, 1);
             }
-        }else{
-            this.tblIngresos.setValueAt("(pagado)", fila, 1);
         }
-        }
-        
     }      
-    
     
     private Ingreso gestionarPagos(Ingreso unIngreso, int fila){
         Ingreso otroIngreso = new Ingreso();
@@ -652,7 +637,6 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         return otroIngreso;
     }
     
-    
     private void guardarAfiliadoBis() throws ParseException{
         DefaultTableModel model = (DefaultTableModel)this.tblIngresos.getModel();
         Area unArea = unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
@@ -666,12 +650,16 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                     Double importe = Double.parseDouble(model.getValueAt(i, 2).toString());
                     Calendar fecha = Calendar.getInstance();
                     try{
-                        fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        if((this.tblIngresos.getValueAt(i, 0)) == null){
+                            fecha = Calendar.getInstance();
+                        }else{
+                            fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        }
                         String concepto = "";
                         if((this.tblIngresos.getValueAt(i, 1))!= null){
                             concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
                         }else{
-                            concepto= "-";
+                            concepto= "";
                         }
                         Ingreso oldIngreso = this.unControladorVisual.obtenerIngreso(unCobrador, year, mes, unArea, i);
                         Ingreso newIngreso = oldIngreso;
@@ -704,8 +692,8 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
             }
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
-            this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
-            JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
+            //this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
+            //JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -734,7 +722,11 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                     Double importe = Double.parseDouble(model.getValueAt(i, 4).toString());
                     Calendar fecha = Calendar.getInstance();
                     try {
-                        fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        if((this.tblIngresos.getValueAt(i, 0)) == null){
+                            fecha = Calendar.getInstance();
+                        }else{
+                            fecha = this.unUtilitario.obtenerFecha((this.tblIngresos.getValueAt(i, 0)).toString());
+                        }
                         String concepto = "";
                         if((this.tblIngresos.getValueAt(i, 1))!= null){
                             concepto = this.controlarConcepto((this.tblIngresos.getValueAt(i, 1)).toString());
@@ -772,8 +764,8 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         }catch (NonexistentEntityException ex) {
             if(unArea.getNombre().equals("Sector Protegido")){
                 Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
-                this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
-                JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
+                //this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year+ " correspondiente a la cartera " + unArea.getNombre());
+                //JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception ex) {
             Logger.getLogger(Ingresos.class.getName()).log(Level.SEVERE, null, ex);
