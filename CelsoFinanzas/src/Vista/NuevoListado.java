@@ -205,7 +205,6 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListado = new javax.swing.JTable();
         pnlNuevosDatos = new javax.swing.JPanel();
-        btnImprimir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -293,7 +292,7 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCartera)
                     .addComponent(cmbCartera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlTotales.setBorder(javax.swing.BorderFactory.createTitledBorder("TOTALES"));
@@ -404,23 +403,15 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
 
         pnlNuevosDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevos Datos"));
 
-        btnImprimir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnImprimir.setText("IMPRIMIR");
-
         javax.swing.GroupLayout pnlNuevosDatosLayout = new javax.swing.GroupLayout(pnlNuevosDatos);
         pnlNuevosDatos.setLayout(pnlNuevosDatosLayout);
         pnlNuevosDatosLayout.setHorizontalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnImprimir))
+            .addGap(0, 1089, Short.MAX_VALUE)
         );
         pnlNuevosDatosLayout.setVerticalGroup(
             pnlNuevosDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevosDatosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnImprimir)
-                .addContainerGap())
+            .addGap(0, 55, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -582,7 +573,6 @@ public class NuevoListado extends javax.swing.JInternalFrame implements Sujeto, 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnImprimir;
     private javax.swing.JComboBox<String> cmbCartera;
     private javax.swing.JComboBox<String> cmbCobradores;
     private javax.swing.JPanel jPanel1;

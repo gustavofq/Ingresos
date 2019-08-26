@@ -484,10 +484,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
                 DefaultTableModel model2 = new DefaultTableModel();
                 model2 = (DefaultTableModel) this.tblTotales.getModel();
                 model2.setRowCount(0);
-                this.mensaje.setText("No existe listado para el cobrador " + unCobrador +" del mes " + this.unUtilitario.getMonth(mes)+ " del año " + year);
-                JOptionPane.showMessageDialog(null,this.mensaje,"No hay listado.",JOptionPane.INFORMATION_MESSAGE);
             }
-           
         }
         this.tblIngresos.setDefaultRenderer(Object.class, celda);
     }

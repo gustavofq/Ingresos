@@ -2,16 +2,22 @@ package Vista;
 
 import Logica.Convenio;
 import Persistencia.exceptions.NonexistentEntityException;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class CargaConvenio extends javax.swing.JInternalFrame {
     private Utilitario unUtilitario = new Utilitario();
     private ControladorVisual unControladorVisual = new ControladorVisual();
+    JLabel mensaje = new JLabel("mensaje");
+    Font fuente = new Font("Dialog", Font.BOLD, 18);
+    
     public CargaConvenio() {
         initComponents();
-        unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
-        
+        this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
+        unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios); 
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +101,7 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
         pnlGeneralLayout.setVerticalGroup(
             pnlGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGeneralLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblConvenios)
                     .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -118,7 +124,9 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -128,6 +136,9 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
         String nombre = this.tfNombre.getText();
         unControladorVisual.agregarConvenio(nombre);
         unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
+        this.tfNombre.setText("");
+        this.mensaje.setText("Se ha agregado satisfactoriamente al convenio " + nombre );
+        JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bntAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
