@@ -25,8 +25,8 @@ public class RenderMonto extends DefaultTableCellRenderer{
         this.ingreso = ingreso;
     }
     
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+   // @Override
+    /*public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Font font= new Font("Courier", Font.BOLD,18);
         table.setForeground(Color.black);
         JLabel label= (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -56,5 +56,5 @@ public class RenderMonto extends DefaultTableCellRenderer{
         label.setForeground(Color.BLACK);
         label.setFont(font);
         return label;
-    }
+    }*/
 }
