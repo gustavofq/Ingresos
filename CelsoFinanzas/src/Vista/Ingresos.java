@@ -18,12 +18,10 @@ import java.util.logging.Logger;
 import javax.swing.InputMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 
 public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Observador {
     private Utilitario unUtilitario = new Utilitario();
@@ -595,7 +593,7 @@ public class Ingresos extends javax.swing.JInternalFrame implements Sujeto, Obse
         JOptionPane.QUESTION_MESSAGE,null,opciones,"Aceptar");
         if (eleccion == JOptionPane.YES_OPTION){
             this.guardar();
-            System.exit(0);
+            this.dispose();
         }
     }
     
