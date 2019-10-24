@@ -38,6 +38,9 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
     public void generarGraficaAnualConvenio(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.producido.clear();
+        this.cobrado.clear();
+        
         int mes = 0;
         Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
         while (mes<=11){
@@ -59,6 +62,8 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
     public void generarGraficaAnualTotal(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.producido.clear();
+        this.cobrado.clear();
         int mes = 0;
         Double importeProducido = 0.0;
         Double importeCobrado = 0.0;
@@ -115,6 +120,7 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
@@ -177,12 +183,12 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(766, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -3,8 +3,7 @@ package Vista;
 import javax.swing.JFrame;
 
 public class Principal extends javax.swing.JFrame{
-    GestionarListado unGestionarListado = new GestionarListado();
-    GestionarIngreso unGestionarIngreso = new GestionarIngreso();
+
     GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
     
     public Principal() {

@@ -241,6 +241,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaAnual(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.Listado.clear();
+        this.cobrado.clear();
+        this.neto.clear();
         int mes = 0;
         while (mes<=11){
             Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoMesYear(year, mes));
@@ -258,6 +261,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaCobradorArea(Cobrador unCobrador, int year, Area unArea){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
+        this.Listado.clear();
+        this.cobrado.clear();
+        this.neto.clear();
         Iterator it = this.unControladorVisual.obtenerCobranzasAreaCobrador(unArea, year,unCobrador).iterator();
         Cobranza unaCobranza = new Cobranza();
         this.carcagarSeries(year);
@@ -277,6 +283,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaArea(Area unArea, int year){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
+        this.Listado.clear();
+        this.cobrado.clear();
+        this.neto.clear();
         Double ingresa = 0.0;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
@@ -298,6 +307,9 @@ public class GestionarEstadisticas extends javax.swing.JInternalFrame implements
     public void generarGraficaCobrador(Cobrador unCobrador, int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.Listado.clear();
+        this.cobrado.clear();
+        this.neto.clear();
         int mes = 0;
         while (mes<=11){
             Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoDelCobrador(unCobrador, year, mes));

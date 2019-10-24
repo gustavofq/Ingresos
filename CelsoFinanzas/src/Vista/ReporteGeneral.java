@@ -45,6 +45,9 @@ public class ReporteGeneral extends javax.swing.JInternalFrame {
 public void generarGraficaAfiliadosySp(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.Listado.clear();
+        this.cobradoC.clear();
+        this.neto.clear();
         int mes = 0;
         while (mes<=11){
             Listado.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerListadoMesYear(year, mes));
@@ -62,6 +65,8 @@ public void generarGraficaAfiliadosySp(int year){
     public void generarGraficaAnualConvenio(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.producido.clear();
+        this.cobrado.clear();
         int mes = 0;
         Double importeProducido = 0.0;
         Double importeCobrado = 0.0;
@@ -90,6 +95,9 @@ public void generarGraficaAfiliadosySp(int year){
     public void generarGraficaArea(Area unArea, int year){
         this.jpGraficos.removeAll();
         this.dataset.removeAllSeries();
+        this.Listado.clear();
+        this.cobrado.clear();
+        this.neto.clear();
         Double ingresa =0.0;
         Iterator it = this.unControladorVisual.cobranzasDeCartera(unArea, year).iterator();
         Cobranza unaCobranza = new Cobranza();
@@ -111,6 +119,8 @@ public void generarGraficaAfiliadosySp(int year){
     public void generarGraficaTotal(int year){
         this.dataset.removeAllSeries();
         this.jpGraficos.removeAll();
+        this.producido.clear();
+        this.cobrado.clear();
         int mes = 0;
         Double importeProducido = 0.0;
         Double importeCobrado = 0.0;
@@ -209,7 +219,11 @@ public void generarGraficaAfiliadosySp(int year){
         jLabel1.setText("AÑO:");
 
         tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tfYear.setText("2019");
+        tfYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfYearActionPerformed(evt);
+            }
+        });
         tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfYearKeyReleased(evt);
@@ -234,12 +248,12 @@ public void generarGraficaAfiliadosySp(int year){
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(795, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,6 +307,10 @@ public void generarGraficaAfiliadosySp(int year){
         this.unUtilitario.borrarLetra(tfYear);
         this.unUtilitario.limitarLetra(4, tfYear);
     }//GEN-LAST:event_tfYearKeyReleased
+
+    private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfYearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
