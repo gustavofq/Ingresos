@@ -10,6 +10,7 @@ import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Convenio;
+import Logica.Egresos;
 import Logica.Ingreso;
 import Logica.Produccion;
 import Persistencia.exceptions.IllegalOrphanException;
@@ -27,6 +28,7 @@ public class ControladorPersistencia implements Serializable{
     private static IngresoJpaController unIngresoJpaController;
     private static ConvenioJpaController unConvenioJpaController;
     private static ProduccionJpaController unaProduccionJpaController;
+    private static EgresosJpaController unEgresosJpaController;
     
     static {
         unAreaJpaController = new AreaJpaController();
@@ -36,6 +38,7 @@ public class ControladorPersistencia implements Serializable{
         unIngresoJpaController = new IngresoJpaController();
         unConvenioJpaController = new ConvenioJpaController();
         unaProduccionJpaController = new ProduccionJpaController();
+        unEgresosJpaController = new EgresosJpaController();
     }
     //abm areas
     public  void agregarArea(Area unArea) throws PreexistingEntityException{
@@ -208,6 +211,11 @@ public class ControladorPersistencia implements Serializable{
     public List<Produccion> obtenerProducciones(){
         return unaProduccionJpaController.findProduccionEntities();
     }
+    
+    public void agregarEgresos(Egresos unEgreso){
+        unEgresosJpaController.create(unEgreso);
+    }
+    
     
 }
 
