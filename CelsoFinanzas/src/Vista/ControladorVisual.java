@@ -5,6 +5,7 @@ import Logica.CelsoFinanzas;
 import Logica.Cobrador;
 import Logica.Cobranza;
 import Logica.Convenio;
+import Logica.Egresos;
 import Logica.Ingreso;
 import Logica.Produccion;
 import Persistencia.exceptions.NonexistentEntityException;
@@ -353,5 +354,25 @@ public class ControladorVisual {
     }
     public boolean existeIngreso(Cobrador unCobrador,int year, int mes, Area unArea ,int fila){
         return this.unCelsoFinanzas.existeIngreso(unCobrador, year, mes, unArea, fila);
+    }
+    
+    public void agregarEgreso(int mes, int year, double impuestos, double subTotal) throws PreexistingEntityException{
+        this.unCelsoFinanzas.agregarEgreso(mes, year, impuestos, subTotal);
+    }
+    
+    public void borrarEgresos(int id) throws NonexistentEntityException{
+        this.unCelsoFinanzas.borrarEgreso(id);
+    }
+    
+    public void modificarEgreso(Egresos oldEgresos,Egresos newEgresos) throws Exception{
+        this.unCelsoFinanzas.modificarEgreso(oldEgresos, newEgresos);
+    }
+    
+    public Egresos obtenerUnEgresos(int mes, int year){
+        return this.unCelsoFinanzas.obtenerUnEgresos(mes,year);
+    }
+    
+    public List<Egresos> obtenerEgresos(){
+        return this.unCelsoFinanzas.obtenerEgresos();
     }
 }

@@ -32,6 +32,15 @@ public class Egresos implements Serializable{
         this.subTotal = subTotal;
     }
 
+    public Egresos(int mes, int year, double impuestos, double subTotal) {
+        this.mes = mes;
+        this.year = year;
+        this.impuestos = impuestos;
+        this.subTotal = subTotal;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -64,16 +73,45 @@ public class Egresos implements Serializable{
         this.impuestos = impuestos;
     }
 
-    public double getImporte() {
+    public double getSubTotal() {
         return subTotal;
     }
 
-    public void setImporte(double importe) {
-        this.subTotal = importe;
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
     
-    private Double obtenerImporteEgresos(){
+    public Double obtenerImporteEgresos(){
         return this.impuestos + this.subTotal;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this.mes;
+        hash = 79 * hash + this.year;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Egresos other = (Egresos) obj;
+        if (this.mes != other.mes) {
+            return false;
+        }
+        if (this.year != other.year) {
+            return false;
+        }
+        return true;
     }
     
 }

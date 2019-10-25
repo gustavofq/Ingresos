@@ -216,6 +216,20 @@ public class ControladorPersistencia implements Serializable{
         unEgresosJpaController.create(unEgreso);
     }
     
+    public void borrarEgresos(int id) throws NonexistentEntityException{
+        unEgresosJpaController.destroy(id);
+    }
     
+    public void modificarEgresos(Egresos egreso) throws Exception{
+        unEgresosJpaController.edit(egreso);
+    }
+    
+    public Egresos obtenerUnEgreso(int id){
+        return unEgresosJpaController.findEgresos(id);
+    }
+    
+    public List<Egresos> obtenerEgresos(){
+        return unEgresosJpaController.findEgresosEntities();
+    }
 }
 

@@ -33,6 +33,7 @@ public class Principal extends javax.swing.JFrame{
         jMenuItem4 = new javax.swing.JMenuItem();
         jMGestionarCobrador = new javax.swing.JMenuItem();
         jmGestionArea = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +166,15 @@ public class Principal extends javax.swing.JFrame{
         });
         jMenu3.add(jmGestionArea);
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jMenuItem2.setText("Egresos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
         jMenuBar.add(jMenu3);
 
         setJMenuBar(jMenuBar);
@@ -254,6 +264,12 @@ public class Principal extends javax.swing.JFrame{
         unGeneral.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GestionEgresos unaGestionEgresos = new GestionEgresos();
+        this.dpContenedor.add(unaGestionEgresos);
+        unaGestionEgresos.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -298,6 +314,7 @@ public class Principal extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

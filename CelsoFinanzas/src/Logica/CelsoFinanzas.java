@@ -32,6 +32,8 @@ public class CelsoFinanzas implements Serializable {
     private List<Convenio> convenios = new ArrayList<>();
     @OneToMany
     private List<Produccion> producciones = new ArrayList<>();
+    @OneToMany
+    private List<Egresos> egresos = new ArrayList<>();
            
     ControladorPersistencia persistencia = new ControladorPersistencia();
     
@@ -81,6 +83,16 @@ public class CelsoFinanzas implements Serializable {
     public void setIngresos(List<Ingreso> ingresos) {
         this.ingresos = ingresos;
     }
+
+    public List<Egresos> getEgresos() {
+        return egresos;
+    }
+
+    public void setEgresos(List<Egresos> egresos) {
+        this.egresos = egresos;
+    }
+    
+    
     //ABM area
     public void agregarArea(String nombre) throws PreexistingEntityException{
         if(nombre != null){
@@ -852,4 +864,60 @@ public class CelsoFinanzas implements Serializable {
         return cobranzasAll;
     }
     
+    public void agregarEgreso(int mes, int year, double impuestos, double subtotal) throws PreexistingEntityException{
+        Egresos unEgreso = new Egresos(mes, year, impuestos, subtotal);
+        if(!this.existeEgreso(unEgreso)){
+            persistencia.agregarEgresos(unEgreso);
+        }else{
+            throw new PreexistingEntityException("actualmente existe el egreso en"+ mes +"/"+year);
+        }
+        
+    }
+    
+    public void borrarEgreso(int  id) throws NonexistentEntityException{
+        if(persistencia.obtenerUnEgreso(id)!= null){
+            persistencia.borrarEgresos(id);
+        }else{
+            throw new NonexistentEntityException("actualmente  no existe el egreso");
+        }
+    }
+    
+    public void modificarEgreso(Egresos oldEgreso, Egresos newEgreso) throws Exception{
+        
+        if(this.existeEgreso(oldEgreso)){
+            oldEgreso.setSubTotal(newEgreso.getSubTotal());
+            oldEgreso.setImpuestos(newEgreso.getImpuestos());
+            persistencia.modificarEgresos(oldEgreso);
+        }
+    }
+    
+    public Egresos obtenerUnEgresos(int mes, int year){
+        boolean existe = false;
+        Iterator it = persistencia.obtenerEgresos().iterator();
+        Egresos otroEgresos = null;
+        while(it.hasNext() && existe==false){
+            otroEgresos = (Egresos) it.next();
+            if(otroEgresos.getMes() ==mes && otroEgresos.getYear() == year){
+                existe = true;
+            }
+        }
+        return otroEgresos;
+    }
+    
+    public boolean existeEgreso(Egresos unEgreso){
+        boolean existe = false;
+        Iterator it = persistencia.obtenerEgresos().iterator();
+        Egresos otroEgresos = null;
+        while(it.hasNext() && existe==false){
+            otroEgresos = (Egresos) it.next();
+            if(unEgreso.equals(otroEgresos)){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    
+    public List<Egresos> obtenerEgresos(){
+        return persistencia.obtenerEgresos();
+    }
 }
