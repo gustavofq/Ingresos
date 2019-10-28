@@ -1,9 +1,11 @@
 package Vista;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 public class Principal extends javax.swing.JFrame{
-
+    
     GestionarEstadisticas unGestionarEstadisticas = new GestionarEstadisticas();
     
     public Principal() {
@@ -298,6 +300,7 @@ public class Principal extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Principal().setVisible(true);
+                
             }
         });
     }

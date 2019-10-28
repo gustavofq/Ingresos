@@ -24,6 +24,9 @@ public class ReporteGeneral extends javax.swing.JInternalFrame {
     private TimeSeries Listado = new TimeSeries("Listado");
     private TimeSeries cobradoC = new TimeSeries("Cobrado");
     private TimeSeries neto = new TimeSeries("Neto");
+    private TimeSeries egresos = new TimeSeries("Egresos");
+    private TimeSeries impuestos = new TimeSeries("Impuestos");
+    
     private TimeSeriesCollection dataset = new TimeSeriesCollection();
     private JLabel mensaje = new JLabel("mensaje");
    
@@ -121,9 +124,13 @@ public void generarGraficaAfiliadosySp(int year){
         this.jpGraficos.removeAll();
         this.producido.clear();
         this.cobrado.clear();
+        this.impuestos.clear();
+        this.egresos.clear();
         int mes = 0;
         Double importeProducido = 0.0;
         Double importeCobrado = 0.0;
+        Double impuestosV = 0.0;
+        Double egresosV = 0.0;
         while (mes<=11){
             Iterator it = this.unControladorVisual.obtenerConvenios().iterator();
             while(it.hasNext()){
@@ -132,15 +139,26 @@ public void generarGraficaAfiliadosySp(int year){
                     importeProducido+=this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
                     importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
                 }
+                if(!this.unControladorVisual.existeEgreso(year, mes)){
+                    impuestos.addOrUpdate(new Month( mes+1, year), 0.0);
+                    egresos.addOrUpdate(new Month( mes+1, year),0.0);
+                }else{
+                    impuestos.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerUnEgresos(mes, year).getImpuestos());
+                    egresos.addOrUpdate(new Month( mes+1, year), this.unControladorVisual.obtenerUnEgresos(mes, year).getSubTotal());
+                }
+                
                 producido.addOrUpdate(new Month( mes+1, year), importeProducido+this.unControladorVisual.obtenerListadoMesYear(year, mes) );
                 cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado+this.unControladorVisual.obtenerNetoMesYear(year, mes));
             }
             importeProducido=0.0;
             importeCobrado=0.0;
+            
             mes++;
         }
         dataset.addSeries(cobrado);
         dataset.addSeries(producido);
+        dataset.addSeries(impuestos);
+        dataset.addSeries(egresos);
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Reporte general del año " +year , "Meses","Pesos",dataset,true,false,false);
         this.renderizarGrafico(chart);
     }
@@ -150,8 +168,13 @@ public void generarGraficaAfiliadosySp(int year){
         XYLineAndShapeRenderer render = new XYLineAndShapeRenderer();
         render.setSeriesPaint(0, Color.green);
         render.setSeriesPaint(1, Color.red);
+        render.setSeriesPaint(2, Color.BLACK);
+        render.setSeriesPaint(3, Color.BLUE);
         render.setSeriesStroke(0, new BasicStroke(8.0f,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
         render.setSeriesStroke(1, new BasicStroke(4.0f));
+        render.setSeriesStroke(2, new BasicStroke(4.0f));
+        render.setSeriesStroke(3, new BasicStroke(4.0f));
+        
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
         panel.setBounds(0, 0, 1168, 556);
@@ -249,9 +272,9 @@ public void generarGraficaAfiliadosySp(int year){
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(74, 74, 74)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

@@ -468,6 +468,19 @@ public class CelsoFinanzas implements Serializable {
         return persistencia.obtenerConvenio(id);
     }
     
+    public boolean existeConvenio(String nombre){
+        boolean existe = false;
+        Iterator it = this.obtenerConvenios().iterator();
+        Convenio unConvenio;
+        while(it.hasNext()&& existe == false){
+            unConvenio = (Convenio) it.next();
+            if(unConvenio.getNombre().equals(nombre)){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    
     //fin abm convenios 
     //inicio abm Produccion
     
@@ -897,7 +910,7 @@ public class CelsoFinanzas implements Serializable {
         Egresos otroEgresos = null;
         while(it.hasNext() && existe==false){
             otroEgresos = (Egresos) it.next();
-            if(otroEgresos.getMes() ==mes && otroEgresos.getYear() == year){
+            if(otroEgresos.getMes() == mes && otroEgresos.getYear() == year){
                 existe = true;
             }
         }
@@ -917,6 +930,19 @@ public class CelsoFinanzas implements Serializable {
         return existe;
     }
     
+    
+    public boolean existeEgreso(int year, int mes){
+        boolean existe = false;
+        Iterator it = persistencia.obtenerEgresos().iterator();
+        Egresos otroEgresos = null;
+        while(it.hasNext() && existe==false){
+            otroEgresos = (Egresos) it.next();
+            if(otroEgresos.getMes() == mes && otroEgresos.getYear() == year){
+                existe = true;
+            }
+        }
+        return existe;
+    }
     public List<Egresos> obtenerEgresos(){
         return persistencia.obtenerEgresos();
     }

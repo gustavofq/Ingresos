@@ -163,6 +163,10 @@ public class ControladorVisual {
         return this.unCelsoFinanzas.obtenerConvenio(id);
     }
     
+    public boolean existeConvenio(String nombre){
+        return this.unCelsoFinanzas.existeConvenio(nombre);
+    }
+    
     //fin abm convenios 
     //inicio abm Produccion
     
@@ -374,5 +378,9 @@ public class ControladorVisual {
     
     public List<Egresos> obtenerEgresos(){
         return this.unCelsoFinanzas.obtenerEgresos();
+    }
+    
+    public boolean existeEgreso(int year, int mes){
+        return this.unCelsoFinanzas.existeEgreso(year, mes);
     }
 }
