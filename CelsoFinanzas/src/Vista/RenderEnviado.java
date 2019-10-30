@@ -1,6 +1,8 @@
 
 package Vista;
 
+import Logica.Convenio;
+import Logica.Produccion;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -9,6 +11,20 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class RenderEnviado extends DefaultTableCellRenderer {
+    private int year;
+    private Convenio unConvenio;
+    private ControladorVisual unControladorVisual = new ControladorVisual();
+    
+    
+    public RenderEnviado() {
+    }
+
+    public RenderEnviado(int year, Convenio unConvenio) {
+        this.year = year;
+        this.unConvenio = unConvenio;
+    }
+    
+    
     
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -16,11 +32,17 @@ public class RenderEnviado extends DefaultTableCellRenderer {
         table.setForeground(Color.black);
         JLabel label= (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if(!hasFocus){
-            if(label.getText().contains("(pagado)")){
-                label.setBackground(Color.green);
-            }else{
-                setBackground(null);
+            for(Produccion unaProduccion: this.unControladorVisual.obtenerProducciones(year, unConvenio)){
+                if(unaProduccion.getEstado().contains("enviado por mail.")){
+                    if(column ==1){
+                        label.setBackground(Color.YELLOW);
+                    }
+                
+                }else{
+                    setBackground(null);
+                }
             }
+             setBackground(null);
         }
         
         if(isSelected){

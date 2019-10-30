@@ -19,10 +19,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private JTableHeader th = new JTableHeader();
     private Font fuente = new Font("Dialog", Font.BOLD, 18);
     private JLabel mensaje = new JLabel("mensaje");
+   
+    
     
     public CargaDatosConvenio() {
         initComponents();
-        this.unUtilitario.cargarAnhoActual(tfYear);
         this.cmbConvenios.setSelectedIndex(-1);
         th= this.tblProduccion.getTableHeader();
         th.setFont(fuente);
@@ -49,9 +50,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
 
     private void cargarTabla(){
         this.limpiarTabla();
-        if(tfYear.getText().length() > 0 && this.cmbConvenios.getSelectedIndex() != -1){
-            int year = Integer.parseInt(tfYear.getText());
+        RenderEnviado render=null;
+        if(this.cmbConvenios.getSelectedIndex() != -1){
+            int year = this.jycYear.getYear();//Integer.parseInt(tfYear.getText());
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
+             render = new RenderEnviado(year, unConvenio); 
             Iterator it = this.unControladorVisual.obtenerProducciones(year, unConvenio).iterator();
             Produccion unaProduccion = new Produccion();
             while(it.hasNext()){
@@ -62,9 +65,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 if(unaProduccion.getImporteCobrador()!= null) this.tblProduccion.setValueAt(unaProduccion.getImporteCobrador(), unaProduccion.getMes(), 3);
                 else this.tblProduccion.setValueAt(0, unaProduccion.getMes(), 3);
                 this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(unaProduccion.getFechaCobrado()), unaProduccion.getMes(), 4);
+                
             }
             this.sumarTotales();
         }
+        //this.tblProduccion.setDefaultRenderer(Object.class, render);
     }
     
     @SuppressWarnings("unchecked")
@@ -76,7 +81,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         cmbConvenios = new javax.swing.JComboBox<>();
         lblConvenios = new javax.swing.JLabel();
         lblYear = new javax.swing.JLabel();
-        tfYear = new javax.swing.JTextField();
+        jycYear = new com.toedter.calendar.JYearChooser();
         pnlTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduccion = new javax.swing.JTable();
@@ -84,7 +89,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTotales = new javax.swing.JTable();
         pnlBotonera = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnEmail = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
@@ -113,11 +118,27 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblYear.setText("AÑO:");
 
-        tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tfYear.setText("2019");
-        tfYear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfYearActionPerformed(evt);
+        jycYear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jycYear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jycYearMouseClicked(evt);
+            }
+        });
+        jycYear.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jycYearInputMethodTextChanged(evt);
+            }
+        });
+        jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jycYearPropertyChange(evt);
+            }
+        });
+        jycYear.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
+            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
+                jycYearVetoableChange(evt);
             }
         });
 
@@ -133,18 +154,22 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblYear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(889, Short.MAX_VALUE))
+                .addComponent(jycYear, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblConvenios)
-                    .addComponent(lblYear)
-                    .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlBusquedaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jycYear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBusquedaLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblConvenios)
+                            .addComponent(lblYear))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -269,8 +294,13 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16))
         );
 
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton1.setText("MARCAR");
+        btnEmail.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnEmail.setText("ENVIADO POR E-MAIL");
+        btnEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmailActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGuardar.setText("GUARDAR");
@@ -286,7 +316,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotoneraLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(18, 18, 18))
@@ -296,7 +326,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             .addGroup(pnlBotoneraLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnEmail)
                     .addComponent(btnGuardar)))
         );
 
@@ -351,14 +381,10 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         if(this.cmbConvenios.getSelectedIndex()!=-1) this.cargarTabla();
     }//GEN-LAST:event_cmbConveniosActionPerformed
 
-    private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
-        this.cargarTabla();
-    }//GEN-LAST:event_tfYearActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         for(int i = 0;i <= 11;i++){
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
-            int year = Integer.parseInt(this.tfYear.getText());
+            int year = this.jycYear.getYear();//Integer.parseInt(this.tfYear.getText());
             Double importe = Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
             if(Double.compare(importe,0.0)!=0){
                 String factura = this.tblProduccion.getValueAt(i, 2).toString();
@@ -418,13 +444,44 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
        if(this.cmbConvenios.getSelectedIndex()!= -1 ) this.cargarTabla();
     }//GEN-LAST:event_cmbConveniosPropertyChange
 
+    private void btnEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmailActionPerformed
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
+        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int meses = tblProduccion.getSelectedRow();
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
+        unaProduccion.enviarMail();
+        try {
+            this.unControladorVisual.modificarProduccion(unaProduccion);
+        } catch (Exception ex) {
+            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEmailActionPerformed
+
+    private void jycYearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jycYearMouseClicked
+       
+    }//GEN-LAST:event_jycYearMouseClicked
+
+    private void jycYearVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_jycYearVetoableChange
+        
+         
+    }//GEN-LAST:event_jycYearVetoableChange
+
+    private void jycYearInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jycYearInputMethodTextChanged
+        
+    }//GEN-LAST:event_jycYearInputMethodTextChanged
+
+    private void jycYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jycYearPropertyChange
+        this.cargarTabla();
+    }//GEN-LAST:event_jycYearPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEmail;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbConvenios;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private com.toedter.calendar.JYearChooser jycYear;
     private javax.swing.JLabel lblConvenios;
     private javax.swing.JLabel lblYear;
     private javax.swing.JPanel pnlBotonera;
@@ -434,6 +491,5 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlTotales;
     private javax.swing.JTable tblProduccion;
     private javax.swing.JTable tblTotales;
-    private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
 }
