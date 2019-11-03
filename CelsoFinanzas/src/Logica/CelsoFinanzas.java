@@ -549,10 +549,12 @@ public class CelsoFinanzas implements Serializable {
             unaProduccion = (Produccion) it.next();
             if(unaProduccion.obtenerMesCobro() == mes){
                 importeCobrado+=unaProduccion.getImporteCobrador();
+                System.out.println(importeCobrado + "  mes "  + mes);
             }
         }
         return importeCobrado;
     }
+    
     
     public boolean existeProduccion(int mes, int year, Convenio unConvenio){
         boolean existe = false;

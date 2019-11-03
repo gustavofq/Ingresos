@@ -54,7 +54,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         if(this.cmbConvenios.getSelectedIndex() != -1){
             int year = this.jycYear.getYear();//Integer.parseInt(tfYear.getText());
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
-             render = new RenderEnviado(year, unConvenio); 
+            render = new RenderEnviado(year, unConvenio); 
             Iterator it = this.unControladorVisual.obtenerProducciones(year, unConvenio).iterator();
             Produccion unaProduccion = new Produccion();
             while(it.hasNext()){
@@ -65,11 +65,10 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 if(unaProduccion.getImporteCobrador()!= null) this.tblProduccion.setValueAt(unaProduccion.getImporteCobrador(), unaProduccion.getMes(), 3);
                 else this.tblProduccion.setValueAt(0, unaProduccion.getMes(), 3);
                 this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(unaProduccion.getFechaCobrado()), unaProduccion.getMes(), 4);
-                
             }
             this.sumarTotales();
         }
-        //this.tblProduccion.setDefaultRenderer(Object.class, render);
+        this.tblProduccion.setDefaultRenderer(Object.class, render);
     }
     
     @SuppressWarnings("unchecked")
@@ -91,6 +90,8 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         pnlBotonera = new javax.swing.JPanel();
         btnEmail = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnPostal = new javax.swing.JButton();
+        btnNoEnviado = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -118,7 +119,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblYear.setText("AÑO:");
 
-        jycYear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jycYear.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jycYearMouseClicked(evt);
@@ -294,7 +294,9 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16))
         );
 
+        btnEmail.setBackground(new java.awt.Color(255, 255, 51));
         btnEmail.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnEmail.setForeground(new java.awt.Color(0, 0, 0));
         btnEmail.setText("ENVIADO POR E-MAIL");
         btnEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,13 +312,35 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             }
         });
 
+        btnPostal.setBackground(new java.awt.Color(0, 153, 0));
+        btnPostal.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnPostal.setForeground(new java.awt.Color(0, 0, 0));
+        btnPostal.setText("ENVIADO POR CORREO POSTAL");
+        btnPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPostalActionPerformed(evt);
+            }
+        });
+
+        btnNoEnviado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnNoEnviado.setText("NO ENVIADO");
+        btnNoEnviado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoEnviadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBotoneraLayout = new javax.swing.GroupLayout(pnlBotonera);
         pnlBotonera.setLayout(pnlBotoneraLayout);
         pnlBotoneraLayout.setHorizontalGroup(
             pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotoneraLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnEmail)
+                .addComponent(btnEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(btnPostal)
+                .addGap(29, 29, 29)
+                .addComponent(btnNoEnviado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(18, 18, 18))
@@ -327,7 +351,9 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlBotoneraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEmail)
-                    .addComponent(btnGuardar)))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnPostal)
+                    .addComponent(btnNoEnviado)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -455,6 +481,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cargarTabla();
     }//GEN-LAST:event_btnEmailActionPerformed
 
     private void jycYearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jycYearMouseClicked
@@ -474,10 +501,40 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         this.cargarTabla();
     }//GEN-LAST:event_jycYearPropertyChange
 
+    private void btnPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostalActionPerformed
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
+        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int meses = tblProduccion.getSelectedRow();
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
+        unaProduccion.enviarFisico();
+        try {
+            this.unControladorVisual.modificarProduccion(unaProduccion);
+        } catch (Exception ex) {
+            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarTabla();
+    }//GEN-LAST:event_btnPostalActionPerformed
+
+    private void btnNoEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoEnviadoActionPerformed
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
+        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int meses = tblProduccion.getSelectedRow();
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
+        unaProduccion.noEnviar();
+        try {
+            this.unControladorVisual.modificarProduccion(unaProduccion);
+        } catch (Exception ex) {
+            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarTabla();
+    }//GEN-LAST:event_btnNoEnviadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmail;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnNoEnviado;
+    private javax.swing.JButton btnPostal;
     private javax.swing.JComboBox<String> cmbConvenios;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

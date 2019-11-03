@@ -74,8 +74,9 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
                 unConvenio = (Convenio) it.next();
                 if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
                     importeProducido+=this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
-                    importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
+                    //importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
                 }
+                importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
                 producido.addOrUpdate(new Month( mes+1, year), importeProducido);
                 cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado);
             }

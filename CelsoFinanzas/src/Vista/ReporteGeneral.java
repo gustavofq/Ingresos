@@ -32,7 +32,7 @@ public class ReporteGeneral extends javax.swing.JInternalFrame {
    
     public ReporteGeneral() {
         initComponents();
-        this.unUtilitario.cargarAnhoActual(tfYear);
+        
         cargarCombo();
         this.cmbConvenios.setSelectedIndex(-1);
     }
@@ -73,14 +73,19 @@ public void generarGraficaAfiliadosySp(int year){
         int mes = 0;
         Double importeProducido = 0.0;
         Double importeCobrado = 0.0;
+        Convenio unConvenio=null;
         while (mes<=11){
             Iterator it = this.unControladorVisual.obtenerConvenios().iterator();
             while(it.hasNext()){
-                Convenio unConvenio = (Convenio) it.next();
+                 unConvenio = (Convenio) it.next();
                 if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
-                    importeProducido+=this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
+                    importeProducido += this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
                     importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
+                    System.out.println(mes);
+                    
+                    //importeCobrado += this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getImporteCobrador();
                 }
+                importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
                 producido.addOrUpdate(new Month( mes+1, year), importeProducido);
                 cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado);
             }
@@ -150,9 +155,9 @@ public void generarGraficaAfiliadosySp(int year){
                 producido.addOrUpdate(new Month( mes+1, year), importeProducido+this.unControladorVisual.obtenerListadoMesYear(year, mes) );
                 cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado+this.unControladorVisual.obtenerNetoMesYear(year, mes));
             }
+            
             importeProducido=0.0;
             importeCobrado=0.0;
-            
             mes++;
         }
         dataset.addSeries(cobrado);
@@ -174,7 +179,6 @@ public void generarGraficaAfiliadosySp(int year){
         render.setSeriesStroke(1, new BasicStroke(4.0f));
         render.setSeriesStroke(2, new BasicStroke(4.0f));
         render.setSeriesStroke(3, new BasicStroke(4.0f));
-        
         plot.setRenderer(render);
         ChartPanel panel = new ChartPanel(chart);
         panel.setBounds(0, 0, 1168, 556);
@@ -201,9 +205,9 @@ public void generarGraficaAfiliadosySp(int year){
         jpGraficos = new javax.swing.JPanel();
         pnlBusqueda = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfYear = new javax.swing.JTextField();
         cmbConvenios = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jycYear = new com.toedter.calendar.JYearChooser();
 
         setClosable(true);
         setMaximizable(true);
@@ -241,18 +245,6 @@ public void generarGraficaAfiliadosySp(int year){
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("AÑO:");
 
-        tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tfYear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfYearActionPerformed(evt);
-            }
-        });
-        tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfYearKeyReleased(evt);
-            }
-        });
-
         cmbConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbConvenios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,6 +255,13 @@ public void generarGraficaAfiliadosySp(int year){
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("CARTERA:");
 
+        jycYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jycYearPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
         pnlBusquedaLayout.setHorizontalGroup(
@@ -271,22 +270,23 @@ public void generarGraficaAfiliadosySp(int year){
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
+                .addComponent(jycYear, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(689, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jycYear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -309,40 +309,39 @@ public void generarGraficaAfiliadosySp(int year){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jycYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jycYearPropertyChange
+        this.generarGraficos();
+    }//GEN-LAST:event_jycYearPropertyChange
+
     private void cmbConveniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConveniosActionPerformed
+        this.generarGraficos();
+    }//GEN-LAST:event_cmbConveniosActionPerformed
+
+    private void generarGraficos(){
         this.jpGraficos.removeAll();
         if(this.cmbConvenios.getSelectedIndex()!= -1){
             if(this.cmbConvenios.getSelectedItem().toString() == "TODO"){
-                generarGraficaTotal(Integer.parseInt(tfYear.getText()));
+                generarGraficaTotal(jycYear.getYear());
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Convenios"){
-                this.generarGraficaAnualConvenio(Integer.parseInt(tfYear.getText()));
+                this.generarGraficaAnualConvenio(jycYear.getYear());
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Sector Protegido"){
                 Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Sector Protegido");
-                this.generarGraficaArea(unArea, Integer.parseInt(tfYear.getText()));
+                this.generarGraficaArea(unArea, jycYear.getYear());
             }else if(this.cmbConvenios.getSelectedItem().toString() == "Afiliados"){
                 Area unArea = this.unControladorVisual.obtenerAreaPorNombre("Afiliados");
-                this.generarGraficaArea(unArea, Integer.parseInt(tfYear.getText()));
+                this.generarGraficaArea(unArea, jycYear.getYear());
             }
         }
-    }//GEN-LAST:event_cmbConveniosActionPerformed
-
-    private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased
-        this.unUtilitario.borrarLetra(tfYear);
-        this.unUtilitario.limitarLetra(4, tfYear);
-    }//GEN-LAST:event_tfYearKeyReleased
-
-    private void tfYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfYearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfYearActionPerformed
-
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbConvenios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jpGraficos;
+    private com.toedter.calendar.JYearChooser jycYear;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlGeneral;
-    private javax.swing.JTextField tfYear;
     // End of variables declaration//GEN-END:variables
 }
