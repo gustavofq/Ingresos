@@ -11,18 +11,17 @@ import javax.swing.JOptionPane;
 public class CargaConvenio extends javax.swing.JInternalFrame {
     private Utilitario unUtilitario = new Utilitario();
     private ControladorVisual unControladorVisual = new ControladorVisual();
-    JLabel mensaje = new JLabel("mensaje");
-    Font fuente = new Font("Dialog", Font.BOLD, 18);
+    private JLabel mensaje = new JLabel("mensaje");
+    private Font fuente = new Font("Dialog", Font.BOLD, 18);
     
     public CargaConvenio() {
         initComponents();
-        
         this.mensaje.setFont(new Font("Arial", Font.BOLD, 18));
         unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios); 
         this.cmbConvenios.setSelectedIndex(-1);
         this.tfNombre.setText("");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -145,45 +144,49 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
         if(this.tfNombre.getText().length()>0){
             if(!unControladorVisual.existeConvenio(nombre)){
                 unControladorVisual.agregarConvenio(nombre);
-            unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
-            this.tfNombre.setText("");
-            this.mensaje.setText("Se ha agregado satisfactoriamente al convenio " + nombre );
-            JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
-            this.tfNombre.setText("");
+                unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
+                this.mensaje.setText("Se ha agregado satisfactoriamente al convenio " + nombre );
+                JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
+                this.tfNombre.setText("");
             }else{
                 this.mensaje.setText("Actualmente existe un convenio con el nombre: " + nombre );
                 JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
             }
-            
         }else{
             this.mensaje.setText("Debe agreagar un nombre valido.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos",JOptionPane.INFORMATION_MESSAGE);
         }
-        
     }//GEN-LAST:event_bntAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         String nombre = this.tfNombre.getText();
         Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
+        String exNombre = unConvenio.getNombre();
         unConvenio.setNombre(nombre);
         try {
             if(this.tfNombre.getText().length()>0){
-                unControladorVisual.modificarConvenio(unConvenio);
-                this.tfNombre.setText("");
+                this.mensaje.setText("Seguro de que quiere cambiar el nombre del convenio "+exNombre+" a " + nombre +"?");
+                if(JOptionPane.showConfirmDialog(rootPane, mensaje, "BORRAR CONVENIO.", JOptionPane.YES_NO_OPTION) == 0){
+                    unControladorVisual.modificarConvenio(unConvenio);
+                    this.tfNombre.setText("");
+                }
+                
             }
-            
         } catch (Exception ex) {
             Logger.getLogger(CargaConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
         unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
     }//GEN-LAST:event_btnModificarActionPerformed
-
+    
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
         try {
             if(this.tfNombre.getText().length()>0){
-                this.unControladorVisual.borrarConvenio(unConvenio.getId());
-                this.tfNombre.setText("");
+                this.mensaje.setText("Esta segudo de que quiere borrar el convenio " + this.tfNombre.getText());
+                if(JOptionPane.showConfirmDialog(rootPane, mensaje, "BORRAR CONVENIO.", JOptionPane.YES_NO_OPTION) == 0){
+                    this.unControladorVisual.borrarConvenio(unConvenio.getId());
+                    this.tfNombre.setText("");
+                }
             }
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CargaConvenio.class.getName()).log(Level.SEVERE, null, ex);
@@ -200,7 +203,6 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
            Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
         this.tfNombre.setText(unConvenio.getNombre()); 
         }
-                
     }//GEN-LAST:event_cmbConveniosActionPerformed
 
 
