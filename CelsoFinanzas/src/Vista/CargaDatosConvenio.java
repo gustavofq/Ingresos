@@ -20,8 +20,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private Font fuente = new Font("Dialog", Font.BOLD, 18);
     private JLabel mensaje = new JLabel("mensaje");
    
-    
-    
     public CargaDatosConvenio() {
         initComponents();
         this.cmbConvenios.setSelectedIndex(-1);
@@ -29,7 +27,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         th.setFont(fuente);
         this.tblProduccion.setTableHeader(th);
         this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
-        
     }
 
     private void cargarMeses(){
@@ -41,8 +38,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             model.setValueAt("", i, 2);
             model.setValueAt(0, i, 3);
             model.setValueAt("", i, 4);
-        
-    }
+        }
         for(int i = 0;i<=11;i++){
             this.tblProduccion.setValueAt(this.unUtilitario.getMonth(i).toUpperCase(), i, 0);
         }
@@ -52,7 +48,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         this.limpiarTabla();
         RenderEnviado render=null;
         if(this.cmbConvenios.getSelectedIndex() != -1){
-            int year = this.jycYear.getYear();//Integer.parseInt(tfYear.getText());
+            int year = this.jycYear.getYear();
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
             render = new RenderEnviado(year, unConvenio); 
             Iterator it = this.unControladorVisual.obtenerProducciones(year, unConvenio).iterator();
@@ -69,6 +65,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             this.sumarTotales();
         }
         this.tblProduccion.setDefaultRenderer(Object.class, render);
+        ExcelAdapter myAd = new ExcelAdapter(this.tblProduccion);
     }
     
     @SuppressWarnings("unchecked")
@@ -107,11 +104,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 cmbConveniosActionPerformed(evt);
             }
         });
-        cmbConvenios.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cmbConveniosPropertyChange(evt);
-            }
-        });
 
         lblConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblConvenios.setText("CONVENIO:");
@@ -119,26 +111,10 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblYear.setText("AÑO:");
 
-        jycYear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jycYearMouseClicked(evt);
-            }
-        });
-        jycYear.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jycYearInputMethodTextChanged(evt);
-            }
-        });
+        jycYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jycYearPropertyChange(evt);
-            }
-        });
-        jycYear.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
-            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
-                jycYearVetoableChange(evt);
             }
         });
 
@@ -243,15 +219,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             new String [] {
                 "", "", "", "", ""
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(tblTotales);
 
         javax.swing.GroupLayout pnlTotalesLayout = new javax.swing.GroupLayout(pnlTotales);
@@ -383,22 +351,19 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         return mes;
     }
     
-    private void tblProduccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProduccionKeyReleased
-    }//GEN-LAST:event_tblProduccionKeyReleased
-
     public void limpiarTabla(){
         this.cargarMeses();
     }
     
    private void sumarTotales(){
-       Double totalProduccion = 0.0;
-       Double totalCobrado = 0.0;
-       for(int i= 0;i<=11;i++){
+        Double totalProduccion = 0.0;
+        Double totalCobrado = 0.0;
+        for(int i= 0;i<=11;i++){
            if(this.tblProduccion.getValueAt(i, 1)!=null && this.tblProduccion.getValueAt(i, 1)!= "")
            totalProduccion += Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
-           if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 1)!= "")
+           if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 3)!= "")
            totalCobrado+=Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
-      }
+        }
       this.tblTotales.setValueAt(totalProduccion, 1, 1);
       this.tblTotales.setValueAt(totalCobrado, 0, 3);
    }
@@ -410,7 +375,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         for(int i = 0;i <= 11;i++){
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
-            int year = this.jycYear.getYear();//Integer.parseInt(this.tfYear.getText());
+            int year = this.jycYear.getYear();
             Double importe = Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
             if(Double.compare(importe,0.0)!=0){
                 String factura = this.tblProduccion.getValueAt(i, 2).toString();
@@ -423,7 +388,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                         fecha = Calendar.getInstance();
                         this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
                     }
-                       
                 } catch (ParseException ex) {
                     Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -466,56 +430,43 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             }
     }
 
-    private void cmbConveniosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbConveniosPropertyChange
-       if(this.cmbConvenios.getSelectedIndex()!= -1 ) this.cargarTabla();
-    }//GEN-LAST:event_cmbConveniosPropertyChange
-
     private void btnEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmailActionPerformed
-        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
-        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
-        int meses = tblProduccion.getSelectedRow();
-        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
-        unaProduccion.enviarMail();
-        try {
-            this.unControladorVisual.modificarProduccion(unaProduccion);
-        } catch (Exception ex) {
-            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cargarTabla();
+        this.enviarCorreoElectronico();
     }//GEN-LAST:event_btnEmailActionPerformed
-
-    private void jycYearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jycYearMouseClicked
-       
-    }//GEN-LAST:event_jycYearMouseClicked
-
-    private void jycYearVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_jycYearVetoableChange
-        
-         
-    }//GEN-LAST:event_jycYearVetoableChange
-
-    private void jycYearInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jycYearInputMethodTextChanged
-        
-    }//GEN-LAST:event_jycYearInputMethodTextChanged
 
     private void jycYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jycYearPropertyChange
         this.cargarTabla();
     }//GEN-LAST:event_jycYearPropertyChange
 
     private void btnPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostalActionPerformed
-        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
-        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
-        int meses = tblProduccion.getSelectedRow();
-        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
-        unaProduccion.enviarFisico();
-        try {
-            this.unControladorVisual.modificarProduccion(unaProduccion);
-        } catch (Exception ex) {
-            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cargarTabla();
+        this.enviarCorreoPostal();
     }//GEN-LAST:event_btnPostalActionPerformed
 
     private void btnNoEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoEnviadoActionPerformed
+        this.noEnviar();
+    }//GEN-LAST:event_btnNoEnviadoActionPerformed
+
+    private void tblProduccionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProduccionKeyReleased
+        this.cambiarComaPorPunto();
+    }//GEN-LAST:event_tblProduccionKeyReleased
+
+    private void cambiarComaPorPunto(){
+        String columnaProduccion="";
+        String columnaCobrado="";
+        for(int i= 0;i<=11;i++){
+           if(this.tblProduccion.getValueAt(i, 1)!=null && this.tblProduccion.getValueAt(i, 1)!= ""){
+               columnaProduccion = this.tblProduccion.getValueAt(i, 1).toString().replace(",", ".");
+               this.tblProduccion.setValueAt(columnaProduccion, i, 1);
+           }
+           if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 3)!= ""){
+               columnaCobrado = this.tblProduccion.getValueAt(i, 3).toString().replace(",", ".");
+               this.tblProduccion.setValueAt(columnaCobrado, i, 3);
+           }
+           
+        }
+    }
+    
+    private void noEnviar(){
         Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
         int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
         int meses = tblProduccion.getSelectedRow();
@@ -527,8 +478,35 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
         cargarTabla();
-    }//GEN-LAST:event_btnNoEnviadoActionPerformed
-
+    }
+    
+    private void enviarCorreoPostal(){
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
+        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int meses = tblProduccion.getSelectedRow();
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
+        unaProduccion.enviarFisico();
+        try {
+            this.unControladorVisual.modificarProduccion(unaProduccion);
+        } catch (Exception ex) {
+            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarTabla();
+    }
+    
+    private void enviarCorreoElectronico(){
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
+        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int meses = tblProduccion.getSelectedRow();
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
+        unaProduccion.enviarMail();
+        try {
+            this.unControladorVisual.modificarProduccion(unaProduccion);
+        } catch (Exception ex) {
+            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cargarTabla();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmail;

@@ -24,7 +24,6 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
    
     public ReportesConvenios() {
         initComponents();
-        this.unUtilitario.cargarAnhoActual(tfYear);
         this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
         this.cmbConvenios.addItem("TODO");
         this.cmbConvenios.setSelectedIndex(-1);
@@ -116,9 +115,9 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         jpGraficos = new javax.swing.JPanel();
         pnlBusqueda = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfYear = new javax.swing.JTextField();
         cmbConvenios = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        tfYear = new com.toedter.calendar.JYearChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -157,14 +156,6 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("AÑO:");
 
-        tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tfYear.setText("2019");
-        tfYear.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfYearKeyReleased(evt);
-            }
-        });
-
         cmbConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbConvenios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEMEBA", "ALERTA", "UTE OSPIT", "UTE A. URUGUAY", "TODOS" }));
         cmbConvenios.addActionListener(new java.awt.event.ActionListener() {
@@ -176,6 +167,13 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("CONVENIO:");
 
+        tfYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tfYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tfYearPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
         pnlBusquedaLayout.setHorizontalGroup(
@@ -183,13 +181,13 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(766, Short.MAX_VALUE))
+                .addContainerGap(685, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +195,9 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbConvenios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -223,20 +221,21 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbConveniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConveniosActionPerformed
-        this.jpGraficos.removeAll();
-        if(this.cmbConvenios.getSelectedIndex()!= -1 && this.cmbConvenios.getSelectedItem().toString() == "TODO"){
-            generarGraficaAnualTotal(Integer.parseInt(tfYear.getText()) );
-        }else{
-            this.generarGraficaAnualConvenio(Integer.parseInt(tfYear.getText()));
-        }
+        this.cargarGrafico();
     }//GEN-LAST:event_cmbConveniosActionPerformed
 
-    private void tfYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfYearKeyReleased
-                                           
-        this.unUtilitario.borrarLetra(tfYear);
-        this.unUtilitario.limitarLetra(4, tfYear);
-    }//GEN-LAST:event_tfYearKeyReleased
-
+    private void tfYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tfYearPropertyChange
+        this.cargarGrafico();
+    }//GEN-LAST:event_tfYearPropertyChange
+    
+    private void cargarGrafico(){
+        this.jpGraficos.removeAll();
+        if(this.cmbConvenios.getSelectedIndex()!= -1 && this.cmbConvenios.getSelectedItem().toString() == "TODO"){
+            generarGraficaAnualTotal(tfYear.getYear() );
+        }else{
+            this.generarGraficaAnualConvenio(tfYear.getYear());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbConvenios;
@@ -245,6 +244,6 @@ public class ReportesConvenios extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jpGraficos;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlGeneral;
-    private javax.swing.JTextField tfYear;
+    private com.toedter.calendar.JYearChooser tfYear;
     // End of variables declaration//GEN-END:variables
 }

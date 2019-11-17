@@ -185,7 +185,6 @@ public class GestionarArea extends javax.swing.JInternalFrame {
             this.mensaje.setText("Debe completar los campos coloreados.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Datos faltantes",JOptionPane.INFORMATION_MESSAGE);
         }
-        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed

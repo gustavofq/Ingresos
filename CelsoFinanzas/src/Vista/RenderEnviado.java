@@ -405,6 +405,8 @@ public class RenderEnviado extends DefaultTableCellRenderer {
                setBackground(null);
            }
         }
+        
+       
         label.setForeground(Color.BLACK);
         label.setFont(font);
         return label;

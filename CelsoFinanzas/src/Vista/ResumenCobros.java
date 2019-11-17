@@ -29,7 +29,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         model = (DefaultTableModel) this.tblResumen.getModel();
         int fila = unControladorVisual.obtenerConvenios().size();
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
-        int year = Integer.parseInt(this.tfYear.getText());
+        int year = this.tfYear.getYear();
         model.setNumRows(0);
         model.setNumRows(fila+1);
         Convenio unConvenio = new Convenio();
@@ -68,7 +68,7 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         model = (DefaultTableModel) this.tblResumen.getModel();
         int fila = unControladorVisual.obtenerConvenios().size();
         Iterator it = unControladorVisual.obtenerConvenios().iterator();
-        int year = Integer.parseInt(this.tfYear.getText());
+        int year = this.tfYear.getYear();
         model.setNumRows(0);
         model.setNumRows(fila+1);
         Convenio unConvenio = new Convenio();
@@ -99,10 +99,10 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
         pnlGeneral = new javax.swing.JPanel();
         pnlBusqueda = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfYear = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         rbProduccion = new javax.swing.JRadioButton();
         rbCobrado = new javax.swing.JRadioButton();
+        tfYear = new com.toedter.calendar.JYearChooser();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResumen = new javax.swing.JTable();
@@ -116,9 +116,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("AÑO:");
-
-        tfYear.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tfYear.setText("2019");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -161,6 +158,13 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        tfYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tfYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tfYearPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
         pnlBusquedaLayout.setHorizontalGroup(
@@ -168,21 +172,21 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(60, 60, 60)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(827, Short.MAX_VALUE))
+                .addContainerGap(785, Short.MAX_VALUE))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBusquedaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addContainerGap())
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
@@ -301,23 +305,26 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbProduccionActionPerformed
+        this.cargarTabla();
+    }//GEN-LAST:event_rbProduccionActionPerformed
+
+    private void rbCobradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCobradoActionPerformed
+        this.cargarTabla();
+    }//GEN-LAST:event_rbCobradoActionPerformed
+
+    private void tfYearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tfYearPropertyChange
+        this.cargarTabla();
+    }//GEN-LAST:event_tfYearPropertyChange
+
+    
+    private void cargarTabla(){
         if(this.rbProduccion.isSelected()){
             cargarProduccion();
         }else{
             cargarCobrado();
         }
            sumarMensual();
-    }//GEN-LAST:event_rbProduccionActionPerformed
-
-    private void rbCobradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCobradoActionPerformed
-        if(this.rbCobrado.isSelected()){
-            cargarCobrado();
-        }else{
-            cargarProduccion();
-        }
-        sumarMensual();
-    }//GEN-LAST:event_rbCobradoActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -331,6 +338,6 @@ public class ResumenCobros extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbCobrado;
     private javax.swing.JRadioButton rbProduccion;
     private javax.swing.JTable tblResumen;
-    private javax.swing.JTextField tfYear;
+    private com.toedter.calendar.JYearChooser tfYear;
     // End of variables declaration//GEN-END:variables
 }
