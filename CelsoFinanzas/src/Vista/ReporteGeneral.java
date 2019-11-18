@@ -81,15 +81,12 @@ public void generarGraficaAfiliadosySp(int year){
                 if(this.unControladorVisual.obtenerProducciones(mes, year, unConvenio)!= null){
                     importeProducido += this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getProducido();
                     importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
-                    System.out.println(mes);
-                    
                     //importeCobrado += this.unControladorVisual.obtenerProducciones(mes, year, unConvenio).getImporteCobrador();
                 }
                 importeCobrado += this.unControladorVisual.obtenerImporteCobradoMes(mes, year, unConvenio);
                 producido.addOrUpdate(new Month( mes+1, year), importeProducido);
                 cobrado.addOrUpdate(new Month( mes+1, year), importeCobrado);
             }
-            
             importeProducido=0.0;
             importeCobrado=0.0;
             mes++;

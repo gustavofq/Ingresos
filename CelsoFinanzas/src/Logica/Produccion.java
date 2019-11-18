@@ -153,6 +153,16 @@ public class Produccion implements Serializable, Comparable<Produccion> {
         return mesCobro;
     }
     
+    public int obtenerYearCobro(){
+        int year = -1;
+        if(fechaCobrado != null){
+            year = this.fechaCobrado.get(Calendar.YEAR);
+        }
+        
+        return year;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 5;

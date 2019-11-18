@@ -351,11 +351,11 @@ public class CelsoFinanzas implements Serializable {
         for(Ingreso unIngreso:this.obtenerIngresos(unCobrador, year, mes, unArea)){
             if(unIngreso.getFila() == fila && unIngreso.getAfiliado().equals(ingreso)){
                 existe = true;
-                System.out.println("Existe ingreso.");
+                //System.out.println("Existe ingreso.");
             }
         }
         if(existe ==false ){
-            System.out.println("no Existe ingreso.");
+            //System.out.println("no Existe ingreso.");
         }
         return existe;
     }
@@ -365,11 +365,11 @@ public class CelsoFinanzas implements Serializable {
         for(Ingreso unIngreso:this.obtenerIngresos(unCobrador, year, mes, unArea)){
             if(unIngreso.getFila() == fila ){
                 existe = true;
-                System.out.println("Existe ingreso.");
+                //System.out.println("Existe ingreso.");
             }
         }
         if(existe ==false ){
-            System.out.println("no Existe ingreso.");
+            //System.out.println("no Existe ingreso.");
         }
         return existe;
     }
@@ -524,6 +524,19 @@ public class CelsoFinanzas implements Serializable {
         }
         return produccionesConvenio;
     }
+    public List<Produccion> obtenerProducciones(Convenio unConvenio){
+        List<Produccion> produccionesConvenio = new ArrayList<>();
+        Produccion unaProduccion = new Produccion();
+        Iterator it = this.persistencia.obtenerProducciones().iterator();
+        while(it.hasNext()){
+            unaProduccion = (Produccion) it.next();
+            if(unaProduccion.getUnConvenio().equals(unConvenio)){
+                produccionesConvenio.add(unaProduccion);
+            }
+        }
+        return produccionesConvenio;
+    }
+    
     
     public Produccion obtenerProduccion(int mes, int year, Convenio unConvenio){
         Produccion unaProduccion = null;
@@ -544,16 +557,18 @@ public class CelsoFinanzas implements Serializable {
     public Double obtenerImporteCobradoMes( int mes, int year, Convenio unConvenio){
         Double importeCobrado = 0.0;
         Produccion unaProduccion = null;
-        Iterator it = this.obtenerProducciones(year, unConvenio).iterator();
+        Iterator it = this.obtenerProducciones(unConvenio).iterator();
         while(it.hasNext()){
             unaProduccion = (Produccion) it.next();
-            if(unaProduccion.obtenerMesCobro() == mes){
-                importeCobrado+=unaProduccion.getImporteCobrador();
-                System.out.println(importeCobrado + "  mes "  + mes);
+            if(unaProduccion.obtenerMesCobro() == mes && unaProduccion.obtenerYearCobro() ==year){
+                importeCobrado += unaProduccion.getImporteCobrador();
+                
             }
         }
         return importeCobrado;
     }
+    
+    
     
     
     public boolean existeProduccion(int mes, int year, Convenio unConvenio){

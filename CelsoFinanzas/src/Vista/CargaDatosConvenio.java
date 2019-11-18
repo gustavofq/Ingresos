@@ -96,6 +96,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         setResizable(true);
 
         cmbConvenios.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        cmbConvenios.setMaximumRowCount(10);
         cmbConvenios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEMEBA", "ALERTA", "UTE OSPIT", "UTE A. URUGUAY" }));
         cmbConvenios.setAutoscrolls(true);
         cmbConvenios.setDoubleBuffered(true);
@@ -111,6 +112,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblYear.setText("AÑO:");
 
+        jycYear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jycYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -219,7 +221,15 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             new String [] {
                 "", "", "", "", ""
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblTotales);
 
         javax.swing.GroupLayout pnlTotalesLayout = new javax.swing.GroupLayout(pnlTotales);
@@ -379,11 +389,13 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             Double importe = Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
             if(Double.compare(importe,0.0)!=0){
                 String factura = this.tblProduccion.getValueAt(i, 2).toString();
-                Double importePagado = Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
+                Double importePagado = Double.parseDouble(this.modificarYear(this.tblProduccion.getValueAt(i, 3).toString()));
                 Calendar fecha = null;
                 try {
                     if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
-                        fecha = this.unUtilitario.obtenerFecha(this.tblProduccion.getValueAt(i, 4).toString());
+                        
+                        fecha = this.unUtilitario.obtenerFecha(this.modificarYear(this.tblProduccion.getValueAt(i, 4).toString()));
+                        
                     }else{
                         fecha = Calendar.getInstance();
                         this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
@@ -430,6 +442,13 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             }
     }
 
+    private String  modificarYear(String fecha){
+        if(fecha.contains("/00")){
+            fecha.replace("/00", "/20");
+        }
+        return fecha;
+    }
+    
     private void btnEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmailActionPerformed
         this.enviarCorreoElectronico();
     }//GEN-LAST:event_btnEmailActionPerformed

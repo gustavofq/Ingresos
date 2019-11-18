@@ -406,7 +406,12 @@ public class RenderEnviado extends DefaultTableCellRenderer {
            }
         }
         
-       
+       if(label.getText().contains("/00")){
+           label.setText(label.getText().replace("/00", "/20"));
+       }
+        
+        
+        
         label.setForeground(Color.BLACK);
         label.setFont(font);
         return label;

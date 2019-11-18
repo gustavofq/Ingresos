@@ -54,7 +54,7 @@ public class ControladorPersistencia implements Serializable{
         try {
             unAreaJpaController.edit(unArea);
         } catch (Exception ex) {
-            System.out.println("Error  Persistencia en modificarArea: " + unArea);
+           
         }
     }
     
@@ -62,7 +62,7 @@ public class ControladorPersistencia implements Serializable{
         try {
             unAreaJpaController.destroy(id);
         } catch (NonexistentEntityException ex) {
-            System.out.println("Error Persistencia en BorrarArea: ");
+            
         }
     }
     
@@ -120,7 +120,7 @@ public class ControladorPersistencia implements Serializable{
         try {
             cobradores = unCobradorJpaController.findCobradorEntities();
         } catch (Exception e) {
-            System.out.println("Error en obtenerCobradores: " + unCobradorJpaController.findCobradorEntities().size());
+            
         }
         return cobradores;
     }
