@@ -26,9 +26,16 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         th= this.tblProduccion.getTableHeader();
         th.setFont(fuente);
         this.tblProduccion.setTableHeader(th);
-        this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
+        //this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
+        cargarConvenios();
     }
 
+    private void cargarConvenios(){
+        if(unControladorVisual.obtenerConvenios()!=null){
+           this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios); 
+        }
+    }
+    
     private void cargarMeses(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblProduccion.getModel();
@@ -393,9 +400,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
                 Calendar fecha = null;
                 try {
                     if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
-                        
                         fecha = this.unUtilitario.obtenerFecha(this.modificarYear(this.tblProduccion.getValueAt(i, 4).toString()));
-                        
                     }else{
                         fecha = Calendar.getInstance();
                         this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);

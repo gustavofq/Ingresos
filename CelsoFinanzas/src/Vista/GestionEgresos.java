@@ -1,22 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Logica.Egresos;
-import Logica.Ingreso;
 import Persistencia.exceptions.PreexistingEntityException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Cesar Javier Almada
- */
 public class GestionEgresos extends javax.swing.JInternalFrame {
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private Utilitario unUtilitario = new Utilitario();
@@ -27,7 +15,6 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
     }
 
     public void cargarTalbla(){
-        //this.unUtilitario.LimpiarTabla(tblEgresos);
         Egresos unEgresos;
         int fila = 0;
         DefaultTableModel model = (DefaultTableModel) this.tblEgresos.getModel();
