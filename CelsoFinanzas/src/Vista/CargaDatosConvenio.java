@@ -4,6 +4,7 @@ import Logica.Convenio;
 import Logica.Produccion;
 import Persistencia.exceptions.PreexistingEntityException;
 import java.awt.Font;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -26,7 +27,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         th= this.tblProduccion.getTableHeader();
         th.setFont(fuente);
         this.tblProduccion.setTableHeader(th);
-        //this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios);
         cargarConvenios();
     }
 
@@ -39,21 +39,18 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private void cargarMeses(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblProduccion.getModel();
-        int fila = this.tblProduccion.getRowCount();
-        for (int i = 0; i < fila ; i++){
+        for(int i = 0;i<=11;i++){
+            this.tblProduccion.setValueAt(this.unUtilitario.getMonth(i).toUpperCase(), i, 0);
             model.setValueAt(0, i, 1);
             model.setValueAt("", i, 2);
             model.setValueAt(0, i, 3);
             model.setValueAt("", i, 4);
         }
-        for(int i = 0;i<=11;i++){
-            this.tblProduccion.setValueAt(this.unUtilitario.getMonth(i).toUpperCase(), i, 0);
-        }
     }
 
     private void cargarTabla(){
         this.limpiarTabla();
-        RenderEnviado render=null;
+        RenderEnviado render = null;
         if(this.cmbConvenios.getSelectedIndex() != -1){
             int year = this.jycYear.getYear();
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
@@ -72,7 +69,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             this.sumarTotales();
         }
         this.tblProduccion.setDefaultRenderer(Object.class, render);
-        ExcelAdapter myAd = new ExcelAdapter(this.tblProduccion);
+        //ExcelAdapter myAd = new ExcelAdapter(this.tblProduccion);
     }
     
     @SuppressWarnings("unchecked")
@@ -120,7 +117,6 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setText("AÑO:");
 
         jycYear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jycYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jycYearPropertyChange(evt);
@@ -222,21 +218,13 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         tblTotales.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tblTotales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"TOTAL COBROS", null, null, null, null},
-                {"TOTAL PRODUCCION", null, null, null, null}
+                {"Total cobrado", null, null, null, null},
+                {"Total Producido", null, null, null, null}
             },
             new String [] {
                 "", "", "", "", ""
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(tblTotales);
 
         javax.swing.GroupLayout pnlTotalesLayout = new javax.swing.GroupLayout(pnlTotales);
@@ -375,14 +363,15 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
    private void sumarTotales(){
         Double totalProduccion = 0.0;
         Double totalCobrado = 0.0;
+        DecimalFormat formato2 = new DecimalFormat("#.##");
         for(int i= 0;i<=11;i++){
            if(this.tblProduccion.getValueAt(i, 1)!=null && this.tblProduccion.getValueAt(i, 1)!= "")
            totalProduccion += Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
            if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 3)!= "")
            totalCobrado+=Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
         }
-      this.tblTotales.setValueAt(totalProduccion, 1, 1);
-      this.tblTotales.setValueAt(totalCobrado, 0, 3);
+      this.tblTotales.setValueAt(formato2.format(totalProduccion), 1, 1);
+      this.tblTotales.setValueAt(formato2.format(totalCobrado), 0, 3);
    }
     
     private void cmbConveniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConveniosActionPerformed
@@ -396,14 +385,16 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             Double importe = Double.parseDouble(this.tblProduccion.getValueAt(i, 1).toString());
             if(Double.compare(importe,0.0)!=0){
                 String factura = this.tblProduccion.getValueAt(i, 2).toString();
-                Double importePagado = Double.parseDouble(this.modificarYear(this.tblProduccion.getValueAt(i, 3).toString()));
+                Double importePagado = Double.parseDouble(this.tblProduccion.getValueAt(i, 3).toString());
                 Calendar fecha = null;
                 try {
                     if(this.tblProduccion.getValueAt(i, 4).toString().length()>0){
                         fecha = this.unUtilitario.obtenerFecha(this.modificarYear(this.tblProduccion.getValueAt(i, 4).toString()));
+                        fecha = this.modificarYear(fecha);
                     }else{
                         fecha = Calendar.getInstance();
                         this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(fecha),i, 4);
+                        System.out.print(" fecha null "+fecha.get(Calendar.YEAR));
                     }
                 } catch (ParseException ex) {
                     Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
@@ -453,6 +444,14 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         }
         return fecha;
     }
+    
+    private Calendar modificarYear(Calendar fecha){
+        if(fecha.get(Calendar.YEAR)<1970){
+            fecha.set(Calendar.YEAR,fecha.get(Calendar.YEAR)+2000);
+        }
+        return fecha;
+    }
+    
     
     private void btnEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmailActionPerformed
         this.enviarCorreoElectronico();

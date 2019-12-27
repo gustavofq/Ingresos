@@ -142,8 +142,8 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
     private void bntAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAgregarActionPerformed
         String nombre = this.tfNombre.getText();
         if(this.tfNombre.getText().length()>0){
-            if(!unControladorVisual.existeConvenio(nombre)){
-                unControladorVisual.agregarConvenio(nombre);
+            if(!unControladorVisual.existeConvenio(nombre.toUpperCase())){
+                unControladorVisual.agregarConvenio(nombre.toUpperCase());
                 unUtilitario.cargarComboObjeto(this.unControladorVisual.obtenerConvenios(), cmbConvenios);
                 this.mensaje.setText("Se ha agregado satisfactoriamente al convenio " + nombre );
                 JOptionPane.showMessageDialog(null,this.mensaje,"Éxito!",JOptionPane.INFORMATION_MESSAGE);
@@ -156,13 +156,14 @@ public class CargaConvenio extends javax.swing.JInternalFrame {
             this.mensaje.setText("Debe agreagar un nombre valido.");
             JOptionPane.showMessageDialog(null,this.mensaje,"Faltan datos",JOptionPane.INFORMATION_MESSAGE);
         }
+        this.cmbConvenios.setSelectedIndex(-1);
     }//GEN-LAST:event_bntAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         String nombre = this.tfNombre.getText();
         Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
         String exNombre = unConvenio.getNombre();
-        unConvenio.setNombre(nombre);
+        unConvenio.setNombre(nombre.toUpperCase());
         try {
             if(this.tfNombre.getText().length()>0){
                 this.mensaje.setText("Seguro de que quiere cambiar el nombre del convenio "+exNombre+" a " + nombre +"?");

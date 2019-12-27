@@ -1,6 +1,7 @@
 package Vista;
 
 import Logica.Egresos;
+import Persistencia.exceptions.CampoVacioException;
 import Persistencia.exceptions.PreexistingEntityException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -84,8 +85,7 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
 
         jtfEgresos.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        jcyYear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-
+        jmcMes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jmcMes.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -247,6 +247,18 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(this.jtfEgresos.getText().length()>0){
+            if(this.jtfImpuestos.getText().length()>0){
+                this.agregarEgreso();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Ingrese impuestos" );
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Ingrese Egresos" );
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void agregarEgreso(){
         int mes = this.jmcMes.getMonth();
         int year = this.jcyYear.getYear();
         Double egreso = Double.parseDouble(this.jtfEgresos.getText());
@@ -257,11 +269,10 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "actualemte existe egresos para: " + mes+"/"+year );
         }
         this.cargarTalbla();
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
+    }
+    
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
        cargarTalbla();
-       
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
