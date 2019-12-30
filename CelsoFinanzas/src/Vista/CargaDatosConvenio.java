@@ -49,7 +49,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     }
 
     private void cargarTabla(){
-        this.limpiarTabla();
+        this.cargarMeses();
         RenderEnviado render = null;
         if(this.cmbConvenios.getSelectedIndex() != -1){
             int year = this.jycYear.getYear();
@@ -117,6 +117,7 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         lblYear.setText("AÑO:");
 
         jycYear.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jycYear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jycYear.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jycYearPropertyChange(evt);

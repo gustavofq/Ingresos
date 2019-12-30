@@ -1,8 +1,10 @@
 package Vista;
 
 import Logica.Egresos;
-import Persistencia.exceptions.CampoVacioException;
+import Persistencia.exceptions.NonexistentEntityException;
 import Persistencia.exceptions.PreexistingEntityException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,7 +18,6 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
     }
 
     public void cargarTalbla(){
-        Egresos unEgresos;
         int fila = 0;
         DefaultTableModel model = (DefaultTableModel) this.tblEgresos.getModel();
         model.setRowCount(this.unControladorVisual.obtenerEgresos().size());
@@ -157,6 +158,11 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
                 "AÑO", "MES", "EGRESOS", "IMPUESTOS"
             }
         ));
+        tblEgresos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEgresosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEgresos);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -276,9 +282,48 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        this.cargarTalbla();
+        if(this.jtfEgresos.getText().length()>0){
+            if(this.jtfImpuestos.getText().length()>0){
+                try {
+                    this.borrarEgreso();
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(GestionEgresos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Ingrese impuestos" );
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Ingrese Egresos" );
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
+    private void tblEgresosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEgresosMouseClicked
+        this.jcyYear.setYear(this.obtenerEgresoSeleccionado().getYear());
+        this.jmcMes.setMonth(this.obtenerEgresoSeleccionado().getMes());
+        this.jtfEgresos.setText(Double.toString(this.obtenerEgresoSeleccionado().getSubTotal()));
+        this.jtfImpuestos.setText(Double.toString(this.obtenerEgresoSeleccionado().getImpuestos()));
+    }//GEN-LAST:event_tblEgresosMouseClicked
+
+    public void borrarEgreso() throws NonexistentEntityException{
+        if(JOptionPane.showConfirmDialog(rootPane, "¿Esta seguro que quiere borrar el egreso?", "BORRAR CONVENIO.", JOptionPane.YES_NO_OPTION) == 0){
+            this.unControladorVisual.borrarEgresos(this.obtenerEgresoSeleccionado().getId());
+        }
+        this.cargarTalbla();
+    }
+    
+    public Egresos obtenerEgresoSeleccionado(){
+        Egresos unEgreso = null;
+        if(this.tblEgresos.getSelectedRow()!=-1){
+            if(this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 0)!=null){
+                if(this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 1)!=null){
+                    Integer year = (Integer) this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 0); 
+                    Integer mes = (Integer)this.unUtilitario.this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 1);
+                    unEgreso =this.unControladorVisual.obtenerUnEgresos(mes, year);
+                }
+            }
+        }
+        return unEgreso;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

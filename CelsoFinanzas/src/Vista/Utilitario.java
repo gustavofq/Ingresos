@@ -5,6 +5,7 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.Format;
 import java.text.ParseException;
@@ -285,6 +286,18 @@ public class Utilitario {
     
     public String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month];
+    }
+    
+    public int getMesNnumero(String mes){
+        int numeroMes=-1;
+        String[] meses = {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre"
+            ,"octubre","noviembre","diciemrbre"};
+        for(int i=0; i<12;i++){
+            if(meses[i].equals(mes)){
+                numeroMes = i+1;
+            }
+        }
+        return numeroMes;
     }
     
     public void CambiarEncabezado(JTable table, Font unaFuente){
