@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -19,23 +18,26 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
     private ControladorVisual unControladorVisual = new ControladorVisual();
     private JTableHeader th = new JTableHeader();
     private Font fuente = new Font("Dialog", Font.BOLD, 18);
-    private JLabel mensaje = new JLabel("mensaje");
    
     public CargaDatosConvenio() {
         initComponents();
-        this.cmbConvenios.setSelectedIndex(-1);
-        th= this.tblProduccion.getTableHeader();
+        this.cmbConvenios.setSelectedIndex(-1);//deja al Jcombobox sin seleccionar ningun convenio.
+        th= this.tblProduccion.getTableHeader();//
         th.setFont(fuente);
         this.tblProduccion.setTableHeader(th);
         cargarConvenios();
     }
-
+    /* Optiene todos los convenios y carga en el Jcombobox.
+    */
     private void cargarConvenios(){
         if(unControladorVisual.obtenerConvenios()!=null){
            this.unUtilitario.cargarComboObjeto(unControladorVisual.obtenerConvenios(), cmbConvenios); 
         }
     }
     
+    /*
+    * agrega los meses correspondientes en la columna meses.
+    */
     private void cargarMeses(){
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) this.tblProduccion.getModel();
@@ -48,25 +50,35 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         }
     }
 
+    /*
+    * carga el Jtable con los valores de produccion, numero de factura, importe 
+    * cobrado del mismo como tambien la fecha del cobro.
+    */
     private void cargarTabla(){
         this.cargarMeses();
         RenderEnviado render = null;
-        if(this.cmbConvenios.getSelectedIndex() != -1){
+        if(this.cmbConvenios.getSelectedIndex() != -1){//si algun convenio esta seleccionado
             int year = this.jycYear.getYear();
             Convenio unConvenio = (Convenio) this.cmbConvenios.getSelectedItem();
-            render = new RenderEnviado(year, unConvenio); 
-            Iterator it = this.unControladorVisual.obtenerProducciones(year, unConvenio).iterator();
+            render = new RenderEnviado(year, unConvenio);//detemina si la liquidacion de un convenio fue enviado. 
+            Iterator it = this.unControladorVisual.obtenerProducciones(year, unConvenio).iterator();//obtiene la produccion del convenio seleccionado del año establecido.
             Produccion unaProduccion = new Produccion();
             while(it.hasNext()){
                 unaProduccion = (Produccion) it.next();
-                if(unaProduccion.getProducido()!=null) this.tblProduccion.setValueAt(unaProduccion.getProducido(), unaProduccion.getMes(), 1);
-                else this.tblProduccion.setValueAt(null, unaProduccion.getMes(), 1);
-                this.tblProduccion.setValueAt(unaProduccion.getnFactura(), unaProduccion.getMes(), 2);
-                if(unaProduccion.getImporteCobrador()!= null) this.tblProduccion.setValueAt(unaProduccion.getImporteCobrador(), unaProduccion.getMes(), 3);
-                else this.tblProduccion.setValueAt(0, unaProduccion.getMes(), 3);
-                this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(unaProduccion.getFechaCobrado()), unaProduccion.getMes(), 4);
+                if(unaProduccion.getProducido()!=null) {//Si tiene una produccion se agrega a la fila en el mes correspondiente.
+                    this.tblProduccion.setValueAt(unaProduccion.getProducido(), unaProduccion.getMes(), 1);
+                } else { //si no tiene una produccion se agrega null a la fila del mes correspondiente.
+                    this.tblProduccion.setValueAt(null, unaProduccion.getMes(), 1);
+                }
+                this.tblProduccion.setValueAt(unaProduccion.getnFactura(), unaProduccion.getMes(), 2);//agraga Numero de factura del mes correspondiente
+                if(unaProduccion.getImporteCobrador()!= null) {
+                    this.tblProduccion.setValueAt(unaProduccion.getImporteCobrador(), unaProduccion.getMes(), 3);//si se cobro, agrega el importe al mes correspondiente.
+                } else {
+                    this.tblProduccion.setValueAt(0, unaProduccion.getMes(), 3);// si no se cobro, se agrega 0 a la fila del mes correspondiente.
+                }
+                this.tblProduccion.setValueAt(this.unUtilitario.obtenerFecha(unaProduccion.getFechaCobrado()), unaProduccion.getMes(), 4);//agrega la fecha de cobro en el mes correspondiente.
             }
-            this.sumarTotales();
+            this.sumarTotales();//suma las filas de produccion y cobro y agrega en jTable totales.
         }
         this.tblProduccion.setDefaultRenderer(Object.class, render);
         //ExcelAdapter myAd = new ExcelAdapter(this.tblProduccion);
@@ -351,17 +363,25 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /*
+    obtiene el mes en funcion de la fila.
+    */
     public int getMesTabla(){
         int mes = this.tblProduccion.getSelectedRow();
         return mes;
     }
-    
+    /*
+    limpia el jtable agregando nuevamente los meses.
+    */
     public void limpiarTabla(){
         this.cargarMeses();
     }
     
-   private void sumarTotales(){
+    /*
+    calcula la fila produccion y cobro y agrega al jTable totales.
+    */
+    
+    private void sumarTotales(){
         Double totalProduccion = 0.0;
         Double totalCobrado = 0.0;
         DecimalFormat formato2 = new DecimalFormat("#.##");
@@ -374,9 +394,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
       this.tblTotales.setValueAt(formato2.format(totalProduccion), 1, 1);
       this.tblTotales.setValueAt(formato2.format(totalCobrado), 0, 3);
    }
-    
+    /* Buscar otro evento para la actualizacion de la tabla.
+    si no esta seleccionado un convenio no carga la tabla.
+    */ 
     private void cmbConveniosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConveniosActionPerformed
-        if(this.cmbConvenios.getSelectedIndex()!=-1) this.cargarTabla();
+        //if(this.cmbConvenios.getSelectedIndex()!=-1) this.cargarTabla();
     }//GEN-LAST:event_cmbConveniosActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -432,11 +454,11 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
             unaProduccion.setImporteCobrador(cobrado);
             unaProduccion.setFechaCobrado(fecha);
             try {
-                    this.unControladorVisual.modificarProduccion(unaProduccion);
-                } catch (Exception ex) {
-                    Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                this.unControladorVisual.modificarProduccion(unaProduccion);
+            } catch (Exception ex) {
+                Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
     }
 
     private String  modificarYear(String fecha){
@@ -474,39 +496,48 @@ public class CargaDatosConvenio extends javax.swing.JInternalFrame {
         this.cambiarComaPorPunto();
     }//GEN-LAST:event_tblProduccionKeyReleased
 
+    /*
+    cambia las comas por puntos en los valores de produccion y cobro debido al formato 
+    del tipo de dato. 
+    analizar si es mas onvenioente parsear tipos de datos que reccorrer columnas.
+    */
     private void cambiarComaPorPunto(){
         String columnaProduccion="";
         String columnaCobrado="";
-        for(int i= 0;i<=11;i++){
-           if(this.tblProduccion.getValueAt(i, 1)!=null && this.tblProduccion.getValueAt(i, 1)!= ""){
-               columnaProduccion = this.tblProduccion.getValueAt(i, 1).toString().replace(",", ".");
-               this.tblProduccion.setValueAt(columnaProduccion, i, 1);
+        for(int i= 0;i<=11;i++){//recorre todos los meses del año (filas de la jTable)
+           if(this.tblProduccion.getValueAt(i, 1)!=null && this.tblProduccion.getValueAt(i, 1)!= ""){//si existe una produccion
+               columnaProduccion = this.tblProduccion.getValueAt(i, 1).toString().replace(",", ".");//remplaza coma por puntos y setea a una variable
+               this.tblProduccion.setValueAt(columnaProduccion, i, 1);//setea el string modificado en la celda que corresponde.
            }
-           if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 3)!= ""){
-               columnaCobrado = this.tblProduccion.getValueAt(i, 3).toString().replace(",", ".");
-               this.tblProduccion.setValueAt(columnaCobrado, i, 3);
+           if(this.tblProduccion.getValueAt(i, 3)!=null && this.tblProduccion.getValueAt(i, 3)!= ""){//si existe un cobro
+               columnaCobrado = this.tblProduccion.getValueAt(i, 3).toString().replace(",", ".");//remplaza comas por puntos y setea a una variable 
+               this.tblProduccion.setValueAt(columnaCobrado, i, 3);//setea el string modificado en la celda correspondiente.
            }
-           
         }
     }
     
+    /*
+    modifica la produccion agregando si se envio o no se envio la facturacion.
+    */
     private void noEnviar(){
-        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
-        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
-        int meses = tblProduccion.getSelectedRow();
-        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
-        unaProduccion.noEnviar();
+        Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();//optiene el convenio seleccionado
+        int year = this.jycYear.getYear();//obtiene el año seleccionado
+        int meses = tblProduccion.getSelectedRow();//obtiene el mes de la produccion seleccionada.
+        Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);//obtiene la produccion correspondiente.
+        unaProduccion.noEnviar();//modifica el envio de la facturacion. 
         try {
-            this.unControladorVisual.modificarProduccion(unaProduccion);
+            this.unControladorVisual.modificarProduccion(unaProduccion);//persiste la produccion modificada.
         } catch (Exception ex) {
-            Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
+            
+            /*si no hay un convenio a modificar se deberia informar que debe seleccionarse una produccion valida.*/
+            //Logger.getLogger(CargaDatosConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
         cargarTabla();
     }
     
     private void enviarCorreoPostal(){
         Convenio unConvenio = (Convenio)this.cmbConvenios.getSelectedItem();
-        int year = this.jycYear.getYear();// Integer.parseInt(this.tfYear.getText());
+        int year = this.jycYear.getYear();
         int meses = tblProduccion.getSelectedRow();
         Produccion unaProduccion = this.unControladorVisual.obtenerProducciones(meses, year, unConvenio);
         unaProduccion.enviarFisico();

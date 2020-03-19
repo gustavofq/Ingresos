@@ -317,7 +317,7 @@ public class GestionEgresos extends javax.swing.JInternalFrame {
             if(this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 0)!=null){
                 if(this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 1)!=null){
                     Integer year = (Integer) this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 0); 
-                    Integer mes = (Integer)this.unUtilitario.this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 1);
+                    Integer mes = (Integer)this.unUtilitario.getMesNnumero(this.tblEgresos.getValueAt(this.tblEgresos.getSelectedRow(), 1).toString());
                     unEgreso =this.unControladorVisual.obtenerUnEgresos(mes, year);
                 }
             }
