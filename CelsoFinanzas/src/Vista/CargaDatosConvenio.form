@@ -260,9 +260,6 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblProduccionKeyReleased"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

@@ -2,17 +2,13 @@
 package Logica;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 @Entity
@@ -206,6 +202,16 @@ public class Produccion implements Serializable, Comparable<Produccion> {
     
     public void noEnviar(){
         this.estado = "no enviado.";
+    }
+    
+    public int obtenerEstado(){
+        int estadoActual=0;
+        if(this.estado.contentEquals("enviado por mail.")){
+            estadoActual=-1;
+        }else if(this.estado.contentEquals("enviado fisicamente.")){
+            estadoActual=1;
+        }
+        return estadoActual;
     }
     
     public boolean isPagado(){

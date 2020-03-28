@@ -2,6 +2,7 @@
 package Vista;
 
 import Logica.Convenio;
+import Logica.Produccion;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -13,7 +14,8 @@ public class RenderEnviado extends DefaultTableCellRenderer {
     private int year;
     private Convenio unConvenio;
     private ControladorVisual unControladorVisual = new ControladorVisual();
-    private int[] enviadosMail = new int[12];
+    private int[] estados = new int[12];
+    
     
     
     public RenderEnviado() {
@@ -22,398 +24,143 @@ public class RenderEnviado extends DefaultTableCellRenderer {
     public RenderEnviado(int year, Convenio unConvenio) {
         this.year = year;
         this.unConvenio = unConvenio;
+        this.cargarEstados();
     }
     
-    
+    private void cargarEstados(){
+        
+        for(Produccion unaProduccion : unControladorVisual.obtenerProducciones(year, unConvenio)){
+            estados[unaProduccion.getMes()]=unaProduccion.obtenerEstado();
+            
+        }
+               
+    }
     
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Font font= new Font("Courier", Font.BOLD,18);
-        JLabel label= (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        if(!hasFocus){
-           if(column ==1){
-               if(unControladorVisual.obtenerProducciones(0, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row ==0){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==0){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==0){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(1, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 1){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row == 1){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==1){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(2, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 2){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==2){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==2){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(3, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 3){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row == 3){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==3){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(4, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 4){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==4){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==4){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(5, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 5){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==5){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==5){
-                       label.setBackground(null);
-                   }
-               }
-           }
-           if(column ==1){
-               if(unControladorVisual.obtenerProducciones(6, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 6){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==6){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==6){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(7, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 7){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==7){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==7){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(8, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 8){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==8){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==8){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(9, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 9){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==9){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==9){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(10, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 10){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==10){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==10){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(11, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 11){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==11){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==11){
-                       label.setBackground(null);
-                   }
-               }
-           }
-           else{
-               setBackground(null);
-           }
+        //Cells are by default rendered as a JLabel.
+    JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    
+    
+    if(!hasFocus){
+        if(column==1){
+        if(row==0){
+            if(estados[0]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[0]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
         }
-        if(isSelected){
-            if(column ==1){
-               if(unControladorVisual.obtenerProducciones(0, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row ==0){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==0){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(0, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==0){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(1, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 1){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==1){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(1, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==1){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(2, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 2){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==2){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(2, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==2){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(3, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 3){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==3){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(3, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==3){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(4, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 4){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==4){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(4, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==4){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(5, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 5){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==5){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(5, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==5){
-                       label.setBackground(null);
-                   }
-               }
-           }
-           if(column ==1){
-               if(unControladorVisual.obtenerProducciones(6, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 6){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==6){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(6, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==6){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(7, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 7){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==7){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(7, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==7){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(8, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 8){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==8){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(8, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==8){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(9, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 9){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==9){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(9, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==9){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(10, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 10){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==10){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(10, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==10){
-                       label.setBackground(null);
-                   }
-               }
-           }if(column ==1){
-               if(unControladorVisual.obtenerProducciones(11, year, unConvenio)!=null)
-               if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("enviado por mail.")){
-                   if(row == 11){
-                       label.setBackground(Color.yellow);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("enviado fisicamente.")){
-                   if(row ==11){
-                       label.setBackground(Color.GREEN);
-                   }
-               }else if(unControladorVisual.obtenerProducciones(11, year, unConvenio).getEstado().contains("no enviado.")){
-                   if(row ==11){
-                       label.setBackground(null);
-                   }
-               }
-           }
-           else{
-               setBackground(null);
-           }
+        if(row==1){
+            if(estados[1]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[1]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
         }
-        
-       if(label.getText().contains("/00")){
-           label.setText(label.getText().replace("/00", "/20"));
-       }
-        
-        
-        
-        label.setForeground(Color.BLACK);
-        label.setFont(font);
-        return label;
+        if(row==2){
+            if(estados[2]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[2]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==3){
+            if(estados[3]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[3]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==4){
+            if(estados[4]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[4]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==5){
+            if(estados[5]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[5]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==6){
+            if(estados[6]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[6]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==7){
+            if(estados[7]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[7]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==8){
+            if(estados[8]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[8]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==9){
+            if(estados[9]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[9]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==10){
+            if(estados[10]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[10]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+        if(row==11){
+            if(estados[11]==1){//enviado fisicamente (verde)
+                l.setBackground(Color.green);
+            }else if(estados[11]==-1){//enviado por correo electronico (amarillo)
+                l.setBackground(Color.yellow);
+            }else{//no enviado (blanco)
+                l.setBackground(null);
+            }
+        }
+    }else{
+        l.setBackground(null);
+    }
+    }
+    if(isSelected){
+        l.setBackground(Color.blue);
+    }
+    
+    return l;
     }
     
     
